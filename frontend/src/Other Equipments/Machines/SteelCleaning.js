@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../Pages/ProductsPage.css";
 import styles from "../../Styles/ProductHeader.module.css";
-import mainSpecImage from "../../images/baler3.png"; // Replace with your standard steel cleaning spec layout image
-import scmImage from "../../images/Applications/app1.webp"; // Replace with actual machine application image
-import img1 from "../../images/whatsup images/WhatsApp Image 2024-07-11 at 11.56.50 AM.jpeg"; // Replace with actual steel cleaning images
-import img2 from "../../images/whatsup images/WhatsApp Image 2024-07-11 at 11.56.49 AM(1).jpeg"; // Replace with actual steel cleaning images
+import mainSpecImage from "../../images/steelcleaning1.jpeg"; // Replace with your standard steel cleaning spec layout image
+import scmImage from "../../images/steelcleaning2.jpeg"; // Replace with actual machine application image
+import img1 from "../../images/steelcleaning1.jpeg"; // Replace with actual steel cleaning images
+import img2 from "../../images/steelcleaning3.jpeg"; // Replace with actual steel cleaning images
 import { Helmet } from "react-helmet";
 
 const SteelCleaning = () => {
@@ -56,9 +56,6 @@ const SteelCleaning = () => {
 
       <header className={styles.productHeader}>
         <div className={styles.headerContent}>
-          <div className={styles.breadcrumb}>
-            Home / Products / Other Equipment / <span>Steel Cleaning</span>
-          </div>
 
           <h1 className={styles.productTitle}>
             SCM-<span>1000</span>
@@ -71,12 +68,6 @@ const SteelCleaning = () => {
           </p>
 
           <div className={styles.headerButtons}>
-            <button
-              className={styles.primaryBtn}
-              onClick={() => handleDownload("scm1000")}
-            >
-              Download Brochure
-            </button>
 
             <button className={styles.secondaryBtn} onClick={handleViewImage}>
               View Machine Image
