@@ -14,6 +14,7 @@ const CATEGORIES = [
 ];
 
 const PRODUCT_LINKS = {
+  "STEEL CLEANING": "/steel-cleaning",
   "TUMBLE BACK FEEDER": "/tumble-back-feeder",
   "FEEDING & DISCHARGE CONVEYORS": "/feeding-discharge-conveyers",
   VIBRATORS: "/vibrators",
@@ -26,10 +27,19 @@ const PRODUCT_LINKS = {
   "FOLDING EQUIPMENT": "/tyrefolding",
   "DUST COLLECTOR": "/dust-collector",
   "VIBRO HOPPER": "/vibro-hopper",
-"FIBRE SEPARATOR": "/fibre-seperator",
+  "FIBRE SEPARATOR": "/fibre-seperator",
 };
 
 const PRODUCTS = [
+  {
+    id: "steel-cleaning",
+    name: "STEEL CLEANING",
+    category: "screening",
+    pillar: "Screening & Separation",
+    description:
+      "Separates embedded rubber remnants from extracted tyre steel wire. Delivers highly purified steel ready for smelting while reclaiming high-quality rubber particles.",
+    materials: ["Tyre Steel Wire", "Rubber Contaminants"],
+  },
   {
     id: "tumble-back-feeder",
     name: "TUMBLE BACK FEEDER",
@@ -121,33 +131,32 @@ const PRODUCTS = [
     materials: ["Rubber Sheets", "Cut Strips"],
   },
   {
-  id: "dust-collector",
-  name: "DUST COLLECTOR",
-  category: "flow",
-  pillar: "Flow",
-  description:
-    "Efficiently captures and removes dust particles generated during recycling operations. Improves air quality, ensures cleaner working environment, and enhances machine life.",
-  materials: ["Fine Dust", "Airborne Particles"],
-},
-{
-  id: "vibro-hopper",
-  name: "VIBRO HOPPER",
-  category: "feeding",
-  pillar: "Feeding & Handling",
-  description:
-    "Designed for efficient storage and vibration-assisted feeding of bulk materials into processing lines. Prevents clogging and ensures smooth, continuous material flow.",
-  materials: ["Rubber", "Plastic", "Bulk Waste"],
-},
-{
-  id: "fibre-separator",
-  name: "FIBRE SEPARATOR",
-  category: "screening",
-  pillar: "Screening & Separation",
-  description:
-    "Separates lightweight fibre contaminants from rubber granules and powders to improve product purity and quality in tyre recycling operations.",
-  materials: ["Rubber Powder", "Fibre", "Textile Waste"],
-},
-
+    id: "dust-collector",
+    name: "DUST COLLECTOR",
+    category: "flow",
+    pillar: "Flow",
+    description:
+      "Efficiently captures and removes dust particles generated during recycling operations. Improves air quality, ensures cleaner working environment, and enhances machine life.",
+    materials: ["Fine Dust", "Airborne Particles"],
+  },
+  {
+    id: "vibro-hopper",
+    name: "VIBRO HOPPER",
+    category: "feeding",
+    pillar: "Feeding & Handling",
+    description:
+      "Designed for efficient storage and vibration-assisted feeding of bulk materials into processing lines. Prevents clogging and ensures smooth, continuous material flow.",
+    materials: ["Rubber", "Plastic", "Bulk Waste"],
+  },
+  {
+    id: "fibre-separator",
+    name: "FIBRE SEPARATOR",
+    category: "screening",
+    pillar: "Screening & Separation",
+    description:
+      "Separates lightweight fibre contaminants from rubber granules and powders to improve product purity and quality in tyre recycling operations.",
+    materials: ["Rubber Powder", "Fibre", "Textile Waste"],
+  },
 ];
 
 function OtherEqpTemp() {
@@ -186,12 +195,9 @@ function OtherEqpTemp() {
         />
         <meta
           name="keywords"
-          content="Recycling Equipment, Feeding Machines, Cutting Machines, Screening Machinery, Tyre Recycling Equipment,Tumble Back Feeder,Feeding & Discharge Conveyors,Vibratory Feeders,Classifiers,Overband Magnetic Steel Separators,Beadwire Remover,Strip Cutter,Block Cutter,Side Wall Remover,Tyre Folding"
+          content="Recycling Equipment, Steel Cleaning, Feeding Machines, Cutting Machines, Screening Machinery, Tyre Recycling Equipment,Tumble Back Feeder,Feeding & Discharge Conveyors,Vibratory Feeders,Classifiers,Overband Magnetic Steel Separators,Beadwire Remover,Strip Cutter,Block Cutter,Side Wall Remover,Tyre Folding"
         />
-        <link
-          rel="canonical"
-          href="https://vikahecotech.com/other-equipment"
-        />
+        <link rel="canonical" href="https://vikahecotech.com/other-equipment" />
       </Helmet>
 
       <div className="oe-container">

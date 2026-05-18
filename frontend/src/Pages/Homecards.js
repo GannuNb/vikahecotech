@@ -4,7 +4,7 @@ import styles from "./Homecards.module.css";
 import Baler from "../images/baler_bg.png";
 import shredderhdimg from "../images/Shedder _ Final PNG.png";
 import shred2 from "../images/R1.png";
-import oms from "../images/tyre_folding1.png";
+import hopperimg from "../images/Machinery images/Hopper1.png";
 
 const cards = [
   {
@@ -48,7 +48,7 @@ const Homecards = () => {
               <div className={styles.glassOverlay} />
               <div className={styles.imageContainer}>
                 <img
-                  src={card.image || oms}
+                  src={card.image || hopperimg}
                   alt={card.title}
                   className={styles.cardImage}
                 />

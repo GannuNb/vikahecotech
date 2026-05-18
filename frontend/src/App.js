@@ -94,6 +94,7 @@ import StripCutter from './Other Equipments/Machines/StripCutter';
 import BlockCutter from './Other Equipments/Machines/BlockCutter';
 import SidewallRemover from './Other Equipments/Machines/SidewallRemover';
 
+
 import Tyrecutting from './Other Equipments/Machines/Tyrecutting';
 import Tyrefolding from './Other Equipments/Machines/Tyrefolding';
 import Tcpcr100 from './Other Equipments/Machines/Tcpcr100.js';
@@ -141,6 +142,7 @@ import MSWBlog from './Blogs/Baler/MSWBlog.js';
 import DustCollector from './Other Equipments/Machines/DustCollector.js';
 import VibroHopper from './Other Equipments/Machines/VibroHopper.js';
 import FibreSeparator from './Other Equipments/Machines/FibreSeparator.js';
+import SteelCleaning from './Other Equipments/Machines/SteelCleaning.js';
 
 
 
@@ -241,6 +243,7 @@ function App() {
         <Route path="/dust-collector" element={<DustCollector />} />
         <Route path="/vibro-hopper" element={<VibroHopper />} />
         <Route path="/fibre-seperator" element={<FibreSeparator />} />
+        <Route path="/steel-cleaning" element={<SteelCleaning/>} />
 
 
         <Route exact path="/tyrecutting" element={<Tyrecutting />} />

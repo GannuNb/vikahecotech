@@ -51,6 +51,7 @@ const Enquire = () => {
       "Paper and Cardboard Shredder",
     ],
     "other-equipment": [
+      "STEEL CLEANING",
       "TUMBLE BACK FEEDER",
       "FEEDING & DISCHARGE CONVEYORS",
       "VIBRATORS",
