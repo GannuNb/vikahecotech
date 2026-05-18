@@ -178,15 +178,19 @@ const SteelCleaning = () => {
           <tbody>
             <tr>
               <td>Power Range</td>
-              <td>50 HP (37.3 kW)</td>
+              <td>50 HP (37.3 KW)</td>
             </tr>
             <tr>
               <td>No. of Motors</td>
-              <td>1 Unit</td>
+              <td>1</td>
             </tr>
             <tr>
               <td>Voltage Supply</td>
               <td>As per customized customer requirement</td>
+            </tr>
+            <tr>
+              <td>Drive Specification</td>
+              <td>Electrical System</td>
             </tr>
           </tbody>
         </table>
@@ -229,15 +233,11 @@ const SteelCleaning = () => {
             </tr>
             <tr>
               <td>No. of Rotating Blades</td>
-              <td>70 Nos.</td>
-            </tr>
-            <tr>
-              <td>Blade Dimensions</td>
-              <td>Length: 230 mm | Width: 70 mm | Thickness: 8 mm</td>
+              <td>70 Nos. (L 230 mm X W 70 mm X H 8 mm)</td>
             </tr>
             <tr>
               <td>Screen Specification</td>
-              <td>MS (Mild Steel) 10 mm Screen with manual opening mechanism</td>
+              <td>MS (Mild Steel) 10 mm Screen</td>
             </tr>
           </tbody>
         </table>
@@ -250,11 +250,7 @@ const SteelCleaning = () => {
           <tbody>
             <tr>
               <td>No. of Gearboxes</td>
-              <td>1 Premium Unit (FC, A Premium style)</td>
-            </tr>
-            <tr>
-              <td>Transmission Make</td>
-              <td>Parallel Helical Gearbox, H1-125(T), Ratio: 4.13/1, FC</td>
+              <td>1 (FC, P, Premium) Transmission Make Parallel Helical Gearbox, H1-125(T), 4.13/1, FC</td>
             </tr>
             <tr>
               <td>No. of Couplings</td>
@@ -262,7 +258,7 @@ const SteelCleaning = () => {
             </tr>
             <tr>
               <td>Coupling Type</td>
-              <td>Gear Coupling (1 NOS)</td>
+              <td>Gear Coupling 1 Nos</td>
             </tr>
             <tr>
               <td>Type of Bearings and Housing</td>
