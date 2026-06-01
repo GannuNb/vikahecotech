@@ -2,11 +2,23 @@ import React from "react";
 import rsme from "../images/Recyclingexpo_middleeast_2025/logo_rsme.jpg";
 import ifatimg from "../images/ifat-india-300x218.png";
 import bharatrecycling from "../images/bharatrecycling.png";
+import ece from "../images/eco sustain 2026/ese.png";
 import "./UpcomingTradeFairs.css";
 
 function UpcomingTradeFairs() {
 
   const tradeFairs = [
+    {
+      title: "Eco Sustain Expo & Conference",
+      image: ece,
+      description: `Eco Sustain Expo & Conference is India's premier sustainability platform, bringing together industry leaders, innovators, policymakers, researchers, and solution providers. The event showcases cutting-edge technologies and sustainable solutions across waste management, bioenergy, recycling, environmental protection, and circular economy initiatives. Exhibitors gain the opportunity to present their innovations to a global audience, build strategic partnerships, and contribute to a greener future, while the conference connects participants with sustainability visionaries and industry experts driving positive environmental change.`,
+      date: "30-07-2026 to 01-08-2026",
+      location: "HITEX Exhibition Center, Hyderabad",
+      hall: 2,
+      booth: "2K14",
+      link: "https://ecosustainexpo.in/",
+      buttonText: "Explore Eco Sustain Expo",
+    },
     {
       title: "Bharat Recycling Show",
       image: bharatrecycling,
@@ -34,7 +46,7 @@ function UpcomingTradeFairs() {
       link: "https://ifat.de/en/trade-fair/",
       buttonText: "Explore IFAT",
     },
-        {
+    {
       title: "Recycling Expo Middle East",
       image: rsme,
       description: `Organized by Eljays44, a globally recognized event company,

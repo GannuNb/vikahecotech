@@ -8,6 +8,8 @@ import ecosustainimg from "../images/ecosustain.png";
 import ece from "../images/eco sustain 2025/ese.png";
 import rsme from "../images/Recyclingexpo_middleeast_2025/logo_rsme.jpg";
 import bharatrecycling from "../images/bharatrecycling.png";
+import ese2026 from "../images/eco sustain 2026/ese.png";
+
 
 
 const TradeFairs = () => {
@@ -35,6 +37,58 @@ const TradeFairs = () => {
       <div className="container my-5">
         <div className="row gy-4 p-3">
 
+          <div className="col-md-6">
+            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
+              <div className="upcoming-badge">Upcoming Trade Fair</div>
+              <img
+                src={ese2026}
+                alt="Eco Sustain Expo & Conference 2026"
+                className="trade-img"
+              />
+
+              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
+                <div className="trade-content p-3">
+                  <h5>Eco Sustain Expo & Conference</h5>
+
+                  <p>
+                    Eco Sustain Expo & Conference is India's premier sustainability
+                    platform, bringing together industry leaders, innovators,
+                    policymakers, researchers, and solution providers. The event
+                    showcases cutting-edge technologies and sustainable solutions in
+                    waste management, recycling, bioenergy, environmental protection,
+                    and circular economy initiatives.
+                  </p>
+
+                  <p>
+                    Exhibitors can showcase innovations, solutions, and technologies to
+                    a global audience, connect with industry leaders, build strategic
+                    partnerships, and contribute to a greener future. The conference
+                    provides opportunities to engage with sustainability visionaries and
+                    explore transformative environmental solutions.
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong> 30-07-2026 to 01-08-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> HITEX Exhibition Center, Hyderabad
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> 2 / 2K14
+                  </p>
+
+                  <a
+                    href="https://ecosustainexpo.in/"
+                    className="btn btn-success"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Explore Eco Sustain Expo
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
               <div className="upcoming-badge">Upcoming Trade Fair</div>
@@ -68,7 +122,7 @@ const TradeFairs = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
               <div className="upcoming-badge">Upcoming Trade Fair</div>
@@ -103,7 +157,7 @@ const TradeFairs = () => {
             </div>
           </div>
 
-<div className="col-md-6">
+          <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
               <div className="upcoming-badge">Upcoming Trade Fair</div>
               <img
