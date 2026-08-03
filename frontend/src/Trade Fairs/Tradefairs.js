@@ -10,8 +10,6 @@ import rsme from "../images/Recyclingexpo_middleeast_2025/logo_rsme.jpg";
 import bharatrecycling from "../images/bharatrecycling.png";
 import ese2026 from "../images/eco sustain 2026/ese.png";
 
-
-
 const TradeFairs = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,79 +34,37 @@ const TradeFairs = () => {
 
       <div className="container my-5">
         <div className="row gy-4 p-3">
-
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
               <div className="upcoming-badge">Upcoming Trade Fair</div>
               <img
-                src={ese2026}
-                alt="Eco Sustain Expo & Conference 2026"
+                src={bharatrecycling}
+                alt="Bharat Recycling Show 2026"
                 className="trade-img"
               />
-
-              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
-                <div className="trade-content p-3">
-                  <h5>Eco Sustain Expo & Conference</h5>
-
-                  <p>
-                    Eco Sustain Expo & Conference is India's premier sustainability
-                    platform, bringing together industry leaders, innovators,
-                    policymakers, researchers, and solution providers. The event
-                    showcases cutting-edge technologies and sustainable solutions in
-                    waste management, recycling, bioenergy, environmental protection,
-                    and circular economy initiatives.
-                  </p>
-
-                  <p>
-                    Exhibitors can showcase innovations, solutions, and technologies to
-                    a global audience, connect with industry leaders, build strategic
-                    partnerships, and contribute to a greener future. The conference
-                    provides opportunities to engage with sustainability visionaries and
-                    explore transformative environmental solutions.
-                  </p>
-
-                  <p>
-                    <strong>Date:</strong> 30-07-2026 to 01-08-2026
-                  </p>
-                  <p>
-                    <strong>Location:</strong> HITEX Exhibition Center, Hyderabad
-                  </p>
-                  <p>
-                    <strong>Booth No:</strong> 2 / 2K14
-                  </p>
-
-                  <a
-                    href="https://ecosustainexpo.in/"
-                    className="btn btn-success"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Explore Eco Sustain Expo
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              <div className="upcoming-badge">Upcoming Trade Fair</div>
-              <img src={bharatrecycling} alt="Bharat Recycling Show 2026" className="trade-img" />
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div className="trade-content p-3">
                   <h5>Bharat Recycling Show</h5>
 
                   <p>
-                    Bharat Recycling Show is a premier platform dedicated to recycling,
-                    waste management, and circular economy solutions in India. The event
-                    showcases advanced technologies, industry innovations, and provides
-                    networking opportunities for professionals and policymakers driving
-                    sustainable growth.
+                    Bharat Recycling Show is a premier platform dedicated to
+                    recycling, waste management, and circular economy solutions
+                    in India. The event showcases advanced technologies,
+                    industry innovations, and provides networking opportunities
+                    for professionals and policymakers driving sustainable
+                    growth.
                   </p>
 
-                  <p><strong>Date:</strong> 31-08-2026 to 02-09-2026</p>
-                  <p><strong>Location:</strong> Bombay Exhibition Centre
-                    Nesco, Mumbai </p>
-                  <p><strong>Booth No:</strong> B410</p>
+                  <p>
+                    <strong>Date:</strong> 31-08-2026 to 02-09-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> Bombay Exhibition Centre Nesco,
+                    Mumbai{" "}
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> B410
+                  </p>
 
                   <a
                     href="https://www.bharatrecyclingshow.com/"
@@ -134,15 +90,24 @@ const TradeFairs = () => {
 
                   <p>
                     IFAT is the world’s leading trade fair for water, sewage,
-                    waste, and raw materials management. It brings together global
-                    industry leaders, cutting-edge technologies, and innovative solutions
-                    focused on sustainable environmental practices and resource efficiency.
+                    waste, and raw materials management. It brings together
+                    global industry leaders, cutting-edge technologies, and
+                    innovative solutions focused on sustainable environmental
+                    practices and resource efficiency.
                   </p>
 
-                  <p><strong>Date:</strong> 09-09-2026 to 11-09-2026</p>
-                  <p><strong>Location:</strong>  Bombay Exhibition Centre</p>
-                  <p><strong>Hall No:</strong> 02</p>
-                  <p><strong>Booth No:</strong> C021</p>
+                  <p>
+                    <strong>Date:</strong> 09-09-2026 to 11-09-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> Bombay Exhibition Centre
+                  </p>
+                  <p>
+                    <strong>Hall No:</strong> 02
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> C021
+                  </p>
 
                   <a
                     href="https://ifat.de/en/trade-fair/"
@@ -200,11 +165,65 @@ const TradeFairs = () => {
               </div>
             </div>
           </div>
+
+          {/* Completed */}
+          <div className="col-md-6">
+            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
+              <img
+                src={ese2026}
+                alt="Eco Sustain Expo & Conference 2026"
+                className="trade-img"
+              />
+
+              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
+                <div className="trade-content p-3">
+                  <h5>Eco Sustain Expo & Conference</h5>
+
+                  <p>
+                    Eco Sustain Expo & Conference is India's premier
+                    sustainability platform, bringing together industry leaders,
+                    innovators, policymakers, researchers, and solution
+                    providers. The event showcases cutting-edge technologies and
+                    sustainable solutions in waste management, recycling,
+                    bioenergy, environmental protection, and circular economy
+                    initiatives.
+                  </p>
+
+                  <p>
+                    Exhibitors can showcase innovations, solutions, and
+                    technologies to a global audience, connect with industry
+                    leaders, build strategic partnerships, and contribute to a
+                    greener future. The conference provides opportunities to
+                    engage with sustainability visionaries and explore
+                    transformative environmental solutions.
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong> 30-07-2026 to 01-08-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> HITEX Exhibition Center,
+                    Hyderabad
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> 2 / 2K14
+                  </p>
+
+                  <Link
+                    to="/ecosustain2026"
+                    className="tradefairs-btn mt-3 align-self-start"
+                  >
+                    Images and Videos
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Completed*/}
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
               <img src={ifatimg} alt="IFAT India 2025" className="trade-img" />
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
-                {/* Upcoming: IFAT India 2025 */}
                 <div className="trade-content p-3">
                   <h5>IFAT India</h5>
                   <p>
@@ -235,10 +254,14 @@ const TradeFairs = () => {
             </div>
           </div>
 
-          {/* Upcoming: Eco Sustain Expo 2025 */}
+          {/* Completed*/}
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              <img src={ece} alt="Eco Sustain Expo" className="tradefairs-img" />
+              <img
+                src={ece}
+                alt="Eco Sustain Expo"
+                className="tradefairs-img"
+              />
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div>
                   <h5 className="mb-2">Eco Sustain Expo & Conference</h5>

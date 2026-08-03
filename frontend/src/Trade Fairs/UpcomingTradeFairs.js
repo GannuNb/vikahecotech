@@ -9,17 +9,6 @@ function UpcomingTradeFairs() {
 
   const tradeFairs = [
     {
-      title: "Eco Sustain Expo & Conference",
-      image: ece,
-      description: `Eco Sustain Expo & Conference is India's premier sustainability platform, bringing together industry leaders, innovators, policymakers, researchers, and solution providers. The event showcases cutting-edge technologies and sustainable solutions across waste management, bioenergy, recycling, environmental protection, and circular economy initiatives. Exhibitors gain the opportunity to present their innovations to a global audience, build strategic partnerships, and contribute to a greener future, while the conference connects participants with sustainability visionaries and industry experts driving positive environmental change.`,
-      date: "30-07-2026 to 01-08-2026",
-      location: "HITEX Exhibition Center, Hyderabad",
-      hall: 2,
-      booth: "2K14",
-      link: "https://ecosustainexpo.in/",
-      buttonText: "Explore Eco Sustain Expo",
-    },
-    {
       title: "Bharat Recycling Show",
       image: bharatrecycling,
       description: `Bharat Recycling Show is a premier platform dedicated to India’s
