@@ -21,6 +21,7 @@ import Ifat from './Trade Fairs/ifat.js';
 import CompletedTradefair1 from './Trade Fairs/CompletedTradefair1';
 import Ecosustain2025 from "./Trade Fairs/ecosustain2025.js"
 import Ifat2025 from './Trade Fairs/ifat2025.js';
+import Ecosustain2026 from './Trade Fairs/Ecosustain2026.js';
 
 
 //Balers
@@ -168,6 +169,7 @@ function App() {
         <Route exact path="/completedTradefair1" element={<CompletedTradefair1 />} />
         <Route exact path="/ecosustain2025" element={<Ecosustain2025 />} />
         <Route exact path="/ifat2025" element={<Ifat2025 />} />
+        <Route exact path="/ecosustain2026" element={<Ecosustain2026 />} />
 
 
         {/*Balers*/}
