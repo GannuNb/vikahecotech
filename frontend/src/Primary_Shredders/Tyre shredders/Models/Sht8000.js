@@ -205,7 +205,7 @@ const Sht8000 = () => {
             </tr>
             <tr>
               <td>No Of Motors</td>
-              <td>2</td>
+              <td>4</td>
             </tr>
             <tr>
               <td>Voltage</td>
