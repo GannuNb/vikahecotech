@@ -79,6 +79,8 @@ import SecondaryPlasticShredder from './Secondary_Shredders/Plastic s_shredder/S
 import SecondaryPcb from './Secondary_Shredders/Pcb s_shredder/SecondaryPcb.js';
 import RasperSecondaryshredders from './Secondary_Shredders/Rasper/Rasper_secondaryshredders.js';
 
+import Rst2000 from "./Secondary_Shredders/Rasper/models/Rst2000";
+import Rst3000 from "./Secondary_Shredders/Rasper/models/Rst3000";
 import Rst4000 from './Secondary_Shredders/Rasper/models/Rst4000.js';
 import Rst6000 from './Secondary_Shredders/Rasper/models/Rst6000.js';
 
@@ -225,7 +227,9 @@ function App() {
         <Route path="/secondarymetalshredder" element={<SecondaryMetalshredder />} />
         <Route path="/secondaryplasticshredder" element={<SecondaryPlasticShredder />} />
         <Route path="/secondarypcb" element={<SecondaryPcb />} />
-
+        
+        <Route path="/rst2000" element={<Rst2000 />} />
+        <Route path="/rst3000" element={<Rst3000 />} />
         <Route exact path="/rst4000" element={<Rst4000 />} />
         <Route exact path="/rst6000" element={<Rst6000 />} />
 

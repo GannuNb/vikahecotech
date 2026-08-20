@@ -16,23 +16,39 @@ function RasperSecondaryshredders() {
     window.scrollTo(0, 0);
   }, []);
 
-  const shredders = [
-    {
-      name: "RST4000",
-      type: "Secondary Shredder (Rasper)",
-      power: "180 HP (132 kW)",
-      Voltage: "As per customer requirement",
-      Drive:
-        "ABB 160kW (H.D.), ACS580, 363A SIZE: R9, 580-01-360A-4+P944+3B SDT",
-    },
-    {
-      name: "RST6000",
-      type: "Secondary Shredder (Rasper)",
-      power: "180 – 200 HP",
-      Voltage: "As per customer requirement",
-    },
-  ];
+const shredders = [
+  {
+    name: "RST2000",
+    type: "Secondary Shredder (Rasper)",
+    power: "75 - 100 HP (55 kw -73 kw)",
+    Voltage: "As per Customer's Requirement",
+    Drive: "ABB / Inovance / Equivalent",
+  },
 
+  {
+    name: "RST3000",
+    type: "Secondary Shredder (Rasper)",
+    power: "150 HP (110 kW)",
+    Voltage: "415 V / 50 Hz",
+    Drive: "ABB 110 kW Heavy-Duty VFD",
+  },
+
+  {
+    name: "RST4000",
+    type: "Secondary Shredder (Rasper)",
+    power: "180 HP (132 kW)",
+    Voltage: "415 V / 50 Hz",
+    Drive: "ABB 160 kW Heavy-Duty VFD",
+  },
+
+  {
+    name: "RST6000",
+    type: "Secondary Shredder (Rasper)",
+    power: "200 HP (150 kW)",
+    Voltage: "415 V / 50 Hz",
+    Drive: "ABB 160 kW Heavy-Duty VFD",
+  },
+];
   const carouselImages = [shredderhd, shredderhd1, shredderhdimg];
 
   const [selected, setSelected] = useState(shredders[0]);

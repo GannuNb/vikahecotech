@@ -7,7 +7,7 @@ import shredderhdimg from "../../../images/Machinery images/Rasper.jpeg";
 import { Helmet } from "react-helmet";
 import styles from "../../../Styles/ProductHeader.module.css";
 
-const Rst4000 = () => {
+const Rst3000 = () => {
   const [mainImage, setMainImage] = useState(shredderhd1);
 
   const handleImageClick = (image) => {
@@ -20,6 +20,7 @@ const Rst4000 = () => {
 
   const machinery = "secondary-shredder";
   const model = "Rasper";
+
   const handleDownload = (fileName) => {
     const link = document.createElement("a");
     link.href = `${process.env.PUBLIC_URL}/${fileName}.pdf`;
@@ -28,6 +29,7 @@ const Rst4000 = () => {
     link.click();
     document.body.removeChild(link);
   };
+
   const handleViewImage = () => {
     window.open(mainImage, "_blank", "noopener,noreferrer");
   };
@@ -36,38 +38,39 @@ const Rst4000 = () => {
     <div>
       <Helmet>
         <title>
-          RST-4000 Secondary Shredder (Rasper) for Tyre Recycling | Vikah
+          RST-3000 Secondary Shredder (Rasper) for Tyre Recycling | Vikah
           Ecotech
         </title>
 
         <meta
           name="description"
-          content="RST-4000 is a high-performance secondary shredder (rasper) by Vikah Ecotech, designed for fine shredding of pre-processed tyres in tyre recycling plants. Efficient size reduction for downstream granulation and separation."
+          content="RST-3000 is a medium-duty secondary shredder (rasper) by Vikah Ecotech, designed for refining pre-processed tyres into smaller rubber particles for downstream recycling and separation."
         />
 
         <meta
           name="keywords"
-          content="RST-4000 rasper, secondary shredder machine, tyre rasper, tyre recycling secondary shredder, rasper shredder machine"
+          content="RST-3000 rasper, secondary shredder machine, tyre rasper, tyre recycling shredder, RST3000"
         />
 
-        <link rel="canonical" href="https://vikahecotech.com/rst4000" />
+        <link rel="canonical" href="https://vikahecotech.com/rst3000" />
       </Helmet>
 
-      {/* Heading section similar to SecondaryMetalshredder */}
+      {/* ================= HEADER ================= */}
+
       <header className={styles.productHeader}>
         <div className={styles.headerContent}>
           <div className={styles.breadcrumb}>
-            Home / Products / <span>RST-4000</span>
+            Home / Products / <span>RST-3000</span>
           </div>
 
           <h1 className={styles.productTitle}>
-            RST-<span>4000</span>
+            RST-<span>3000</span>
           </h1>
 
           <p className={styles.productSubtitle}>
-            High-performance secondary shredder (rasper) designed for fine
-            shredding of pre-processed tyres, ensuring efficient size reduction
-            and smooth downstream granulation in tyre recycling plants.
+            Medium-capacity secondary shredder (rasper) designed for efficient
+            refinement of pre-processed tyres, producing consistent rubber
+            particles for downstream granulation and material separation.
           </p>
 
           <div className={styles.headerButtons}>
@@ -85,6 +88,8 @@ const Rst4000 = () => {
         </div>
       </header>
 
+      {/* ================= PRODUCT TOP ================= */}
+
       <div className="productpagetop">
         <div className="top-model-buttons">
           <p className="related-title">Related Models</p>
@@ -93,251 +98,312 @@ const Rst4000 = () => {
             <button className="model-btn">RST-2000</button>
           </Link>
 
-          <Link to="/rst3000">
-            <button className="model-btn">RST-3000</button>
+          <Link to="/rst4000">
+            <button className="model-btn">RST-4000</button>
           </Link>
 
           <Link to="/rst6000">
             <button className="model-btn">RST-6000</button>
           </Link>
         </div>
+
+        {/* ================= IMAGES ================= */}
+
         <div className="imagetop">
           <div className="main-image-container">
             <div className="main-image-wrapper">
               <img
                 src={mainImage}
-                alt="SHT8000 Tyre Shredder main view by Vikah Ecotech"
+                alt="RST-3000 Secondary Rasper Shredder by Vikah Ecotech"
                 className="sht2000img"
               />
+
               <span
                 className="view-image-icon"
-                onClick={() =>
-                  window.open(mainImage, "_blank", "noopener,noreferrer")
-                }
+                onClick={handleViewImage}
                 title="View full image"
               >
                 🔍
               </span>
             </div>
           </div>
+
           <div className="additional-images">
             <div>
               <img
                 className="angle1"
                 src={shredderhdimg}
-                alt="Angle 1"
+                alt="RST-3000 Rasper Angle 1"
                 onClick={() => handleImageClick(shredderhdimg)}
               />
             </div>
+
             <div>
               <img
                 className="angle2"
                 src={shredderhd}
-                alt="Angle 2"
+                alt="RST-3000 Rasper Angle 2"
                 onClick={() => handleImageClick(shredderhd)}
               />
             </div>
+
             <div>
               <img
                 className="angle3"
                 src={shredderhd1}
-                alt="Angle 3"
+                alt="RST-3000 Rasper Angle 3"
                 onClick={() => handleImageClick(shredderhd1)}
               />
             </div>
           </div>
         </div>
+
+        {/* ================= DESCRIPTION ================= */}
+
         <div className="productdetails">
-          <h1>RST - 4000</h1>
+          <h1>RST - 3000</h1>
+
           <p>
-            The RST-4000 is a high-efficiency secondary shredder (rasper)
-            designed to refine pre-shredded tyre chips into clean, uniform
-            rubber fragments ready for granulation. Built with a heavy-duty
-            rotor, wear-resistant blades, and a robust cutting chamber, it
-            delivers precise cutting performance even under continuous load. The
-            rasper efficiently separates steel wires from rubber, improving
-            downstream processing quality and throughput. With PLC-controlled
-            automation, safety interlocks, and optimized feed mechanisms, the
-            RST-4000 ensures stable output size, reduced contamination, and
-            minimal downtime. Compact and easy to integrate, it is ideal for
-            tyre recycling plants seeking superior chip refinement and reliable
-            24/7 operation.
+            The RST-3000 is a medium-capacity secondary shredder (rasper)
+            developed for efficient processing of pre-shredded tyre material. It
+            reduces tyre chips into smaller and more uniform rubber particles,
+            making the material suitable for subsequent granulation and
+            separation processes.
           </p>
+
+          <p>
+            The machine is designed with a robust cutting chamber, heavy-duty
+            rotor assembly, wear-resistant cutting tools, and optimized material
+            feeding. Its controlled cutting action helps improve rubber recovery
+            while reducing the amount of unwanted steel and fibre contamination
+            in the processed material.
+          </p>
+
+          <p>
+            The RST-3000 is suitable for medium-scale tyre recycling operations
+            requiring reliable performance, easy maintenance, and consistent
+            output during continuous processing.
+          </p>
+
           <p>
             This model is part of our{" "}
             <a href="/rasper_secondaryshredders">
-              {" "}
-              ' secondary shredder (rasper) range '
+              secondary shredder (rasper) range
             </a>{" "}
-            used in advanced tyre recycling systems .
+            used in tyre recycling systems.
           </p>
         </div>
       </div>
 
+      {/* ================= FEATURES ================= */}
+
       <div className="features-container">
         <h2>FEATURES AND SPECIFICATIONS</h2>
+
         <div className="features-content">
           <img
             src={shredderhd}
-            alt="Specifications"
+            alt="RST-3000 Rasper Specifications"
             className="specifications-image"
           />
+
           <div className="sht200specification">
             <p>
-              ➤ Durable, hard-faced knives. <br></br>
-              ➤Easy maintenance service platform. <br></br>➤ Full PLC control
-              panel. <br></br>➤ Stop and auto-reversal motors. <br></br>➤
-              Specific Stop/Auto Reversal motors Feature <br></br>➤ Shaft double
-              protected with drive and mechanical mechanism<br></br> to avoid
-              damage from in-spherical objects. <br></br>
+              ➤ Heavy-duty rotor construction.
+              <br />
+              ➤ Wear-resistant cutting knives.
+              <br />
+              ➤ Easy-access maintenance platform.
+              <br />
+              ➤ PLC-based control system.
+              <br />
+              ➤ Automatic motor reversal protection.
+              <br />
+              ➤ Hydraulic chamber opening system.
+              <br />
+              ➤ Optimized feeding arrangement.
+              <br />➤ Designed for continuous tyre recycling operation.
             </p>
           </div>
         </div>
       </div>
 
+      {/* ================= TECHNICAL SPECIFICATIONS ================= */}
+
       <h1 className="technical-heading">Technical Specifications</h1>
+
+      {/* ELECTRICAL */}
 
       <div className="featurestable">
         <h3>Electrical System</h3>
+
         <table>
           <tbody>
             <tr>
               <td>Power</td>
-              <td>150-180 HP (132 kW)</td>
+              <td>150 HP (110 kW)</td>
             </tr>
+
             <tr>
               <td>No Of Motors</td>
-              <td>1 No. ABB/siemens Motor</td>
+              <td>1 No. ABB / Siemens Motor</td>
             </tr>
+
             <tr>
               <td>Drive Specification</td>
-              <td>Electrical System</td>
+              <td>Heavy-Duty Variable Frequency Drive</td>
             </tr>
+
             <tr>
               <td>Voltage</td>
-              <td>As per Customer's Requirement</td>
+              <td>415 V / 50 Hz</td>
             </tr>
+
             <tr>
               <td>Drive</td>
-              <td>
-                ABB 160kW (H.D.), ACS580, 363A SIZE: R9 ,580-01-360A-4+P944+3B
-                SDT
-              </td>
+              <td>ABB 110 kW Heavy-Duty VFD with overload protection</td>
             </tr>
+
             <tr>
-              <td>Electric Equipment’s</td>
-              <td>SIZE: R9, 580-01-360A-4+P944+3B SDT Schneider / ABB</td>
+              <td>Electric Equipment</td>
+              <td>Schneider / ABB electrical control components</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {/* CUTTING */}
+
       <div className="cuttingsection">
         <h3>Cutting Section</h3>
+
         <table>
           <tbody>
             <tr>
               <td>Cutting Chamber</td>
-              <td>L1200 mm x W900 mm x H1000 mm (Hydraulics Opening)</td>
+              <td>L 1000 mm × W 750 mm × H 850 mm</td>
             </tr>
+
             <tr>
               <td>Number of Shaft</td>
-              <td>1 Nos</td>
+              <td>1 No.</td>
             </tr>
+
             <tr>
               <td>Shaft Diameter</td>
-              <td>500 mm</td>
+              <td>420 mm</td>
             </tr>
+
             <tr>
               <td>Shaft Length</td>
-              <td>2100 mm</td>
+              <td>1800 mm</td>
             </tr>
+
             <tr>
               <td>No. of Rotating Blades</td>
-              <td>42 Nos. (L 190 mm × W 58 mm × T 100 mm)</td>
+              <td>36 Nos. (L 170 mm × W 55 mm × T 90 mm)</td>
             </tr>
+
             <tr>
               <td>No. of Static Blades</td>
-              <td>6 Nos. (L 380 mm × W 120 mm × T 30 mm)</td>
+              <td>5 Nos. (L 350 mm × W 110 mm × T 30 mm)</td>
             </tr>
+
             <tr>
-              <td>No. of Fixed Blade Mounting Blocks</td>
-              <td>42 Nos. (L 190 mm × W 135 mm × T 50 mm)</td>
+              <td>Blade Mounting Blocks</td>
+              <td>36 Nos. Heavy-duty mounting blocks</td>
             </tr>
+
             <tr>
-              <td>No. of Blades Locking Blocks (Type 4 Hole)</td>
-              <td>42 Nos. (L 190 mm × W 56 mm × T 50 mm)</td>
+              <td>Blade Locking Blocks</td>
+              <td>36 Nos. Four-hole locking blocks</td>
             </tr>
+
             <tr>
               <td>Screen</td>
-              <td>MS 18 mm (Hydraulics Opening)</td>
+              <td>MS 16 mm Hydraulic Opening</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {/* GEARBOX */}
+
       <div className="dimensions">
         <h3>Gearbox and Hydraulics</h3>
+
         <table>
           <tbody>
             <tr>
               <td>Number of Gear Box</td>
-              <td>1 No., REGGIANA RIDUTTORI, RR6500L2MC:1</td>
+              <td>1 No. Heavy-duty planetary gearbox</td>
             </tr>
+
             <tr>
               <td>Number of Couplings</td>
-              <td>01 Nos</td>
+              <td>01 No.</td>
             </tr>
+
             <tr>
               <td>Type of Coupling</td>
-              <td>Gear Coupling 1 Nos</td>
+              <td>Heavy-duty Gear Coupling</td>
             </tr>
+
             <tr>
               <td>Type of Bearings and Housing</td>
-              <td>J&J SNLN-3040-23040-kenw33-2C55, KVT 143 H3040, 2 Nos</td>
+              <td>Heavy-duty spherical roller bearings with split housing</td>
             </tr>
+
             <tr>
               <td>Hydraulics</td>
-              <td>
-                6 Nos 2 Ton Cylinder with Power Pack Yuken 80LPM Pump – 2 HP
-                Motor
-              </td>
+              <td>4 Nos. Hydraulic Cylinders with 60 LPM Power Pack</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {/* DIMENSIONS */}
+
       <div className="dimensions">
         <h3>Dimensions and Heights</h3>
+
         <table>
           <tbody>
             <tr>
-              <td>Equipment Dimension (A x B x C)</td>
-              <td>L 3500 mm x W 1900 mm x H 2980 mm</td>
+              <td>Equipment Dimension (A × B × C)</td>
+              <td>L 3100 mm × W 1700 mm × H 2700 mm</td>
             </tr>
+
             <tr>
-              <td>Hopper Opening (G x F)</td>
-              <td>L 1200 mm x H 850 mm</td>
+              <td>Hopper Opening (G × F)</td>
+              <td>L 1000 mm × H 750 mm</td>
             </tr>
+
             <tr>
               <td>Hopper Height (E)</td>
-              <td>850 mm</td>
+              <td>800 mm</td>
             </tr>
+
             <tr>
               <td>Discharge Height (D)</td>
-              <td>1200 mm</td>
+              <td>1100 mm</td>
             </tr>
+
             <tr>
               <td>In Feed Height</td>
-              <td>2600 mm</td>
+              <td>2350 mm</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      {/* ================= BUTTONS ================= */}
+
       <div className="buttons-container">
         <Link to={`/enquire?machinery=${machinery}&model=${model}`}>
           <button className="login-button">Enquire Us</button>
         </Link>
+
         <button
           className="downloadspeci-button"
           onClick={() => handleDownload("Rasper(Tyres)")}
@@ -349,4 +415,4 @@ const Rst4000 = () => {
   );
 };
 
-export default Rst4000;
+export default Rst3000;

@@ -18,8 +18,8 @@ const Rst6000 = () => {
     window.scrollTo(0, 0);
   }, []);
 
-const machinery = "secondary-shredder";
-const model = "Rasper";
+  const machinery = "secondary-shredder";
+  const model = "Rasper";
 
   const handleDownload = (fileName) => {
     const link = document.createElement("a");
@@ -90,7 +90,16 @@ const model = "Rasper";
       {/* Rest of your existing JSX */}
       <div className="productpagetop">
         <div className="top-model-buttons">
-          <p className="related-title">Related Model</p>
+          <p className="related-title">Related Models</p>
+
+          <Link to="/rst2000">
+            <button className="model-btn">RST-2000</button>
+          </Link>
+
+          <Link to="/rst3000">
+            <button className="model-btn">RST-3000</button>
+          </Link>
+
           <Link to="/rst4000">
             <button className="model-btn">RST-4000</button>
           </Link>
@@ -325,17 +334,17 @@ const model = "Rasper";
           </tbody>
         </table>
       </div>
-                  <div className="buttons-container">
-                    <Link to={`/enquire?machinery=${machinery}&model=${model}`}>
-                      <button className="login-button">Enquire Us</button>
-                    </Link>
-                    <button
-        className="downloadspeci-button"
-        onClick={() => handleDownload("Rasper(Tyres)")}
-      >
-        Download Specifications
-      </button>
-                  </div>
+      <div className="buttons-container">
+        <Link to={`/enquire?machinery=${machinery}&model=${model}`}>
+          <button className="login-button">Enquire Us</button>
+        </Link>
+        <button
+          className="downloadspeci-button"
+          onClick={() => handleDownload("Rasper(Tyres)")}
+        >
+          Download Specifications
+        </button>
+      </div>
     </div>
   );
 };
