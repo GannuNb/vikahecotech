@@ -97,9 +97,9 @@ const Rst4000 = () => {
             <button className="model-btn">RST-3000</button>
           </Link>
 
-          <Link to="/rst6000">
+          {/* <Link to="/rst6000">
             <button className="model-btn">RST-6000</button>
-          </Link>
+          </Link> */}
         </div>
         <div className="imagetop">
           <div className="main-image-container">
@@ -203,31 +203,29 @@ const Rst4000 = () => {
           <tbody>
             <tr>
               <td>Power</td>
-              <td>150-180 HP (132 kW)</td>
+              <td>180 Hp - 200 Hp (134 kW - 149 kW)</td>
             </tr>
+
             <tr>
               <td>No Of Motors</td>
-              <td>1 No. ABB/siemens Motor</td>
+              <td>1 No. ABB / Siemens Motor</td>
             </tr>
+
             <tr>
-              <td>Drive Specification</td>
-              <td>Electrical System</td>
+              <td>Drive </td>
+              <td>ABB / Inovance / Equivalent </td>
             </tr>
+
             <tr>
               <td>Voltage</td>
               <td>As per Customer's Requirement</td>
             </tr>
-            <tr>
-              <td>Drive</td>
-              <td>
-                ABB 160kW (H.D.), ACS580, 363A SIZE: R9 ,580-01-360A-4+P944+3B
-                SDT
-              </td>
-            </tr>
+
             <tr>
               <td>Electric Equipment’s</td>
-              <td>SIZE: R9, 580-01-360A-4+P944+3B SDT Schneider / ABB</td>
+              <td>Switch Gears (L and T / Siemens / Equivalent)</td>
             </tr>
+
           </tbody>
         </table>
       </div>
@@ -238,39 +236,47 @@ const Rst4000 = () => {
           <tbody>
             <tr>
               <td>Cutting Chamber</td>
-              <td>L1200 mm x W900 mm x H1000 mm (Hydraulics Opening)</td>
+              <td>L 1500  x W 1000 mm x H 1000 mm</td>
             </tr>
+
             <tr>
               <td>Number of Shaft</td>
-              <td>1 Nos</td>
+              <td>1 No.</td>
             </tr>
+
             <tr>
               <td>Shaft Diameter</td>
-              <td>500 mm</td>
+              <td>600 mm</td>
             </tr>
+
             <tr>
               <td>Shaft Length</td>
-              <td>2100 mm</td>
+              <td>2150 mm</td>
             </tr>
+
             <tr>
               <td>No. of Rotating Blades</td>
-              <td>42 Nos. (L 190 mm × W 58 mm × T 100 mm)</td>
+              <td>42 Nos. (210 cutting edges)</td>
             </tr>
+
             <tr>
               <td>No. of Static Blades</td>
-              <td>6 Nos. (L 380 mm × W 120 mm × T 30 mm)</td>
+              <td>6 Nos. (60 cutting edges)</td>
             </tr>
+
             <tr>
-              <td>No. of Fixed Blade Mounting Blocks</td>
-              <td>42 Nos. (L 190 mm × W 135 mm × T 50 mm)</td>
+              <td>Fixed Blade Mounting Blocks</td>
+              <td>42 Nos. </td>
             </tr>
-            <tr>
-              <td>No. of Blades Locking Blocks (Type 4 Hole)</td>
-              <td>42 Nos. (L 190 mm × W 56 mm × T 50 mm)</td>
-            </tr>
+
+            {/* <tr>
+              <td>Blade Locking Blocks</td>
+              <td>36 Nos. Four-hole locking blocks</td>
+            </tr> */}
+
             <tr>
               <td>Screen</td>
-              <td>MS 18 mm (Hydraulics Opening)</td>
+              <td>22 mm (split opening)</td>
             </tr>
           </tbody>
         </table>
@@ -290,11 +296,15 @@ const Rst4000 = () => {
             </tr>
             <tr>
               <td>Type of Coupling</td>
-              <td>Gear Coupling 1 Nos</td>
+              <td>Gear Coupling </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>Type of Bearings and Housing</td>
               <td>J&J SNLN-3040-23040-kenw33-2C55, KVT 143 H3040, 2 Nos</td>
+            </tr> */}
+            <tr>
+              <td>Type of Bearings</td>
+              <td>Double roller spherical bearing and Thrust ball bearing</td>
             </tr>
             <tr>
               <td>Hydraulics</td>
@@ -328,8 +338,8 @@ const Rst4000 = () => {
               <td>1200 mm</td>
             </tr>
             <tr>
-              <td>In Feed Height</td>
-              <td>2600 mm</td>
+              <td>Approximate Processing Capacity</td>
+              <td>3500-4000 kg/hr</td>
             </tr>
           </tbody>
         </table>

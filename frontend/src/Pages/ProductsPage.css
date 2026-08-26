@@ -249,6 +249,32 @@
   background-color: #e67300;
 }
 
+/* =========================================
+   BLP-75 TECHNICAL SPECIFICATION TABLE
+   ========================================= */
+
+.blp75-spec-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse;
+}
+
+.blp75-spec-table td:first-child {
+  width: 50% !important;
+  text-align: left;
+}
+
+.blp75-spec-table td:nth-child(2) {
+  width: 50% !important;
+  text-align: left;
+}
+
+.blp75-spec-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
 /* ======== MEDIA QUERIES ======== */
 
 /* Tablets */

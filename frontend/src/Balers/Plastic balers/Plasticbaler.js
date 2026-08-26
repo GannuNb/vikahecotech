@@ -19,50 +19,75 @@ function Plasticbaler() {
   }, []);
 
   const balers = [
-    {
-      name: "BLP30",
-      type: "Plastic Baler",
-      force: "30 Ton",
-      weight: "150-250 kg",
-      note: "Compact design for lightweight plastic waste such as PET bottles, LDPE films, and packaging plastics.",
-    },
-    {
-      name: "BLP40",
-      type: "Plastic Baler",
-      force: "40 Ton",
-      weight: "200-350 kg",
-      note: "Ideal for medium-density plastic waste including HDPE containers and mixed plastic scrap.",
-    },
+    // {
+    //   name: "BLP30",
+    //   type: "Plastic Baler",
+    //   force: "30 Ton",
+    //   weight: "150-250 kg",
+    //   note: "Compact design for lightweight plastic waste such as PET bottles, LDPE films, and packaging plastics.",
+    // },
+    // {
+    //   name: "BLP40",
+    //   type: "Plastic Baler",
+    //   force: "40 Ton",
+    //   weight: "200-350 kg",
+    //   note: "Ideal for medium-density plastic waste including HDPE containers and mixed plastic scrap.",
+    // },
     {
       name: "BLP50",
       type: "Plastic Baler",
-      force: "50 Ton",
-      weight: "350-500 kg",
+      force: "50 Ton",      
       note: "Heavy-duty plastic baler designed for industrial-scale recycling and waste management operations.",
+    },
+    {
+      name: "BLP75",
+      type: "Plastic Baler",
+      force: "75 Ton",      
+      note: "Heavy-duty plastic baler designed for higher-density plastic waste and demanding recycling applications.",
+    },
+    {
+      name: "BLP100",
+      type: "Plastic Baler",
+      force: "100 Ton",
+      note: "High-capacity plastic baler designed for industrial plastic waste processing and high-density bale formation.",
     },
   ];
 
   const products = [
-    {
-      name: "BLP30",
-      description: "Plastic Baler BLP30 with 30 Ton force.",
-      image: "https://vikahecotech.com/images/baler.png",
-      url: "https://vikahecotech.com/blp30",
-      price: "2500000",
-    },
-    {
-      name: "BLP40",
-      description: "Plastic Baler BLP40 with 40 Ton force.",
-      image: "https://vikahecotech.com/images/baler4.png",
-      url: "https://vikahecotech.com/blp40",
-      price: "3000000",
-    },
+    // {
+    //   name: "BLP30",
+    //   description: "Plastic Baler BLP30 with 30 Ton force.",
+    //   image: "https://vikahecotech.com/images/baler.png",
+    //   url: "https://vikahecotech.com/blp30",
+    //   price: "2500000",
+    // },
+    // {
+    //   name: "BLP40",
+    //   description: "Plastic Baler BLP40 with 40 Ton force.",
+    //   image: "https://vikahecotech.com/images/baler4.png",
+    //   url: "https://vikahecotech.com/blp40",
+    //   price: "3000000",
+    // },
     {
       name: "BLP50",
       description: "Heavy-duty Plastic Baler BLP50.",
       image: "https://vikahecotech.com/images/baler_bg.png",
       url: "https://vikahecotech.com/blp50",
       price: "3500000",
+    },
+    {
+      name: "BLP75",
+      description: "Heavy-duty Plastic Baler BLP75 with 75 Ton force.",
+      image: "https://vikahecotech.com/images/baler.png",
+      url: "https://vikahecotech.com/blp75",
+      price: "4000000",
+    },
+    {
+      name: "BLP100",
+      description: "High-capacity Plastic Baler BLP100 with 100 Ton force.",
+      image: "https://vikahecotech.com/images/baler4.png",
+      url: "https://vikahecotech.com/blp100",
+      price: "4500000",
     },
   ];
 
@@ -241,15 +266,15 @@ function Plasticbaler() {
                   marginBottom: "1rem",
                 }}
               >
-                Available in multiple tonnage options including 30 Ton, 40 Ton,
-                and 50 Ton, our plastic balers ensure reliable performance, low
+                Available in multiple tonnage options including 50 Ton, 75 Ton,
+                and 100 Ton, our plastic balers ensure reliable performance, low
                 maintenance, and long service life.
               </p>
             </div>
           </div>
         </div>
 
-        {/* ================= FULL WIDTH MODEL SECTION ================= */}
+        
         {/* ================= FULL WIDTH MODEL SECTION ================= */}
         <div
           id="modelsSection"
@@ -272,25 +297,23 @@ function Plasticbaler() {
             <div className="d-flex justify-content-center flex-wrap mb-5">
               {[
                 {
-                  name: "BLP30",
-                  type: "Plastic Baler",
-                  force: "30 Ton",
-                  weight: "150-250 kg",
-                  note: "Compact design for lightweight plastic waste such as PET bottles, LDPE films, and packaging plastics.",
-                },
-                {
-                  name: "BLP40",
-                  type: "Plastic Baler",
-                  force: "40 Ton",
-                  weight: "200-350 kg",
-                  note: "Ideal for medium-density plastic waste including HDPE containers and mixed plastic scrap.",
-                },
-                {
                   name: "BLP50",
                   type: "Plastic Baler",
                   force: "50 Ton",
-                  weight: "350-500 kg",
                   note: "Heavy-duty plastic baler designed for industrial-scale recycling and waste management operations.",
+                },
+                {
+                  name: "BLP75",
+                  type: "Plastic Baler",
+                  force: "75 Ton",
+
+                  note: "Heavy-duty plastic baler designed for higher-density plastic waste and demanding recycling applications.",
+                },
+                {
+                  name: "BLP100",
+                  type: "Plastic Baler",
+                  force: "100 Ton",
+                  note: "High-capacity plastic baler designed for industrial plastic waste processing and high-density bale formation.",
                 },
               ].map((baler, index) => (
                 <button
@@ -379,9 +402,7 @@ function Plasticbaler() {
                     <li className="list-group-item bg-transparent">
                       <strong>Compaction Force:</strong> {selected.force}
                     </li>
-                    <li className="list-group-item bg-transparent">
-                      <strong>Baler Weight:</strong> {selected.weight}
-                    </li>
+                  
                     <li className="list-group-item bg-transparent">
                       <strong>Application:</strong> {selected.note}
                     </li>
@@ -452,7 +473,7 @@ function Plasticbaler() {
           <ul>
             <li>Heavy-duty hydraulic cylinders for strong compression</li>
             <li>Energy-efficient design with low power consumption</li>
-            <li>Available in 150 Ton, 200 Ton & 250 Ton models</li>
+            <li>Available in 50 Ton, 75 Ton & 100 Ton models</li>
             <li>Customizable bale dimensions</li>
             <li>Nationwide installation and after-sales support</li>
           </ul>
@@ -485,7 +506,7 @@ function Plasticbaler() {
               },
               {
                 q: "What compaction force is recommended?",
-                a: "30 Ton to 50 Ton balers are suitable depending on plastic type and volume.",
+                a: "50 Ton to 100 Ton balers are available depending on plastic type, material volume, and required bale density.",
               },
               {
                 q: "Can these balers handle commercial and industrial scrap?",

@@ -102,9 +102,9 @@ const Rst3000 = () => {
             <button className="model-btn">RST-4000</button>
           </Link>
 
-          <Link to="/rst6000">
+          {/* <Link to="/rst6000">
             <button className="model-btn">RST-6000</button>
-          </Link>
+          </Link> */}
         </div>
 
         {/* ================= IMAGES ================= */}
@@ -241,7 +241,7 @@ const Rst3000 = () => {
           <tbody>
             <tr>
               <td>Power</td>
-              <td>150 HP (110 kW)</td>
+              <td>150 Hp - 180 Hp (112 kw -134 kw)</td>
             </tr>
 
             <tr>
@@ -250,23 +250,18 @@ const Rst3000 = () => {
             </tr>
 
             <tr>
-              <td>Drive Specification</td>
-              <td>Heavy-Duty Variable Frequency Drive</td>
-            </tr>
-
-            <tr>
               <td>Voltage</td>
-              <td>415 V / 50 Hz</td>
+              <td>As per Customer's Requirement</td>
             </tr>
 
             <tr>
               <td>Drive</td>
-              <td>ABB 110 kW Heavy-Duty VFD with overload protection</td>
+              <td>ABB / Inovance / Equivalent</td>
             </tr>
 
             <tr>
               <td>Electric Equipment</td>
-              <td>Schneider / ABB electrical control components</td>
+              <td>Switch Gears (L and T / Siemens / Equivalent)</td>
             </tr>
           </tbody>
         </table>
@@ -281,7 +276,7 @@ const Rst3000 = () => {
           <tbody>
             <tr>
               <td>Cutting Chamber</td>
-              <td>L 1000 mm × W 750 mm × H 850 mm</td>
+              <td>L 1200  x W 1000 mm x H 1000 mm</td>
             </tr>
 
             <tr>
@@ -291,37 +286,37 @@ const Rst3000 = () => {
 
             <tr>
               <td>Shaft Diameter</td>
-              <td>420 mm</td>
+              <td>500 mm</td>
             </tr>
 
             <tr>
               <td>Shaft Length</td>
-              <td>1800 mm</td>
+              <td>2150 mm</td>
             </tr>
 
             <tr>
               <td>No. of Rotating Blades</td>
-              <td>36 Nos. (L 170 mm × W 55 mm × T 90 mm)</td>
+              <td>42 Nos. (168 cutting edges)</td>
             </tr>
 
             <tr>
               <td>No. of Static Blades</td>
-              <td>5 Nos. (L 350 mm × W 110 mm × T 30 mm)</td>
+              <td>6 Nos. (48 cutting edges)</td>
             </tr>
 
             <tr>
-              <td>Blade Mounting Blocks</td>
-              <td>36 Nos. Heavy-duty mounting blocks</td>
+              <td>Fixed Blade Mounting Blocks</td>
+              <td>42 Nos. </td>
             </tr>
 
-            <tr>
+            {/* <tr>
               <td>Blade Locking Blocks</td>
               <td>36 Nos. Four-hole locking blocks</td>
-            </tr>
+            </tr> */}
 
             <tr>
               <td>Screen</td>
-              <td>MS 16 mm Hydraulic Opening</td>
+              <td>22 mm (split opening)</td>
             </tr>
           </tbody>
         </table>
@@ -336,27 +331,27 @@ const Rst3000 = () => {
           <tbody>
             <tr>
               <td>Number of Gear Box</td>
-              <td>1 No. Heavy-duty planetary gearbox</td>
+              <td>1 Nos / Reggiana / Bonfiglioli</td>
             </tr>
 
             <tr>
               <td>Number of Couplings</td>
-              <td>01 No.</td>
+              <td>1 Nos.</td>
             </tr>
 
             <tr>
               <td>Type of Coupling</td>
-              <td>Heavy-duty Gear Coupling</td>
+              <td>Gear Coupling</td>
             </tr>
 
             <tr>
-              <td>Type of Bearings and Housing</td>
-              <td>Heavy-duty spherical roller bearings with split housing</td>
+              <td>Type of Bearings</td>
+              <td>Double roller spherical bearing and Thrust ball bearing</td>
             </tr>
 
             <tr>
               <td>Hydraulics</td>
-              <td>4 Nos. Hydraulic Cylinders with 60 LPM Power Pack</td>
+              <td>2 Nos cylinders For Hopper Opening ,4 Nos  telescopic cylnders for screen , Power pack 80LPM pump - 2Hp motor</td>
             </tr>
           </tbody>
         </table>
@@ -369,10 +364,10 @@ const Rst3000 = () => {
 
         <table>
           <tbody>
-            <tr>
+            {/* <tr>
               <td>Equipment Dimension (A × B × C)</td>
               <td>L 3100 mm × W 1700 mm × H 2700 mm</td>
-            </tr>
+            </tr> */}
 
             <tr>
               <td>Hopper Opening (G × F)</td>
@@ -390,8 +385,8 @@ const Rst3000 = () => {
             </tr>
 
             <tr>
-              <td>In Feed Height</td>
-              <td>2350 mm</td>
+              <td>Approximate Processing Capacity</td>
+              <td>2500-3000 kg/hr</td>
             </tr>
           </tbody>
         </table>

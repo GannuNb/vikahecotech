@@ -38,6 +38,8 @@ import BLT250 from './Balers/Tyre scrap balers/Models/Blt250';
 import BLP30 from './Balers/Plastic balers/Models/BLP30.js';
 import Blp40 from './Balers/Plastic balers/Models/Blp40.js';
 import Blp50 from './Balers/Plastic balers/Models/Blp50.js';
+import Blp75 from './Balers/Plastic balers/Models/Blp75.js';
+import Blp100 from './Balers/Plastic balers/Models/Blp100.js';
 
 import Blc30 from './Balers/Pcb balers/Models/Blc30.js';
 import Blc40 from './Balers/Pcb balers/Models/Blc40.js';
@@ -188,6 +190,8 @@ function App() {
         <Route exact path="/blp30" element={<BLP30 />} />
         <Route exact path="/blp40" element={<Blp40 />} />
         <Route exact path="/blp50" element={<Blp50 />} />
+        <Route exact path="/blp75" element={<Blp75 />} />
+        <Route exact path="/blp100" element={<Blp100 />} />
 
         <Route exact path="/blc30" element={<Blc30 />} />
         <Route exact path="/blc40" element={<Blc40 />} />
