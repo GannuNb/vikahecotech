@@ -103,10 +103,10 @@ const TradeFairs = () => {
                     <strong>Location:</strong> Bombay Exhibition Centre
                   </p>
                   <p>
-                    <strong>Hall No:</strong> 02
+                    <strong>Hall No:</strong> 03
                   </p>
                   <p>
-                    <strong>Booth No:</strong> C021
+                    <strong>Booth No:</strong> B005
                   </p>
 
                   <a
