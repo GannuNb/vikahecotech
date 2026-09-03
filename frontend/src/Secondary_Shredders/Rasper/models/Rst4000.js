@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../Pages/ProductsPage.css";
 import shredderhd from "../../../images/R1.png";
-import shredderhd1 from "../../../images/Machinery images/Rasper1.jpeg";
+import shredderhd1 from "../../../images/secondary-shredders/R2.png";
 import shredderhdimg from "../../../images/Machinery images/Rasper.jpeg";
 import { Helmet } from "react-helmet";
 import styles from "../../../Styles/ProductHeader.module.css";
@@ -203,7 +203,7 @@ const Rst4000 = () => {
           <tbody>
             <tr>
               <td>Power</td>
-              <td>180 Hp - 200 Hp (134 kW - 149 kW)</td>
+              <td>180 Hp - 220 Hp (134 kW - 149 kW)</td>
             </tr>
 
             <tr>

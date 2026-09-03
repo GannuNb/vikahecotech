@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../Pages/ProductsPage.css";
 import shredderhd from "../../../images/R1.png";
-import shredderhd1 from "../../../images/Machinery images/Rasper1.jpeg";
+import shredderhd1 from "../../../images/secondary-shredders/R4.jpg";
 import shredderhdimg from "../../../images/Machinery images/Rasper.jpeg";
 import { Helmet } from "react-helmet";
 import styles from "../../../Styles/ProductHeader.module.css";
