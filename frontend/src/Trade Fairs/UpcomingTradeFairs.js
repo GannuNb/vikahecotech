@@ -8,19 +8,7 @@ import "./UpcomingTradeFairs.css";
 function UpcomingTradeFairs() {
 
   const tradeFairs = [
-    {
-      title: "Bharat Recycling Show",
-      image: bharatrecycling,
-      description: `Bharat Recycling Show is a premier platform dedicated to India’s
-      recycling and waste management industry. It connects manufacturers,
-      recyclers, policymakers, and innovators to explore sustainable solutions
-      and business opportunities.`,
-      date: "31-08-2026 to 02-09-2026",
-      location: "Bombay Exhibition Centre (NESCO), Mumbai",
-      booth: "B410",
-      link: "https://www.bharatrecyclingshow.com/",
-      buttonText: "Explore Bharat Recycling Show",
-    },
+    
     {
       title: "IFAT",
       image: ifatimg,

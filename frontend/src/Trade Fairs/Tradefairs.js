@@ -34,50 +34,7 @@ const TradeFairs = () => {
 
       <div className="container my-5">
         <div className="row gy-4 p-3">
-          <div className="col-md-6">
-            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              <div className="upcoming-badge">Upcoming Trade Fair</div>
-              <img
-                src={bharatrecycling}
-                alt="Bharat Recycling Show 2026"
-                className="trade-img"
-              />
-              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
-                <div className="trade-content p-3">
-                  <h5>Bharat Recycling Show</h5>
 
-                  <p>
-                    Bharat Recycling Show is a premier platform dedicated to
-                    recycling, waste management, and circular economy solutions
-                    in India. The event showcases advanced technologies,
-                    industry innovations, and provides networking opportunities
-                    for professionals and policymakers driving sustainable
-                    growth.
-                  </p>
-
-                  <p>
-                    <strong>Date:</strong> 31-08-2026 to 02-09-2026
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Bombay Exhibition Centre Nesco,
-                    Mumbai{" "}
-                  </p>
-                  <p>
-                    <strong>Booth No:</strong> B410
-                  </p>
-
-                  <a
-                    href="https://www.bharatrecyclingshow.com/"
-                    className="btn btn-success"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Explore Bharat Recycling
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
@@ -161,6 +118,50 @@ const TradeFairs = () => {
                   >
                     Explore Recycling Expo
                   </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+                    {/* Completed: Bharat Recycling Show 2026 */}
+          <div className="col-md-6">
+            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
+              
+              <img
+                src={bharatrecycling}
+                alt="Bharat Recycling Show 2026"
+                className="trade-img"
+              />
+              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
+                <div className="trade-content p-3">
+                  <h5>Bharat Recycling Show</h5>
+
+                  <p>
+                    Bharat Recycling Show is a premier platform dedicated to
+                    recycling, waste management, and circular economy solutions
+                    in India. The event showcases advanced technologies,
+                    industry innovations, and provides networking opportunities
+                    for professionals and policymakers driving sustainable
+                    growth.
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong> 31-08-2026 to 02-09-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> Bombay Exhibition Centre Nesco,
+                    Mumbai{" "}
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> B410
+                  </p>
+
+                  <Link
+                    to="/bharatrecycling2026"
+                    className="tradefairs-btn mt-3 align-self-start"
+                  >
+                    Images and Videos
+                  </Link>
                 </div>
               </div>
             </div>

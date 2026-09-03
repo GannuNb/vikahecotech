@@ -246,22 +246,22 @@ const Rst4000 = () => {
 
             <tr>
               <td>Shaft Diameter</td>
-              <td>600 mm</td>
+              <td>500 mm</td>
             </tr>
 
             <tr>
               <td>Shaft Length</td>
-              <td>2150 mm</td>
+              <td>2420 mm</td>
             </tr>
 
             <tr>
               <td>No. of Rotating Blades</td>
-              <td>42 Nos. (210 cutting edges)</td>
+              <td>42 Nos. (252 cutting edges)</td>
             </tr>
 
             <tr>
               <td>No. of Static Blades</td>
-              <td>6 Nos. (60 cutting edges)</td>
+              <td>6 Nos. (48 cutting edges)</td>
             </tr>
 
             <tr>
@@ -288,7 +288,7 @@ const Rst4000 = () => {
           <tbody>
             <tr>
               <td>Number of Gear Box</td>
-              <td>1 No., REGGIANA RIDUTTORI, RR6500L2MC:1</td>
+              <td>1 Nos / Reggiana / Bonfiglioli</td>
             </tr>
             <tr>
               <td>Number of Couplings</td>
@@ -308,10 +308,7 @@ const Rst4000 = () => {
             </tr>
             <tr>
               <td>Hydraulics</td>
-              <td>
-                6 Nos 2 Ton Cylinder with Power Pack Yuken 80LPM Pump – 2 HP
-                Motor
-              </td>
+              <td>2 Nos cylinders For Hopper Opening ,4 Nos  telescopic cylnders for screen , Power pack 80LPM pump - 2Hp motor</td>
             </tr>
           </tbody>
         </table>
@@ -322,20 +319,20 @@ const Rst4000 = () => {
         <table>
           <tbody>
             <tr>
-              <td>Equipment Dimension (A x B x C)</td>
-              <td>L 3500 mm x W 1900 mm x H 2980 mm</td>
+              <td>Overall Dimensions</td>
+              <td>L 4730 mm × W 2500 mm × H 3650 mm</td>
             </tr>
             <tr>
               <td>Hopper Opening (G x F)</td>
-              <td>L 1200 mm x H 850 mm</td>
+              <td>L 1200 mm x W 550 mm</td>
             </tr>
             <tr>
               <td>Hopper Height (E)</td>
-              <td>850 mm</td>
+              <td>3430 mm</td>
             </tr>
             <tr>
               <td>Discharge Height (D)</td>
-              <td>1200 mm</td>
+              <td>1780 mm</td>
             </tr>
             <tr>
               <td>Approximate Processing Capacity</td>
@@ -348,12 +345,12 @@ const Rst4000 = () => {
         <Link to={`/enquire?machinery=${machinery}&model=${model}`}>
           <button className="login-button">Enquire Us</button>
         </Link>
-        <button
+        {/* <button
           className="downloadspeci-button"
           onClick={() => handleDownload("Rasper(Tyres)")}
         >
           Download Specifications
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -5,22 +5,37 @@ import ece from "../images/eco sustain 2025/ese.png";
 import ese from "../images/eco sustain 2026/ese.png";
 import envirotechimg from "../images/envirotech/envirotechimg.png";
 import ecosustainimg from "../images/ecosustain.png";
+import bharatrecycling from "../images/bharatrecycling.png";
 import "./CompletedTradeFairs.css";
 
 function CompletedTradeFairs() {
 
   const completedFairs = [
+
     {
-          title: "Eco Sustain Expo & Conference",
-          image: ese,
-          description: `Eco Sustain Expo & Conference is India's premier sustainability platform, bringing together industry leaders, innovators, policymakers, researchers, and solution providers. The event showcases cutting-edge technologies and sustainable solutions across waste management, bioenergy, recycling, environmental protection, and circular economy initiatives. Exhibitors gain the opportunity to present their innovations to a global audience, build strategic partnerships, and contribute to a greener future, while the conference connects participants with sustainability visionaries and industry experts driving positive environmental change.`,
-          date: "30-07-2026 to 01-08-2026",
-          location: "HITEX Exhibition Center, Hyderabad",
-          hall: 2,
-          booth: "2K14",
-          link: "/ecosustain2026",
-          buttonText: "Images and Videos",
-        },
+      title: "Bharat Recycling Show",
+      image: bharatrecycling,
+      description: `Bharat Recycling Show is a premier platform dedicated to India’s
+          recycling and waste management industry. It connects manufacturers,
+          recyclers, policymakers, and innovators to explore sustainable solutions
+          and business opportunities.`,
+      date: "31-08-2026 to 02-09-2026",
+      location: "Bombay Exhibition Centre (NESCO), Mumbai",
+      booth: "B410",
+      link: "/bharatrecycling2026",
+      buttonText: "Images and Videos",
+    },
+    {
+      title: "Eco Sustain Expo & Conference",
+      image: ese,
+      description: `Eco Sustain Expo & Conference is India's premier sustainability platform, bringing together industry leaders, innovators, policymakers, researchers, and solution providers. The event showcases cutting-edge technologies and sustainable solutions across waste management, bioenergy, recycling, environmental protection, and circular economy initiatives. Exhibitors gain the opportunity to present their innovations to a global audience, build strategic partnerships, and contribute to a greener future, while the conference connects participants with sustainability visionaries and industry experts driving positive environmental change.`,
+      date: "30-07-2026 to 01-08-2026",
+      location: "HITEX Exhibition Center, Hyderabad",
+      hall: 2,
+      booth: "2K14",
+      link: "/ecosustain2026",
+      buttonText: "Images and Videos",
+    },
     {
       title: "IFAT India",
       image: ifatimg,

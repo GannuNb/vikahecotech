@@ -364,24 +364,24 @@ const Rst3000 = () => {
 
         <table>
           <tbody>
-            {/* <tr>
-              <td>Equipment Dimension (A × B × C)</td>
-              <td>L 3100 mm × W 1700 mm × H 2700 mm</td>
-            </tr> */}
-
             <tr>
-              <td>Hopper Opening (G × F)</td>
-              <td>L 1000 mm × H 750 mm</td>
+              <td>Overall Dimensions</td>
+              <td>L 4715 mm × W 2475 mm × H 3650 mm</td>
             </tr>
 
             <tr>
-              <td>Hopper Height (E)</td>
-              <td>800 mm</td>
+              <td>Hopper Opening </td>
+              <td>L 1000 mm × W 540 mm</td>
             </tr>
 
             <tr>
-              <td>Discharge Height (D)</td>
-              <td>1100 mm</td>
+              <td>Hopper Height </td>
+              <td>3510 mm</td>
+            </tr>
+
+            <tr>
+              <td>Discharge Height </td>
+              <td>1780 mm</td>
             </tr>
 
             <tr>
@@ -399,12 +399,12 @@ const Rst3000 = () => {
           <button className="login-button">Enquire Us</button>
         </Link>
 
-        <button
+        {/* <button
           className="downloadspeci-button"
           onClick={() => handleDownload("Rasper(Tyres)")}
         >
           Download Specifications
-        </button>
+        </button> */}
       </div>
     </div>
   );
