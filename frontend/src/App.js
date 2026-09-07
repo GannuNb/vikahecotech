@@ -151,6 +151,9 @@ import VibroHopper from './Other Equipments/Machines/VibroHopper.js';
 import FibreSeparator from './Other Equipments/Machines/FibreSeparator.js';
 import SteelCleaning from './Other Equipments/Machines/SteelCleaning.js';
 
+//qrcodes
+import BrochureQR from "./QRCodes/BrochureQR";
+
 
 
 function App() {
@@ -303,6 +306,9 @@ function App() {
         <Route exact path="/metalshredderpage" element={<Metalshredderpage />} />
         <Route exact path="/crushingmachinepage" element={<Crushingmachinepage />} />
         <Route exact path="/papercardboardshredderpage" element={<PaperCardboardShredderpage />} />
+
+        {/* qrcodes */}
+        <Route exact path="/brochure-qr" element={<BrochureQR />} />  
 
 
 
