@@ -8,6 +8,7 @@ import shredderhdimg from "../../../images/Machinery images/Rasper.jpeg";
 
 import { Helmet } from "react-helmet";
 import styles from "../../../Styles/ProductHeader.module.css";
+import generateRst2000Pdf from "./pdfs/generateRst2000Pdf";
 
 const Rst2000 = () => {
   const [mainImage, setMainImage] = useState(shredderhd1);
@@ -79,7 +80,7 @@ const Rst2000 = () => {
           <div className={styles.headerButtons}>
             <button
               className={styles.primaryBtn}
-              onClick={() => handleDownload("Rasper(Tyres)")}
+              onClick={generateRst2000Pdf}
             >
               Download Brochure
             </button>
@@ -306,7 +307,7 @@ const Rst2000 = () => {
             {/* <tr>
               <td>Blade Locking System</td>
               <td>Four-Bolt Locking Arrangement</td>
-            </tr> */} 
+            </tr> */}
 
             <tr>
               <td>Screen</td>
@@ -393,12 +394,12 @@ const Rst2000 = () => {
           <button className="login-button">Enquire Us</button>
         </Link>
 
-        {/* <button
+        <button
           className="downloadspeci-button"
-          onClick={() => handleDownload("Rasper(Tyres)")}
+          onClick={generateRst2000Pdf}
         >
           Download Specifications
-        </button> */}
+        </button>
       </div>
     </div>
   );
