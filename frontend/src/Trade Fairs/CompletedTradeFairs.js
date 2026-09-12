@@ -11,6 +11,21 @@ import "./CompletedTradeFairs.css";
 function CompletedTradeFairs() {
 
   const completedFairs = [
+        {
+          title: "IFAT",
+          image: ifatimg,
+          description: `IFAT is the world’s leading trade fair for environmental
+          technologies, focusing on water, sewage, waste, and recycling solutions.
+          It brings together global industry leaders, policymakers, and innovators
+          to showcase advanced technologies for a circular economy.`,
+          date: "09-09-2026 to 11-09-2026",
+          location: "Bombay Exhibition Centre",
+          hall: "03",
+          booth: "B005",
+          link: "/ifat2026",
+          buttonText: "Explore IFAT",
+          isInternal: true,
+        },
 
     {
       title: "Bharat Recycling Show",

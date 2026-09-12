@@ -1,4 +1,4 @@
-/* === Trade Card Base (Same UI) === */
+/* === Trade Card Base === */
 .trade-card {
   flex: 0 0 90%;
   min-width: 90%;
@@ -6,7 +6,7 @@
 
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   padding: 20px;
   transition: all 0.3s ease;
   position: relative;
@@ -14,10 +14,11 @@
 
 .trade-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-/* Image */
+
+/* === Image === */
 .trade-img {
   width: 100%;
   height: 141px;
@@ -25,7 +26,8 @@
   margin-top: 4%;
 }
 
-/* Content */
+
+/* === Content === */
 .trade-content h5 {
   font-weight: bold;
   color: #221ce6;
@@ -37,7 +39,15 @@
   color: #333;
 }
 
-/* Button */
+
+/* === Vikah Ecotech Participation === */
+.participation-text {
+  font-weight: 500;
+  color: #198754 !important;
+}
+
+
+/* === Button === */
 .trade-content .btn-success {
   background-color: #28a745;
   border: none;
@@ -47,28 +57,47 @@
   background-color: #218838;
 }
 
-/* Badge */
+
+/* === Upcoming Badge === */
 .upcoming-badge {
   position: absolute;
   top: 10px;
   right: 10px;
+
   background-color: #ffc107;
   color: #212529;
+
   padding: 3px 10px;
   border-radius: 5px;
+
   font-weight: bold;
   font-size: 0.85rem;
+
   z-index: 1;
 }
 
-/* Tablet & Desktop → 2 cards */
+
+/* =========================================
+   TABLET & DESKTOP
+   ========================================= */
+
 @media (min-width: 768px) {
-  .trade-card {
+
+  /* Multiple cards → 2 cards with scrolling */
+  .trade-scroll-wrapper .trade-card {
     flex: 0 0 50%;
     min-width: 50%;
     max-width: 50%;
   }
-}
-.trade-card {
-  flex: 0 0 auto;   /* 🔥 ADD THIS */
+
+  /* Only one card → center it */
+  .trade-scroll-wrapper:has(.trade-card:only-child) {
+    justify-content: center;
+  }
+
+  .trade-scroll-wrapper:has(.trade-card:only-child) .trade-card {
+    flex: 0 0 50%;
+    min-width: 50%;
+    max-width: 50%;
+  }
 }

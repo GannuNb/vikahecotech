@@ -36,48 +36,6 @@ const TradeFairs = () => {
         <div className="row gy-4 p-3">
 
 
-          <div className="col-md-6">
-            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              <div className="upcoming-badge">Upcoming Trade Fair</div>
-              <img src={ifatimg} alt="IFAT 2026" className="trade-img" />
-
-              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
-                <div className="trade-content p-3">
-                  <h5>IFAT</h5>
-
-                  <p>
-                    IFAT is the world’s leading trade fair for water, sewage,
-                    waste, and raw materials management. It brings together
-                    global industry leaders, cutting-edge technologies, and
-                    innovative solutions focused on sustainable environmental
-                    practices and resource efficiency.
-                  </p>
-
-                  <p>
-                    <strong>Date:</strong> 09-09-2026 to 11-09-2026
-                  </p>
-                  <p>
-                    <strong>Location:</strong> Bombay Exhibition Centre
-                  </p>
-                  <p>
-                    <strong>Hall No:</strong> 03
-                  </p>
-                  <p>
-                    <strong>Booth No:</strong> B005
-                  </p>
-
-                  <a
-                    href="https://ifat.de/en/trade-fair/"
-                    className="btn btn-success"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Explore IFAT
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
@@ -90,8 +48,10 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div className="trade-content p-3">
                   <h5>Recycling Expo Middle East</h5>
-
-                  {/* Upcoming: Recycling Expo Middle East 2025 */}
+                  <p className="participation-text">
+                    Vikah Ecotech is participating in the event, showcasing innovative
+                    recycling machinery and sustainable solutions for the waste management industry.
+                  </p>
                   <p>
                     Organized by Eljays44, a seasoned global event company,
                     Recycling Expo Middle East 2025 is a premier B2B platform
@@ -123,10 +83,55 @@ const TradeFairs = () => {
             </div>
           </div>
 
-                    {/* Completed: Bharat Recycling Show 2026 */}
+          {/* Completed: IFAT India 2026 */}
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              
+
+              <img src={ifatimg} alt="IFAT 2026" className="trade-img" />
+
+              <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
+                <div className="trade-content p-3">
+                  <h5>IFAT</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in IFAT 2026, presenting advanced recycling solutions.
+                  </p>
+
+                  <p>
+                    IFAT is the world’s leading trade fair for water, sewage,
+                    waste, and raw materials management. It brings together
+                    global industry leaders, cutting-edge technologies, and
+                    innovative solutions focused on sustainable environmental
+                    practices and resource efficiency.
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong> 09-09-2026 to 11-09-2026
+                  </p>
+                  <p>
+                    <strong>Location:</strong> Bombay Exhibition Centre
+                  </p>
+                  <p>
+                    <strong>Hall No:</strong> 03
+                  </p>
+                  <p>
+                    <strong>Booth No:</strong> B005
+                  </p>
+
+                  <Link
+                    to="/ifat2026"
+                    className="tradefairs-btn mt-3 align-self-start"
+                  >
+                    Images and Videos
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Completed: Bharat Recycling Show 2026 */}
+          <div className="col-md-6">
+            <div className="tradefairs-card h-100 d-flex flex-column position-relative">
+
               <img
                 src={bharatrecycling}
                 alt="Bharat Recycling Show 2026"
@@ -135,6 +140,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div className="trade-content p-3">
                   <h5>Bharat Recycling Show</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in the event, showcasing innovative recycling machinery.
+                  </p>
 
                   <p>
                     Bharat Recycling Show is a premier platform dedicated to
@@ -179,6 +187,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div className="trade-content p-3">
                   <h5>Eco Sustain Expo & Conference</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in the expo, promoting sustainable waste management solutions.
+                  </p>
 
                   <p>
                     Eco Sustain Expo & Conference is India's premier
@@ -227,6 +238,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div className="trade-content p-3">
                   <h5>IFAT India</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in IFAT India, showcasing waste and recycling technologies.
+                  </p>
                   <p>
                     IFAT India has been bringing together professionals and
                     experts from various sectors of the water, sewage, waste,
@@ -266,6 +280,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div>
                   <h5 className="mb-2">Eco Sustain Expo & Conference</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in the expo, showcasing sustainable environmental solutions.
+                  </p>
                   <p>
                     Eco Sustain Expo & Conference, an exceptional event
                     meticulously crafted by HITEX, Hyderabad that brings
@@ -307,6 +324,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div>
                   <h5 className="mb-2">IFAT India 2024</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in IFAT India, connecting with industry leaders and innovators.
+                  </p>
                   <p>
                     Eco Sustain Expo & Conference, an exceptional event
                     meticulously crafted by HITEX, Hyderabad that brings
@@ -345,6 +365,9 @@ const TradeFairs = () => {
               <div className="tradefairs-content flex-grow-1 d-flex flex-column justify-content-between p-3">
                 <div>
                   <h5 className="mb-2">Eco Sustain Expo & Conference</h5>
+                  <p className="participation-text">
+                    Vikah Ecotech participated in the event, presenting innovative sustainability solutions.
+                  </p>
                   <p>
                     Eco Sustain Expo & Conference, an exceptional event
                     meticulously crafted by HITEX, Hyderabad that brings
