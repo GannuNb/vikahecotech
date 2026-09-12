@@ -56,3 +56,8 @@
 .trade-card {
   flex: 0 0 auto;   /* 🔥 ADD THIS */
 }
+
+.participation-text {
+  font-weight: 500;
+  color: #198754;
+}

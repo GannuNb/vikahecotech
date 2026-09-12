@@ -11,25 +11,27 @@ import "./CompletedTradeFairs.css";
 function CompletedTradeFairs() {
 
   const completedFairs = [
-        {
-          title: "IFAT",
-          image: ifatimg,
-          description: `IFAT is the world’s leading trade fair for environmental
+    {
+      title: "IFAT",
+      image: ifatimg,
+      participation: "Vikah Ecotech participated in IFAT 2026, presenting advanced recycling solutions.",
+      description: `IFAT is the world’s leading trade fair for environmental
           technologies, focusing on water, sewage, waste, and recycling solutions.
           It brings together global industry leaders, policymakers, and innovators
           to showcase advanced technologies for a circular economy.`,
-          date: "09-09-2026 to 11-09-2026",
-          location: "Bombay Exhibition Centre",
-          hall: "03",
-          booth: "B005",
-          link: "/ifat2026",
-          buttonText: "Explore IFAT",
-          isInternal: true,
-        },
+      date: "09-09-2026 to 11-09-2026",
+      location: "Bombay Exhibition Centre",
+      hall: "03",
+      booth: "B005",
+      link: "/ifat2026",
+      buttonText: "Explore IFAT",
+      isInternal: true,
+    },
 
     {
       title: "Bharat Recycling Show",
       image: bharatrecycling,
+      participation: "Vikah Ecotech participated in the event, showcasing innovative recycling machinery.",
       description: `Bharat Recycling Show is a premier platform dedicated to India’s
           recycling and waste management industry. It connects manufacturers,
           recyclers, policymakers, and innovators to explore sustainable solutions
@@ -43,6 +45,7 @@ function CompletedTradeFairs() {
     {
       title: "Eco Sustain Expo & Conference",
       image: ese,
+      participation: "Vikah Ecotech participated in the expo, promoting sustainable waste management solutions.",
       description: `Eco Sustain Expo & Conference is India's premier sustainability platform, bringing together industry leaders, innovators, policymakers, researchers, and solution providers. The event showcases cutting-edge technologies and sustainable solutions across waste management, bioenergy, recycling, environmental protection, and circular economy initiatives. Exhibitors gain the opportunity to present their innovations to a global audience, build strategic partnerships, and contribute to a greener future, while the conference connects participants with sustainability visionaries and industry experts driving positive environmental change.`,
       date: "30-07-2026 to 01-08-2026",
       location: "HITEX Exhibition Center, Hyderabad",
@@ -54,6 +57,7 @@ function CompletedTradeFairs() {
     {
       title: "IFAT India",
       image: ifatimg,
+      participation: "Vikah Ecotech participated in IFAT India, showcasing waste and recycling technologies.",
       description: `IFAT India brings together professionals from water, sewage, waste,
       and recycling industries to foster knowledge sharing, networking, and collaboration
       among policymakers, industry leaders, and environmental experts.`,
@@ -67,6 +71,7 @@ function CompletedTradeFairs() {
     {
       title: "Eco Sustain Expo & Conference",
       image: ece,
+      participation: "Vikah Ecotech participated in the expo, showcasing sustainable environmental solutions.",
       description: `Eco Sustain Expo & Conference, an exceptional event meticulously crafted
       by HITEX, Hyderabad that brings together a diverse community of professionals,
       visionaries, policymakers, researchers, and solution providers, all bound by a
@@ -81,6 +86,7 @@ function CompletedTradeFairs() {
     {
       title: "EnviroTech Asia 2024",
       image: envirotechimg,
+      participation: "Vikah Ecotech participated in EnviroTech Asia, exploring innovative environmental solutions.",
       description: `The 7th edition provides a platform for business leaders, investors,
       government officials, industry experts, and NGOs to share insights and opportunities
       in environmental protection and green business. It is one of the largest gatherings
@@ -95,6 +101,7 @@ function CompletedTradeFairs() {
     {
       title: "IFAT India",
       image: ifatimg,
+      participation: "Vikah Ecotech participated in IFAT India, connecting with industry leaders and innovators.",
       description: `IFAT India has been bringing together professionals and experts from
       various sectors of the water, sewage, waste, and recycling industry, providing a
       platform for knowledge exchange, networking, and partnership opportunities.`,
@@ -108,6 +115,7 @@ function CompletedTradeFairs() {
     {
       title: "Eco Sustain Expo & Conference",
       image: ecosustainimg,
+      participation: "Vikah Ecotech participated in the event, presenting innovative sustainability solutions.",
       description: `Eco Sustain Expo & Conference is a leading sustainability-focused
       event organized at HITEX, Hyderabad, bringing together innovators, businesses,
       and policymakers committed to environmental solutions and sustainable growth.`,
@@ -128,6 +136,10 @@ function CompletedTradeFairs() {
 
           <div className="trade-content p-3">
             <h5>{fair.title}</h5>
+
+            <p className="participation-text">
+              {fair.participation}
+            </p>
 
             <p>{fair.description}</p>
 
