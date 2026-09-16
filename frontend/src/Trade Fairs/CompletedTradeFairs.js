@@ -24,7 +24,7 @@ function CompletedTradeFairs() {
       hall: "03",
       booth: "B005",
       link: "/ifat2026",
-      buttonText: "Explore IFAT",
+      buttonText: "Images and Videos",
       isInternal: true,
     },
 
