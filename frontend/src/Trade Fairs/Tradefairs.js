@@ -68,7 +68,7 @@ const TradeFairs = () => {
                     <strong>Location:</strong> Dubai
                   </p>
                   <p>
-                    <strong>Booth No:</strong> A52
+                    <strong>Booth No:</strong> A60
                   </p>
                   <a
                     href="https://www.recyclingexpome.com/"

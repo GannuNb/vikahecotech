@@ -20,7 +20,7 @@ function UpcomingTradeFairs() {
       date: "22-09-2026 to 23-09-2026",
       location: "Dubai",
       hall: null,
-      booth: "A52",
+      booth: "A60",
       link: "https://www.recyclingexpome.com/",
       buttonText: "Explore Recycling Expo",
     },
