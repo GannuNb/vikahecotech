@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Enquiry - Vikah Ecotech</title>
+</head>
+
+<body
+  style="
+    margin: 0;
+    padding: 0;
+    background: #f3f4f6;
+    font-family: Arial, Helvetica, sans-serif;
+  "
+>
+  <table
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    border="0"
+    style="background: #f3f4f6; padding: 35px 15px;"
+  >
+    <tr>
+      <td align="center">
+
+        <table
+          width="100%"
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          style="
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+          "
+        >
+
+          <!-- COMMON HEADER -->
+          <%- include("partials/header.ejs") %>
+
+
+          <!-- CONTENT -->
+          <tr>
+            <td
+              style="
+                padding: 38px 36px;
+                color: #374151;
+              "
+            >
+
+              <div
+                style="
+                  display: inline-block;
+                  padding: 7px 12px;
+                  background: #fff7ed;
+                  color: #c2410c;
+                  border-radius: 20px;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.5px;
+                "
+              >
+                NEW WEBSITE ENQUIRY
+              </div>
+
+              <h1
+                style="
+                  margin: 20px 0 10px;
+                  color: #111827;
+                  font-size: 28px;
+                  line-height: 1.25;
+                "
+              >
+                New Machinery Enquiry
+              </h1>
+
+              <p
+                style="
+                  margin: 0 0 28px;
+                  color: #6b7280;
+                  font-size: 14px;
+                "
+              >
+                A new enquiry has been submitted through the Vikah Ecotech website.
+              </p>
+
+
+              <!-- CUSTOMER DETAILS -->
+              <h2
+                style="
+                  margin: 0 0 14px;
+                  color: #111827;
+                  font-size: 17px;
+                "
+              >
+                Customer Details
+              </h2>
+
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                border="0"
+                style="
+                  border: 1px solid #e5e7eb;
+                  border-radius: 10px;
+                  overflow: hidden;
+                "
+              >
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb; width:35%;">
+                    <strong>Name</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= name %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Company</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= company || "Not provided" %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Email</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <a
+                      href="mailto:<%= email %>"
+                      style="color:#2563eb; text-decoration:none;"
+                    >
+                      <%= email %>
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Phone</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= phone %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Website</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= website || "Not provided" %>
+                  </td>
+                </tr>
+
+              </table>
+
+
+              <!-- MACHINERY DETAILS -->
+              <h2
+                style="
+                  margin: 30px 0 14px;
+                  color: #111827;
+                  font-size: 17px;
+                "
+              >
+                Machinery Details
+              </h2>
+
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                border="0"
+                style="
+                  border: 1px solid #e5e7eb;
+                  border-radius: 10px;
+                  overflow: hidden;
+                "
+              >
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb; width:35%;">
+                    <strong>Machinery</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= machinery %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Application</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= application %>
+                  </td>
+                </tr>
+
+              </table>
+
+
+              <!-- ADDRESS -->
+              <h2
+                style="
+                  margin: 30px 0 14px;
+                  color: #111827;
+                  font-size: 17px;
+                "
+              >
+                Location
+              </h2>
+
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                border="0"
+                style="
+                  border: 1px solid #e5e7eb;
+                  border-radius: 10px;
+                  overflow: hidden;
+                "
+              >
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb; width:35%;">
+                    <strong>Address</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= address %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>City</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= city %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 16px; background:#f9fafb;">
+                    <strong>Country</strong>
+                  </td>
+                  <td style="padding: 12px 16px;">
+                    <%= country %>
+                  </td>
+                </tr>
+
+              </table>
+
+
+              <!-- MESSAGE -->
+              <h2
+                style="
+                  margin: 30px 0 14px;
+                  color: #111827;
+                  font-size: 17px;
+                "
+              >
+                Customer Requirement
+              </h2>
+
+              <div
+                style="
+                  padding: 20px;
+                  background: #f9fafb;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 10px;
+                  color: #4b5563;
+                  font-size: 14px;
+                  line-height: 1.7;
+                  white-space: pre-line;
+                "
+              >
+                <%= message || "No additional message provided." %>
+              </div>
+
+
+              <!-- QUICK ACTION -->
+              <div style="margin-top: 28px;">
+                <a
+                  href="mailto:<%= email %>"
+                  style="
+                    display: inline-block;
+                    padding: 12px 20px;
+                    background: #111827;
+                    color: #ffffff;
+                    text-decoration: none;
+                    border-radius: 7px;
+                    font-size: 13px;
+                    font-weight: 700;
+                  "
+                >
+                  Reply to Customer
+                </a>
+              </div>
+
+            </td>
+          </tr>
+
+
+          <!-- COMMON FOOTER -->
+          <tr>
+            <td style="padding: 0 36px 10px;">
+              <%- include("partials/footer.ejs") %>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

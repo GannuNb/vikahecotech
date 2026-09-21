@@ -61,7 +61,7 @@ const Ifat2025 = () => {
       </div>
 
       <div className="gallery-container">
-        <ImageGallery items={images} />
+        <ImageGallery items={images} useBrowserFullscreen={false}/>
       </div>
     </>
   );

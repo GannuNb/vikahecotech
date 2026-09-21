@@ -114,50 +114,39 @@ useEffect(() => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!validateForm()) return;
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    setIsSubmitting(true);
-    try {
-      const response = await axios.post(
-        "https://www.vikahecotech.com/send-email.php",
-        {
-          ...formData,
-          machinery: selectedMachinery,
-          model: selectedModel,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  if (!validateForm()) return;
 
-      alert("Email sent successfully!");
+  setIsSubmitting(true);
+
+  try {
+const response = await axios.post(
+  `${process.env.REACT_APP_API_URL}/api/enquiries`,
+  {
+    ...formData,
+    machinery: selectedMachinery,
+    application: selectedModel,
+  }
+);
+
+    if (response.data.success) {
+      alert("Enquiry submitted successfully!");
+
       window.location.reload();
-
-      // (Won't usually run because of reload, but keeping it exactly
-      // like your original logic)
-      setFormData({
-        name: "",
-        company: "",
-        email: "",
-        website: "",
-        phone: "",
-        address: "",
-        city: "",
-        country: "",
-        message: "",
-      });
-
-      setSelectedMachinery("baler");
-      setSelectedModel("Tyre Scrap Balers");
-      setErrors({});
-    } catch (error) {
-      alert("Failed to send email: " + error.message);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    console.error("Enquiry submission error:", error);
+
+    alert(
+      error.response?.data?.message ||
+        "Failed to submit enquiry. Please try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const machineryLabelMap = {
     baler: "Baler",

@@ -1,4 +1,7 @@
-/* Gallery Container */
+/* =========================================================
+   GALLERY CONTAINER
+   ========================================================= */
+
 .gallery-container {
   margin: 0 auto;
   max-width: 80%;
@@ -6,12 +9,16 @@
   margin-top: 6%;
 }
 
-/* General Gallery Styles */
+
+/* =========================================================
+   GENERAL GALLERY STYLES
+   ========================================================= */
+
 div.gallery {
   border: 1px solid #ccc;
   position: relative;
   overflow: hidden;
-  min-height: 200px; 
+  min-height: 200px;
   transition: box-shadow 0.3s ease;
 }
 
@@ -31,7 +38,11 @@ div.gallery video {
   box-sizing: border-box;
 }
 
-/* Responsive Layout */
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 .responsive {
   padding: 10px;
   float: left;
@@ -39,16 +50,10 @@ div.gallery video {
   margin: 10px;
 }
 
-@media only screen and (max-width: 700px) {
-  .gallery-container {
-    margin-left: 8%;
-    margin-top: 16%;
-  }
 
-  .responsive {
-    width: calc(50% - 20px);
-  }
-}
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (min-width: 700px) and (max-width: 1000px) {
   .gallery-container {
@@ -57,51 +62,633 @@ div.gallery video {
   }
 }
 
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media only screen and (max-width: 700px) {
+
+  .gallery-container {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 16%;
+    padding: 5px;
+  }
+
+  .responsive {
+    width: calc(50% - 20px);
+  }
+
+  /* Remove fixed heights from gallery */
+  .gallery-container .image-gallery-content,
+  .gallery-container .image-gallery-slide-wrapper,
+  .gallery-container .image-gallery-slides,
+  .gallery-container .image-gallery-slide {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Image slide */
+  .gallery-container .image-gallery-slide {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #fff !important;
+  }
+
+  /* Main image */
+  .gallery-container .image-gallery-slide img,
+  .gallery-container .image-gallery-slide .image-gallery-image {
+    position: static !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 100% !important;
+    max-height: 65vh !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+  /* Gallery wrapper */
+  .gallery-container .image-gallery-slide-wrapper {
+    width: 100% !important;
+
+    overflow: hidden !important;
+
+    background: #fff !important;
+  }
+
+  .gallery-container .image-gallery-slides {
+    width: 100% !important;
+
+    overflow: hidden !important;
+
+    background: #fff !important;
+  }
+
+  /* Navigation */
+  .gallery-container .image-gallery-left-nav,
+  .gallery-container .image-gallery-right-nav {
+    padding: 8px;
+  }
+
+  /* Thumbnails */
+  .gallery-container .image-gallery-thumbnails-wrapper {
+    width: 100% !important;
+
+    height: auto !important;
+
+    background: #fff !important;
+  }
+
+  .gallery-container .image-gallery-thumbnails {
+    width: 100% !important;
+
+    height: auto !important;
+
+    padding: 8px 0;
+
+    background: #fff !important;
+  }
+
+  .gallery-container .image-gallery-thumbnail {
+    width: 65px;
+    height: 48px;
+  }
+
+  .gallery-container .image-gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
 @media only screen and (max-width: 500px) {
+
   .responsive {
     width: 100%;
     margin: 10px 0;
   }
+
+  .gallery-container {
+    width: 100%;
+    max-width: 100%;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    margin-top: 18%;
+
+    padding: 4px;
+  }
+
+  .gallery-container .image-gallery-content,
+  .gallery-container .image-gallery-slide-wrapper,
+  .gallery-container .image-gallery-slides,
+  .gallery-container .image-gallery-slide {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .gallery-container .image-gallery-slide {
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #fff !important;
+  }
+
+  .gallery-container .image-gallery-slide img,
+  .gallery-container .image-gallery-slide .image-gallery-image {
+    position: static !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 100% !important;
+    max-height: 60vh !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+  .gallery-container .image-gallery-thumbnail {
+    width: 58px;
+    height: 43px;
+  }
+
+  .gallery-container .image-gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
 }
 
-/* Flexbox clearfix */
+
+/* =========================================================
+   CLEARFIX
+   ========================================================= */
+
 .clearfix {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-/* Video Gallery */
+
+/* =========================================================
+   VIDEO GALLERY
+   ========================================================= */
+
 .video-gallery {
   position: relative;
   overflow: hidden;
 }
 
-/* YouTube Embed Wrapper */
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+
+  padding-bottom: 56.25%;
+
   height: 0;
+
   overflow: hidden;
 }
 
 .video-wrapper iframe {
   position: absolute;
+
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
 }
 
-/* Fullscreen Override */
-.image-gallery-fullscreen .video-gallery iframe {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
+
+/* =========================================================
+   CSS FULLSCREEN MODE
+   ========================================================= */
+
+/*
+   IMPORTANT:
+   We are using:
+
+   useBrowserFullscreen={false}
+
+   So react-image-gallery uses its own
+   .fullscreen-modal instead of browser fullscreen.
+*/
+
+
+.image-gallery.fullscreen-modal {
+
+  position: fixed !important;
+
+  top: 0 !important;
+  left: 0 !important;
+
+  width: 100vw !important;
+  height: 100vh !important;
+
+  background: #fff !important;
+
+  z-index: 99999 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  overflow: hidden !important;
 }
 
-/* Hide Play Button */
+
+/* =========================================================
+   FULLSCREEN CONTENT
+   ========================================================= */
+
+.image-gallery.fullscreen-modal .image-gallery-content {
+
+  position: relative !important;
+
+  top: auto !important;
+
+  left: auto !important;
+
+  transform: none !important;
+
+  width: 100% !important;
+
+  max-width: 100% !important;
+
+  height: auto !important;
+
+  max-height: 100vh !important;
+
+  margin: 0 auto !important;
+
+  background: #fff !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN SLIDE WRAPPER
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-slide-wrapper {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  max-height: calc(100vh - 100px) !important;
+
+  background: #fff !important;
+
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN SLIDES
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-slides {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  background: #fff !important;
+
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN CURRENT IMAGE
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-slide.center {
+
+  position: relative !important;
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  background: #fff !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN IMAGE
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-slide.center
+.image-gallery-image,
+
+.image-gallery.fullscreen-modal
+.image-gallery-slide.center
+img {
+
+  position: static !important;
+
+  display: block !important;
+
+  width: auto !important;
+
+  height: auto !important;
+
+  max-width: 95vw !important;
+
+  max-height: calc(100vh - 140px) !important;
+
+  object-fit: contain !important;
+
+  margin: 0 auto !important;
+
+  background: #fff !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN THUMBNAILS
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-thumbnails-wrapper {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  background: #fff !important;
+}
+
+.image-gallery.fullscreen-modal
+.image-gallery-thumbnails {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  padding: 5px 0 !important;
+
+  background: #fff !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN THUMBNAIL IMAGE
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-thumbnail {
+
+  width: 70px !important;
+
+  height: 50px !important;
+}
+
+.image-gallery.fullscreen-modal
+.image-gallery-thumbnail img {
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  object-fit: cover !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN NAVIGATION
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-left-nav,
+
+.image-gallery.fullscreen-modal
+.image-gallery-right-nav {
+
+  z-index: 100 !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN CLOSE BUTTON
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.image-gallery-fullscreen-button {
+
+  z-index: 100 !important;
+}
+
+
+/* =========================================================
+   FULLSCREEN VIDEO
+   ========================================================= */
+
+.image-gallery.fullscreen-modal
+.video-gallery {
+
+  width: 100%;
+
+  background: #fff;
+}
+
+.image-gallery.fullscreen-modal
+.video-wrapper {
+
+  width: 100%;
+
+  padding-bottom: 56.25%;
+}
+
+.image-gallery.fullscreen-modal
+.video-wrapper iframe {
+
+  width: 100%;
+  height: 100%;
+}
+
+
+/* =========================================================
+   MOBILE FULLSCREEN
+   ========================================================= */
+
+@media only screen and (max-width: 700px) {
+
+  .image-gallery.fullscreen-modal {
+
+    width: 100vw !important;
+
+    height: 100vh !important;
+
+    background: #fff !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+  }
+
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-content {
+
+    width: 100% !important;
+
+    height: auto !important;
+
+    max-height: 100vh !important;
+
+    margin: 0 auto !important;
+
+    background: #fff !important;
+  }
+
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-slide-wrapper {
+
+    width: 100% !important;
+
+    height: auto !important;
+
+    max-height: calc(100vh - 80px) !important;
+
+    background: #fff !important;
+  }
+
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-slides {
+
+    width: 100% !important;
+
+    height: auto !important;
+
+    min-height: 0 !important;
+
+    background: #fff !important;
+  }
+
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-slide.center {
+
+    width: 100% !important;
+
+    height: auto !important;
+
+    min-height: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    background: #fff !important;
+  }
+
+
+  /* MOBILE FULLSCREEN IMAGE */
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-slide.center
+  .image-gallery-image,
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-slide.center
+  img {
+
+    position: static !important;
+
+    width: auto !important;
+
+    height: auto !important;
+
+    max-width: 95vw !important;
+
+    max-height: calc(100vh - 120px) !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+
+    margin: 0 auto !important;
+
+    background: #fff !important;
+  }
+
+
+  /* MOBILE THUMBNAILS */
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-thumbnail {
+
+    width: 58px !important;
+
+    height: 43px !important;
+  }
+
+
+  .image-gallery.fullscreen-modal
+  .image-gallery-thumbnail img {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    object-fit: cover !important;
+  }
+}
+
+
+/* =========================================================
+   HIDE PLAY BUTTON
+   ========================================================= */
+
 .image-gallery-play-button {
   display: none;
+
   left: 10% !important;
 }

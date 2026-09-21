@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You - Vikah Ecotech</title>
+</head>
+
+<body
+  style="
+    margin: 0;
+    padding: 0;
+    background: #f3f4f6;
+    font-family: Arial, Helvetica, sans-serif;
+  "
+>
+  <table
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    border="0"
+    style="background: #f3f4f6; padding: 35px 15px;"
+  >
+    <tr>
+      <td align="center">
+
+        <table
+          width="100%"
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          style="
+            max-width: 680px;
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+          "
+        >
+
+          <!-- COMMON HEADER -->
+          <%- include("partials/header.ejs") %>
+
+
+          <!-- CONTENT -->
+          <tr>
+            <td
+              style="
+                padding: 38px 36px;
+                color: #374151;
+              "
+            >
+
+              <div
+                style="
+                  display: inline-block;
+                  padding: 7px 12px;
+                  background: #ecfdf5;
+                  color: #047857;
+                  border-radius: 20px;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.5px;
+                "
+              >
+                ENQUIRY RECEIVED
+              </div>
+
+              <h1
+                style="
+                  margin: 20px 0 12px;
+                  color: #111827;
+                  font-size: 28px;
+                  line-height: 1.25;
+                "
+              >
+                Thank you for contacting us, <%= name %>
+              </h1>
+
+              <p
+                style="
+                  margin: 0 0 24px;
+                  color: #6b7280;
+                  font-size: 15px;
+                  line-height: 1.7;
+                "
+              >
+                We have successfully received your enquiry.
+                Our team will review your requirement and get back to you shortly.
+              </p>
+
+
+              <!-- ENQUIRY CARD -->
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                border="0"
+                style="
+                  background: #f9fafb;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 10px;
+                "
+              >
+                <tr>
+                  <td style="padding: 22px 24px;">
+
+                    <div
+                      style="
+                        color: #111827;
+                        font-size: 16px;
+                        font-weight: 700;
+                        margin-bottom: 18px;
+                      "
+                    >
+                      Your Enquiry Details
+                    </div>
+
+                    <p
+                      style="
+                        margin: 8px 0;
+                        color: #4b5563;
+                        font-size: 14px;
+                      "
+                    >
+                      <strong style="color:#111827;">Company:</strong>
+                      <%= company || "Not provided" %>
+                    </p>
+
+                    <p
+                      style="
+                        margin: 8px 0;
+                        color: #4b5563;
+                        font-size: 14px;
+                      "
+                    >
+                      <strong style="color:#111827;">Machinery:</strong>
+                      <%= machinery %>
+                    </p>
+
+                    <p
+                      style="
+                        margin: 8px 0;
+                        color: #4b5563;
+                        font-size: 14px;
+                      "
+                    >
+                      <strong style="color:#111827;">Application:</strong>
+                      <%= application %>
+                    </p>
+
+                  </td>
+                </tr>
+              </table>
+
+
+              <!-- NEXT STEP -->
+              <div
+                style="
+                  margin-top: 28px;
+                  padding: 20px 22px;
+                  background: #eff6ff;
+                  border-left: 4px solid #2563eb;
+                  border-radius: 6px;
+                "
+              >
+                <p
+                  style="
+                    margin: 0;
+                    color: #1e3a8a;
+                    font-size: 14px;
+                    line-height: 1.6;
+                  "
+                >
+                  Our engineers will review your requirement and contact you
+                  with the appropriate solution.
+                </p>
+              </div>
+
+
+              <p
+                style="
+                  margin: 28px 0 0;
+                  color: #6b7280;
+                  font-size: 14px;
+                  line-height: 1.6;
+                "
+              >
+                Regards,<br />
+                <strong style="color:#111827;">
+                  Vikah Ecotech Team
+                </strong>
+              </p>
+
+            </td>
+          </tr>
+
+
+          <!-- COMMON FOOTER -->
+          <tr>
+            <td style="padding: 0 36px 10px;">
+              <%- include("partials/footer.ejs") %>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

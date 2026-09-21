@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, } from 'react-router-dom';
 
 //pages
 import Navbar from './Pages/Navbar';
@@ -155,14 +155,51 @@ import SteelCleaning from './Other Equipments/Machines/SteelCleaning.js';
 //qrcodes
 import BrochureQR from "./QRCodes/BrochureQR";
 
+//admin
+import AdminLayout from "./admin/components/AdminLayout";
+import Dashboard from "./admin/pages/Dashboard";
+import Login from "./admin/pages/Login";
+import ProtectedRoute from "./admin/components/ProtectedRoute";
+import Categories from "./admin/pages/Categories";
+import Applications from "./admin/pages/Applications";
+import Products from "./Pages/Admin/Products";
+import ProductApplications from "./Pages/Admin/ProductApplications";
+import ProductModels from "./Pages/Admin/ProductModels";
+import ProductForm from "./Pages/Admin/ProductForm";
+import ProductView from "./Pages/Admin/ProductView";
 
 
-function App() {
+const AppContent = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!isAdminRoute && <Navbar />}
       <Routes>
+                {/* Admin Routes */}
 
+                {/* Login - Public */}
+                <Route  path="/admin/login" element={<Login />}/>
+
+                {/* Protected Admin Routes */}
+                <Route element={<ProtectedRoute />}>
+
+                  <Route   path="/admin/dashboard" element={<AdminLayout> <Dashboard />  </AdminLayout> }/>
+                  <Route   path="/admin/categories"  element={  <AdminLayout>   <Categories />  </AdminLayout> }/>
+                  <Route   path="/admin/applications" element={ <AdminLayout>  <Applications /> </AdminLayout>  }/>
+                  <Route   path="/admin/products" element={ <AdminLayout> <Products /> </AdminLayout>  }/>
+                  <Route   path="/admin/products/category/:categoryId"  element={ <AdminLayout><ProductApplications /> </AdminLayout>  } />
+                  <Route  path="/admin/products/application/:applicationId"  element={    <AdminLayout>      <ProductModels />    </AdminLayout>  }/>
+                  <Route  path="/admin/products/application/:applicationId/new"  element={    <AdminLayout>      <ProductForm />    </AdminLayout>  }/>
+                  <Route  path="/admin/products/application/:applicationId/edit/:productId"  element={    <AdminLayout>      <ProductForm />    </AdminLayout>  }/>
+                  <Route  path="/admin/products/application/:applicationId/view/:productId"  element={    <AdminLayout>      <ProductView />    </AdminLayout>  }/>
+
+                </Route>
+
+
+        {/* Existing public routes */}
+        <Route exact path="/" element={<Home />} />
         {/* pages */}
         <Route exact path="/" element={<Home />} />
         <Route exact path="/homecards" element={<Homecards />} />
@@ -173,6 +210,8 @@ function App() {
         <Route exact path="/other-equipment" element={<OtherEqpTemp />} />
 
 
+
+
         {/* tradefairs */}
         <Route exact path="/Tradefairs" element={<Tradefairs />} />
         <Route exact path="/ifat" element={<Ifat />} />
@@ -180,8 +219,8 @@ function App() {
         <Route exact path="/ecosustain2025" element={<Ecosustain2025 />} />
         <Route exact path="/ifat2025" element={<Ifat2025 />} />
         <Route exact path="/ecosustain2026" element={<Ecosustain2026 />} />
-        <Route exact path="/bharatrecycling2026" element={<Bharatrecycling2026 />}/>
-        <Route exact path="/ifat2026"  element={<Ifat2026 />}/>
+        <Route exact path="/bharatrecycling2026" element={<Bharatrecycling2026 />} />
+        <Route exact path="/ifat2026" element={<Ifat2026 />} />
 
 
         {/*Balers*/}
@@ -239,7 +278,7 @@ function App() {
         <Route path="/secondarymetalshredder" element={<SecondaryMetalshredder />} />
         <Route path="/secondaryplasticshredder" element={<SecondaryPlasticShredder />} />
         <Route path="/secondarypcb" element={<SecondaryPcb />} />
-        
+
         <Route path="/rst2000" element={<Rst2000 />} />
         <Route path="/rst3000" element={<Rst3000 />} />
         <Route exact path="/rst4000" element={<Rst4000 />} />
@@ -261,7 +300,7 @@ function App() {
         <Route path="/dust-collector" element={<DustCollector />} />
         <Route path="/vibro-hopper" element={<VibroHopper />} />
         <Route path="/fibre-seperator" element={<FibreSeparator />} />
-        <Route path="/steel-cleaning" element={<SteelCleaning/>} />
+        <Route path="/steel-cleaning" element={<SteelCleaning />} />
 
 
         <Route exact path="/tyrecutting" element={<Tyrecutting />} />
@@ -310,15 +349,25 @@ function App() {
         <Route exact path="/papercardboardshredderpage" element={<PaperCardboardShredderpage />} />
 
         {/* qrcodes */}
-        <Route exact path="/brochure-qr" element={<BrochureQR />} />  
+        <Route exact path="/brochure-qr" element={<BrochureQR />} />
 
 
 
       </Routes>
-      <Footer />
-      <ScrollToTopButton />
-    </Router>
 
+      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <ScrollToTopButton />}
+    </>
+  );
+};
+
+
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
