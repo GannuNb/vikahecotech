@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 
 import connectDB from "./config/db.js";
 import transporter from "./utils/enquiry/mailer.js";
@@ -11,6 +12,10 @@ import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
+
+app.disable("x-powered-by");
+
+app.use(helmet());
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,9 +30,24 @@ transporter.verify((error) => {
 });
 
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [
+        "https://vikahecotech.com",
+        "https://www.vikahecotech.com",
+      ]
+    : ["http://localhost:3000"];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
 // Test route
 app.get("/", (req, res) => {
@@ -44,8 +64,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/products", productRoutes);
 
+// Start server
 app.listen(PORT, () => {
-  console.log(
-    `Vikah Ecotech Backend running on http://localhost:${PORT}`
-  );
+  console.log(`Vikah Ecotech Backend running on port ${PORT}`);
 });
