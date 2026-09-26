@@ -4,6 +4,7 @@ import authReducer from "./slices/authSlice";
 import categoryReducer from "./slices/categorySlice";
 import applicationReducer from "./slices/applicationSlice";
 import productReducer from "./slices/productSlice";
+import publicProductReducer from "./slices/publicProductSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     category: categoryReducer,
     application: applicationReducer,
     product: productReducer,
+    publicProduct: publicProductReducer,
   },
 });
 

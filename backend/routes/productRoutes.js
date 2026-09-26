@@ -8,59 +8,63 @@ import {
   getProductBySlug,
   updateProduct,
   deleteProduct,
+  deleteProductImage,
+  replaceProductImage,
 } from "../controllers/productController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
+import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-// =========================
-// PUBLIC PRODUCT ROUTE
-// =========================
-
-// Keep this route public.
-// Website product pages will use /:slug.
 router.get("/slug/:slug", getProductBySlug);
-
-// =========================
-// ADMIN PROTECTED ROUTES
-// =========================
 
 router.use(authMiddleware);
 router.use(adminMiddleware);
 
-// Get all products
 router.get("/", getAllProducts);
 
-// Get products by application
 router.get(
   "/application/:applicationId",
   getProductsByApplication
 );
 
-// Get product by ID
 router.get(
   "/:productId",
   getProductById
 );
 
-// Create product
 router.post(
   "/",
+  upload.array("images", 5),
   createProduct
 );
 
-// Update product
+
+router.put(
+  "/:productId/image",
+  upload.single("image"),
+  replaceProductImage
+);
+
 router.put(
   "/:productId",
+  upload.array("images", 5),
   updateProduct
 );
 
-// Delete product
+// Delete individual product image
+router.delete(
+  "/:productId/image",
+  deleteProductImage
+);
+
+// Delete entire product
 router.delete(
   "/:productId",
   deleteProduct
 );
 
 export default router;
+

@@ -198,6 +198,33 @@ const ProductView = () => {
                         </div>
                     </div>
                 </section>
+                {/* Product Images */}
+                <section className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+                    <h2 className="mb-5 text-lg font-semibold text-gray-800">
+                        Product Images
+                    </h2>
+
+                    {currentProduct.images?.length > 0 ? (
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                            {currentProduct.images.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
+                                >
+                                    <img
+                                        src={image}
+                                        alt={`${currentProduct.modelName} ${index + 1}`}
+                                        className="h-56 w-full object-contain"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="rounded-lg border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+                            No product images added.
+                        </div>
+                    )}
+                </section>
 
                 {/* SEO */}
                 <section className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">

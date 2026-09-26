@@ -10,6 +10,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import publicProductRoutes from "./routes/publicProductRoutes.js";
 
 const app = express();
 
@@ -63,6 +64,8 @@ app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/public/products", publicProductRoutes);
+
 
 // Start server
 app.listen(PORT, () => {

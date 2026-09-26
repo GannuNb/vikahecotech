@@ -152,6 +152,62 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 );
+// DELETE PRODUCT IMAGE
+export const deleteProductImage = createAsyncThunk(
+  "product/deleteProductImage",
+  async (
+    { productId, imageUrl },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.delete(
+        `/api/products/${productId}/image`,
+        {
+          data: {
+            imageUrl,
+          },
+        }
+      );
+
+      return response.data.product;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to delete product image"
+      );
+    }
+  }
+);
+// ===============================
+// REPLACE PRODUCT IMAGE
+// ===============================
+
+export const replaceProductImage = createAsyncThunk(
+  "product/replaceProductImage",
+  async (
+    { productId, imageUrl, image },
+    { rejectWithValue }
+  ) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("imageUrl", imageUrl);
+      formData.append("image", image);
+
+      const response = await api.put(
+        `/api/products/${productId}/image`,
+        formData
+      );
+
+      return response.data.product;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to replace product image"
+      );
+    }
+  }
+);
 
 // ===============================
 // INITIAL STATE
@@ -192,21 +248,31 @@ const productSlice = createSlice({
       // ===============================
       // FETCH ALL PRODUCTS
       // ===============================
-      .addCase(fetchProducts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      .addCase(
+        fetchProducts.pending,
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
 
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload;
-      })
+      .addCase(
+        fetchProducts.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.products = action.payload;
+        }
+      )
 
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.payload || "Failed to fetch products";
-      })
+      .addCase(
+        fetchProducts.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error =
+            action.payload ||
+            "Failed to fetch products";
+        }
+      )
 
       // ===============================
       // FETCH PRODUCTS BY APPLICATION
@@ -252,7 +318,8 @@ const productSlice = createSlice({
         fetchProductById.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.currentProduct = action.payload;
+          state.currentProduct =
+            action.payload;
         }
       )
 
@@ -268,6 +335,7 @@ const productSlice = createSlice({
 
       // ===============================
       // FETCH PRODUCT BY SLUG
+      // PUBLIC
       // ===============================
       .addCase(
         fetchProductBySlug.pending,
@@ -282,7 +350,8 @@ const productSlice = createSlice({
         fetchProductBySlug.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.currentProduct = action.payload;
+          state.currentProduct =
+            action.payload;
         }
       )
 
@@ -348,7 +417,8 @@ const productSlice = createSlice({
           const index =
             state.products.findIndex(
               (product) =>
-                product._id === action.payload._id
+                product._id ===
+                action.payload._id
             );
 
           if (index !== -1) {
@@ -391,7 +461,8 @@ const productSlice = createSlice({
           state.products =
             state.products.filter(
               (product) =>
-                product._id !== action.payload
+                product._id !==
+                action.payload
             );
 
           if (

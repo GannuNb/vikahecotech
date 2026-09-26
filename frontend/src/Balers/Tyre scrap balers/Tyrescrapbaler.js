@@ -12,11 +12,43 @@ import tyrebaler2 from "../../images/Applications/tyrebaler2.webp"
 import { Helmet } from "react-helmet";
 import styles from "../../Styles/Topheadings.module.css";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  fetchPublicProductsByApplicationName,
+} from "../../redux/slices/publicProductSlice";
+
 function Tyrescrapbaler() {
+
+
+
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   }, []);
+
+
+  const dispatch = useDispatch();
+
+  const {
+    products,
+    loading,
+    error,
+  } = useSelector((state) => state.publicProduct);
+
+  useEffect(() => {
+    dispatch(
+      fetchPublicProductsByApplicationName(
+        "Tyre Scrap Baler"
+      )
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setSelected(products[0]);
+    }
+  }, [products]);
 
   const scrollToModels = () => {
     const section = document.getElementById("modelsSection");
@@ -26,33 +58,10 @@ function Tyrescrapbaler() {
     }
   };
 
-  const balers = [
-    {
-      name: "BLT150",
-      type: "Baler",
-      force: "150 Ton",
-      weight: "9000 kg",
-      note: "Operators can easily and safely operate the BLT-150.",
-    },
-    {
-      name: "BLT200",
-      type: "Baler",
-      force: "200 Ton",
-      weight: "9000 kg",
-      note: "Our BLT-200 is engineered to efficiently compress.",
-    },
-    {
-      name: "BLT250",
-      type: "Baler",
-      force: "250 Ton",
-      weight: "11000 kg",
-      note: "Operators can easily and safely operate the BLT-250.",
-    },
-  ];
 
-  const carouselImages = [Balerimg, Baler1, Baler2];
 
-  const [selected, setSelected] = useState(balers[0]);
+
+  const [selected, setSelected] = useState(null);
 
   return (
     <div>
@@ -267,7 +276,7 @@ function Tyrescrapbaler() {
 
           <Carousel.Item>
             <img
-            
+
               className={styles.heroImage}
               src={TyreBaler1}
               alt="Tyre Scrap Baler"
@@ -294,7 +303,7 @@ function Tyrescrapbaler() {
           <Carousel.Item>
             <img
               className={styles.heroImage}
-              style={{objectFit:"contain"}}
+              style={{ objectFit: "contain" }}
               src={Baler1}
               alt="Industrial Tyre Baler"
             />
@@ -432,33 +441,40 @@ function Tyrescrapbaler() {
               className="d-flex flex-nowrap overflow-auto mb-5 justify-content-center"
               style={{ gap: "10px" }}
             >
-              {balers.map((baler, index) => (
+              {products.map((product) => (
                 <button
-                  key={index}
+                  key={product._id}
                   className="flex-shrink-0"
                   style={{
                     background:
-                      selected.name === baler.name
+                      selected?.modelName === product.modelName
                         ? "linear-gradient(135deg, #22c55e, #16a34a)"
                         : "#ccfbf1",
-                    color: selected.name === baler.name ? "#ffffff" : "#065f46",
+
+                    color:
+                      selected?.modelName === product.modelName
+                        ? "#ffffff"
+                        : "#065f46",
+
                     border: "none",
                     borderRadius: "50px",
                     fontWeight: "600",
                     minWidth: "90px",
                     padding: "6px 14px",
                     fontSize: "0.9rem",
+
                     boxShadow:
-                      selected.name === baler.name
+                      selected?.modelName === product.modelName
                         ? "0 4px 12px rgba(34,197,94,0.4)"
                         : "0 2px 6px rgba(0,0,0,0.08)",
+
                     transition: "all 0.3s ease",
                     whiteSpace: "nowrap",
                     cursor: "pointer",
                   }}
-                  onClick={() => setSelected(baler)}
+                  onClick={() => setSelected(product)}
                 >
-                  {baler.name}
+                  {product.modelName}
                 </button>
               ))}
             </div>
@@ -474,30 +490,60 @@ function Tyrescrapbaler() {
                     border: "1px solid #a7f3d0",
                   }}
                 >
-                  <Carousel interval={4000} pause="hover">
-                    {carouselImages.map((img, i) => (
-                      <Carousel.Item key={i}>
-                        <div
-                          style={{
-                            height: "430px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <img
-                            src={img}
-                            alt={`Tyre Scrap Baler ${i + 1}`}
-                            style={{
-                              maxHeight: "85%",
-                              maxWidth: "85%",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </div>
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
+                  {selected ? (
+                    selected.images?.length > 0 ? (
+                      <Carousel interval={4000} pause="hover">
+                        {selected.images.map((img, i) => (
+                          <Carousel.Item key={i}>
+                            <div
+                              style={{
+                                height: "430px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <img
+                                src={img}
+                                alt={`${selected.modelName} ${i + 1}`}
+                                style={{
+                                  maxHeight: "85%",
+                                  maxWidth: "85%",
+                                  objectFit: "contain",
+                                }}
+                              />
+                            </div>
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
+                    ) : (
+                      <div
+                        style={{
+                          height: "430px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <p className="text-muted mb-0">
+                          No images available
+                        </p>
+                      </div>
+                    )
+                  ) : (
+                    <div
+                      style={{
+                        height: "430px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <p className="text-muted mb-0">
+                        Loading product image...
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -510,42 +556,75 @@ function Tyrescrapbaler() {
                     borderLeft: "6px solid #22c55e",
                   }}
                 >
-                  <h4
-                    className="fw-bold mb-4 text-center"
-                    style={{ color: "#065f46", fontSize: "1.6rem" }}
-                  >
-                    {selected.name}
-                  </h4>
+                  {loading ? (
+                    <div className="text-center py-5">
+                      <p className="mb-0">Loading models...</p>
+                    </div>
+                  ) : error ? (
+                    <div className="text-center py-5">
+                      <p className="text-danger mb-0">{error}</p>
+                    </div>
+                  ) : selected ? (
+                    <>
+                      <h4
+                        className="fw-bold mb-4 text-center"
+                        style={{
+                          color: "#065f46",
+                          fontSize: "1.6rem",
+                        }}
+                      >
+                        {selected.modelName}
+                      </h4>
 
-                  <ul className="list-group list-group-flush mb-4">
-                    <li className="list-group-item bg-transparent">
-                      <strong>Machine Type:</strong> {selected.type}
-                    </li>
-                    <li className="list-group-item bg-transparent">
-                      <strong>Compaction Force:</strong> {selected.force}
-                    </li>
-                    <li className="list-group-item bg-transparent">
-                      <strong>Machine Weight:</strong> {selected.weight}
-                    </li>
-                    <li className="list-group-item bg-transparent">
-                      <strong>Description:</strong> {selected.note}
-                    </li>
-                  </ul>
+                      <ul className="list-group list-group-flush mb-4">
+                        {selected.sections
+                          ?.flatMap((section) =>
+                            section.fields
+                              ?.filter((field) => field.isPublic)
+                              .map((field) => ({
+                                name: field.name,
+                                value: field.value,
+                              }))
+                          )
+                          .slice(0, 3)
+                          .map((spec, index) => (
+                            <li
+                              key={index}
+                              className="list-group-item bg-transparent"
+                            >
+                              <strong>{spec.name}:</strong>{" "}
+                              {spec.value}
+                            </li>
+                          ))}
 
-                  <Link
-                    to={`/${selected.name.toLowerCase()}`}
-                    className="btn w-100"
-                    style={{
-                      background: "linear-gradient(135deg, #22c55e, #16a34a)",
-                      color: "#ffffff",
-                      fontWeight: "600",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(34,197,94,0.4)",
-                    }}
-                  >
-                    View Detailed Specifications
-                  </Link>
+                        <li className="list-group-item bg-transparent">
+                          <strong>Description:</strong>{" "}
+                          {selected.description}
+                        </li>
+                      </ul>
+
+                      <Link
+                        to={`/${selected.slug}`}
+                        className="btn w-100"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #22c55e, #16a34a)",
+                          color: "#ffffff",
+                          fontWeight: "600",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          boxShadow:
+                            "0 4px 12px rgba(34,197,94,0.4)",
+                        }}
+                      >
+                        View Detailed Specifications
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="text-center py-5">
+                      <p className="mb-0">No models available.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

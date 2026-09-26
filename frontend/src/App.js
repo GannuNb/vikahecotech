@@ -169,6 +169,9 @@ import ProductForm from "./Pages/Admin/ProductForm";
 import ProductView from "./Pages/Admin/ProductView";
 
 
+//productdetails
+import ProductDetails from "./Pages/ProductDetails/ProductDetails";
+
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -230,9 +233,10 @@ const AppContent = () => {
         <Route exact path="/pcb" element={<Pcb />} />
         <Route exact path="/metalbaler" element={<Metalbaler />} />
 
-        <Route exact path="/blt150" element={<BLT150 />} />
-        <Route exact path="/blt200" element={<BLT200 />} />
-        <Route exact path="/blt250" element={<BLT250 />} />
+        {/* <Route exact path="/blt150" element={<BLT150 />} /> */}
+        <Route  path="/:slug"  element={<ProductDetails />}/>
+        {/* <Route exact path="/blt200" element={<BLT200 />} /> */}
+        {/* <Route exact path="/blt250" element={<BLT250 />} /> */}
 
         <Route exact path="/blp30" element={<BLP30 />} />
         <Route exact path="/blp40" element={<Blp40 />} />
