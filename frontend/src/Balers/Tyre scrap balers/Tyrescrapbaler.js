@@ -597,10 +597,10 @@ function Tyrescrapbaler() {
                             </li>
                           ))}
 
-                        <li className="list-group-item bg-transparent">
+                        {/*<li className="list-group-item bg-transparent">
                           <strong>Description:</strong>{" "}
                           {selected.description}
-                        </li>
+                        </li> */}
                       </ul>
 
                       <Link

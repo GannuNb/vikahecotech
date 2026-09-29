@@ -5,6 +5,7 @@ import categoryReducer from "./slices/categorySlice";
 import applicationReducer from "./slices/applicationSlice";
 import productReducer from "./slices/productSlice";
 import publicProductReducer from "./slices/publicProductSlice";
+import specificationRequestReducer from "./slices/specificationRequestSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     application: applicationReducer,
     product: productReducer,
     publicProduct: publicProductReducer,
+    specificationRequest: specificationRequestReducer,
   },
 });
 

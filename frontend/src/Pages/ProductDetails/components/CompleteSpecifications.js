@@ -8,17 +8,18 @@ import {
   X,
 } from "lucide-react";
 
-import {
-  validateBusinessEmail,
-  validatePhone,
-} from "../utils/validation";
+import PhoneInput, {
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 
-function CompleteSpecifications({
-  product,
-  applicationName,
-}) {
-  const [showForm, setShowForm] = useState(false);
+import "react-phone-number-input/style.css";
 
+import api from "../../../services/api";
+
+const CompleteSpecifications = ({
+  currentProduct,
+  onClose,
+}) => {
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
@@ -29,234 +30,496 @@ function CompleteSpecifications({
     phone: "",
   });
 
-  const [submitting, setSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  // =========================================
+  // EMAIL VALIDATION
+  // =========================================
 
-    setFormData((previous) => ({
-      ...previous,
+  const validateEmail = (value) => {
+    const email = value.trim();
+
+    if (!email) {
+      return "Email address is required.";
+    }
+
+    const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+      return "Please enter a valid email address.";
+    }
+
+    return "";
+  };
+
+  // =========================================
+  // NORMAL INPUT CHANGE
+  // =========================================
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
 
-    setErrors((previous) => ({
-      ...previous,
+    setErrors((prev) => ({
+      ...prev,
       [name]: "",
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // =========================================
+  // PHONE CHANGE
+  // =========================================
 
-    const emailError = validateBusinessEmail(
+  const handlePhoneChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      phone: value || "",
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      phone: "",
+    }));
+  };
+
+  // =========================================
+  // FORM SUBMIT
+  // =========================================
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+      // Prevent duplicate submissions
+  if (isSubmitting) {
+    return;
+  }
+
+    // -----------------------------------------
+    // VALIDATE EMAIL
+    // -----------------------------------------
+
+    const emailError = validateEmail(
       formData.email
     );
 
-    const phoneError = validatePhone(
-      formData.phone
-    );
+    // -----------------------------------------
+    // VALIDATE PHONE
+    // -----------------------------------------
+
+    let phoneError = "";
+
+    if (!formData.phone) {
+      phoneError = "Phone number is required.";
+    } else if (
+      !isValidPhoneNumber(formData.phone)
+    ) {
+      phoneError =
+        "Please enter a valid phone number.";
+    }
+
+    // -----------------------------------------
+    // SET ERRORS
+    // -----------------------------------------
 
     setErrors({
       email: emailError,
       phone: phoneError,
     });
 
+    // -----------------------------------------
+    // STOP IF VALIDATION FAILED
+    // -----------------------------------------
+
     if (emailError || phoneError) {
       return;
     }
 
-    try {
-      setSubmitting(true);
+    // -----------------------------------------
+    // CHECK PRODUCT
+    // -----------------------------------------
 
-      // Backend API will be added later.
-      console.log("Specification request:", {
-        productId: product?._id,
-        productName: product?.modelName,
-        slug: product?.slug,
-        email: formData.email.trim(),
-        phone: formData.phone.trim(),
-      });
-
-      // Temporary simulation
-      await new Promise((resolve) =>
-        setTimeout(resolve, 700)
-      );
-
+    if (!currentProduct?._id) {
       alert(
-        "Request submitted successfully. The PDF will be sent to your email."
+        "Product information is not available. Please try again."
       );
 
-      setFormData({
-        email: "",
-        phone: "",
-      });
+      return;
+    }
 
-      setShowForm(false);
+    try {
+      setIsSubmitting(true);
+
+      // =======================================
+      // API REQUEST
+      // =======================================
+
+      const response = await api.post(
+        "/api/public/specification-requests",
+        {
+          productId: currentProduct._id,
+          email: formData.email.trim(),
+          phone: formData.phone,
+        }
+      );
+
+      // =======================================
+      // SUCCESS
+      // =======================================
+
+      if (response.data?.success) {
+        alert(
+          "Request submitted successfully. Complete specifications will be sent to your email."
+        );
+
+        // Clear form
+        setFormData({
+          email: "",
+          phone: "",
+        });
+
+        // Clear validation errors
+        setErrors({
+          email: "",
+          phone: "",
+        });
+
+        // Close popup
+        if (onClose) {
+          onClose();
+        }
+      } else {
+        alert(
+          response.data?.message ||
+            "Something went wrong. Please try again."
+        );
+      }
     } catch (error) {
       console.error(
-        "Specification request error:",
+        "Complete specifications request failed:",
         error
       );
 
       alert(
-        "Something went wrong. Please try again."
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
       );
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
-  };
-
-  const closeForm = () => {
-    if (submitting) {
-      return;
-    }
-
-    setShowForm(false);
   };
 
   return (
-    <>
-      {/* =====================================================
-          COMPLETE SPECIFICATIONS CTA
-      ===================================================== */}
+    <div
+      className="fixed inset-0 z-[9999] overflow-y-auto bg-black/60 px-4 py-6 sm:px-6 sm:py-10"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="complete-specifications-title"
+    >
+      <div className="relative mx-auto flex min-h-full items-center justify-center">
 
-      <section
-        id="complete-specifications"
-        className="relative overflow-hidden py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-emerald-50 via-white to-sky-50"
-      >
+        <div className="relative w-full max-w-5xl">
 
-        {/* Decorative Background */}
+          {/* =====================================
+              CLOSE BUTTON
+          ===================================== */}
 
-        <div className="absolute -left-32 -bottom-32 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-100/70 rounded-full blur-3xl pointer-events-none" />
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-4 top-4 z-20 rounded-full border border-gray-200 bg-white p-2.5 text-gray-500 shadow-md transition hover:bg-gray-100 hover:text-gray-900 sm:right-5 sm:top-5"
+              aria-label="Close"
+            >
+              <X size={20} />
+            </button>
+          )}
 
-        <div className="absolute -right-32 -top-32 w-72 sm:w-96 h-72 sm:h-96 bg-sky-100/70 rounded-full blur-3xl pointer-events-none" />
+          {/* =====================================
+              MAIN CARD
+          ===================================== */}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl">
 
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+            <div className="grid lg:grid-cols-2">
 
-            {/* =================================================
-                CTA TEXT
-            ================================================= */}
+              {/* =================================
+                  LEFT SIDE
+              ================================= */}
 
-            <div className="min-w-0">
+              <div className="bg-gray-900 p-8 text-white sm:p-10 lg:p-12">
 
-              <div className="inline-flex items-center gap-2 text-emerald-600 font-semibold text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4">
-                <span className="w-7 sm:w-8 h-[2px] bg-emerald-500" />
-                Get More Details
+                <div className="flex h-full flex-col justify-between">
+
+                  <div>
+
+                    <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-3">
+
+                      <Download size={26} />
+
+                    </div>
+
+                    <h2
+                      id="complete-specifications-title"
+                      className="text-2xl font-bold sm:text-3xl"
+                    >
+                      Get the Full Technical Details
+                    </h2>
+
+                    <p className="mt-5 leading-7 text-gray-300">
+                      Receive a detailed PDF containing
+                      the complete technical
+                      specifications of this model.
+                    </p>
+
+                    {/* FEATURES */}
+
+                    <div className="mt-8 space-y-4">
+
+                      <div className="flex items-start gap-3">
+
+                        <CheckCircle2
+                          size={20}
+                          className="mt-0.5 shrink-0 text-white"
+                        />
+
+                        <div>
+
+                          <p className="font-medium">
+                            Complete Technical
+                            Specifications
+                          </p>
+
+                          <p className="mt-1 text-sm text-gray-400">
+                            Detailed machine
+                            specifications and
+                            technical information.
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <div className="flex items-start gap-3">
+
+                        <CheckCircle2
+                          size={20}
+                          className="mt-0.5 shrink-0 text-white"
+                        />
+
+                        <div>
+
+                          <p className="font-medium">
+                            Dimensions & Performance
+                          </p>
+
+                          <p className="mt-1 text-sm text-gray-400">
+                            Machine dimensions,
+                            capacity, performance and
+                            operating details.
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <div className="flex items-start gap-3">
+
+                        <CheckCircle2
+                          size={20}
+                          className="mt-0.5 shrink-0 text-white"
+                        />
+
+                        <div>
+
+                          <p className="font-medium">
+                            PDF Document
+                          </p>
+
+                          <p className="mt-1 text-sm text-gray-400">
+                            Receive the complete
+                            specification document
+                            directly by email.
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* PRODUCT */}
+
+                  <div className="mt-10 border-t border-white/10 pt-6">
+
+                    <p className="text-xs uppercase tracking-wider text-gray-400">
+                      Product
+                    </p>
+
+                    <p className="mt-2 text-lg font-semibold">
+                      {currentProduct?.modelName}
+                    </p>
+
+                  </div>
+
+                </div>
+
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+              {/* =================================
+                  RIGHT SIDE
+              ================================= */}
 
-                Need Complete
-                <br className="hidden sm:block" />
+              <div className="p-8 sm:p-10 lg:p-12">
 
-                <span className="sm:hidden"> </span>
+                <div className="mb-8">
 
-                Specifications?
+                  <h3 className="text-xl font-bold text-gray-900">
+                    Enter Your Details
+                  </h3>
 
-              </h2>
+                  <p className="mt-2 text-sm leading-6 text-gray-500">
+                    Enter your email address and phone
+                    number to receive the complete
+                    specifications.
+                  </p>
 
-              <div className="w-14 sm:w-16 h-1 bg-emerald-500 rounded-full mt-4 sm:mt-5 mb-5 sm:mb-6" />
+                </div>
 
-              <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 max-w-xl">
-                Get detailed technical specifications and
-                complete product information for{" "}
-                <span className="font-semibold text-slate-800">
-                  {product.modelName}
-                </span>
-                .
-              </p>
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
 
-              <button
-                type="button"
-                onClick={() => setShowForm(true)}
-                className="mt-6 sm:mt-8 w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-emerald-600 text-white text-sm sm:text-base font-semibold hover:bg-emerald-700 transition shadow-lg shadow-emerald-600/20"
-              >
+                  {/* ============================
+                      EMAIL
+                  ============================ */}
 
-                <Download size={18} />
+                  <div>
 
-                Get Full Specifications
+                    <label
+                      htmlFor="email"
+                      className="mb-2 block text-sm font-semibold text-gray-700"
+                    >
+                      Email Address
+                    </label>
 
-                <MoveRight size={18} />
-
-              </button>
-
-            </div>
-
-            {/* =================================================
-                PRODUCT IMAGE
-            ================================================= */}
-
-            <div className="relative w-full min-w-0">
-
-              <div className="absolute inset-0 bg-emerald-200/30 blur-3xl rounded-full scale-75" />
-
-              <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white shadow-xl p-3 sm:p-5">
-
-                {product.images?.length > 0 ? (
-
-                  <div className="aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-br from-white to-emerald-50">
-
-                    <img
-                      src={
-                        product.images[
-                          product.images.length > 1
-                            ? 1
-                            : 0
-                        ]
-                      }
-                      alt={product.modelName}
-                      className="w-full h-full object-contain p-4 sm:p-6"
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="name@example.com"
+                      autoComplete="email"
+                      disabled={isSubmitting}
+                      className={`w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition ${
+                        errors.email
+                          ? "border-red-500 focus:border-red-500"
+                          : "border-gray-300 focus:border-gray-700"
+                      }`}
                     />
+
+                    {errors.email && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.email}
+                      </p>
+                    )}
 
                   </div>
 
-                ) : (
+                  {/* ============================
+                      PHONE
+                  ============================ */}
 
-                  <div className="aspect-[4/3] rounded-xl sm:rounded-2xl bg-gradient-to-br from-white to-emerald-50 flex items-center justify-center">
+                  <div>
 
-                    <Package
-                      size={54}
-                      className="text-slate-300"
-                    />
+                    <label
+                      htmlFor="phone"
+                      className="mb-2 block text-sm font-semibold text-gray-700"
+                    >
+                      Phone Number
+                    </label>
 
-                  </div>
+                    <div
+                      className={`w-full rounded-xl border px-4 py-3.5 transition ${
+                        errors.phone
+                          ? "border-red-500"
+                          : "border-gray-300 focus-within:border-gray-700"
+                      }`}
+                    >
 
-                )}
-
-                {/* Product Label */}
-
-                <div className="absolute bottom-5 left-5 right-5 sm:bottom-8 sm:left-8 sm:right-8 bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg border border-slate-100">
-
-                  <div className="flex items-center gap-3">
-
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 rounded-xl bg-emerald-50 flex items-center justify-center">
-
-                      <CheckCircle2
-                        size={21}
-                        className="text-emerald-600"
+                      <PhoneInput
+                        id="phone"
+                        international
+                        defaultCountry="IN"
+                        countryCallingCodeEditable={
+                          false
+                        }
+                        value={formData.phone}
+                        onChange={handlePhoneChange}
+                        placeholder="Enter phone number"
+                        autoComplete="tel"
+                        disabled={isSubmitting}
+                        className="w-full [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:outline-none"
                       />
 
                     </div>
 
-                    <div className="min-w-0">
+                    <p className="mt-2 text-xs text-gray-500">
+                      Select your country and enter your
+                      phone number.
+                    </p>
 
-                      <p className="font-bold text-slate-900 text-sm sm:text-base truncate">
-                        {product.modelName}
+                    {errors.phone && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.phone}
                       </p>
-
-                      {applicationName && (
-                        <p className="text-xs sm:text-sm text-slate-500 truncate">
-                          {applicationName}
-                        </p>
-                      )}
-
-                    </div>
+                    )}
 
                   </div>
 
-                </div>
+                  {/* ============================
+                      SUBMIT
+                  ============================ */}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+
+                    {isSubmitting
+                      ? "Submitting..."
+                      : "Get Complete Specifications"}
+
+                    {!isSubmitting && (
+                      <MoveRight
+                        size={18}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    )}
+
+                  </button>
+
+                  {/* ============================
+                      PRIVACY
+                  ============================ */}
+
+                  <p className="text-center text-xs leading-5 text-gray-400">
+                    Your contact information will only
+                    be used to provide the requested
+                    product specifications.
+                  </p>
+
+                </form>
 
               </div>
 
@@ -266,175 +529,9 @@ function CompleteSpecifications({
 
         </div>
 
-      </section>
-
-      {/* =====================================================
-          REQUEST FORM
-      ===================================================== */}
-
-      {showForm && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/70 px-4 py-6 overflow-y-auto">
-
-          <div className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl">
-
-            {/* Close */}
-
-            <button
-              type="button"
-              onClick={closeForm}
-              disabled={submitting}
-              className="absolute right-4 top-4 sm:right-5 sm:top-5 w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition disabled:opacity-50"
-              aria-label="Close"
-            >
-              <X size={19} />
-            </button>
-
-            <div className="p-6 sm:p-8">
-
-              <div className="inline-flex items-center gap-2 text-emerald-600 font-semibold text-xs uppercase tracking-wider">
-                Get More Details
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-2 pr-10">
-                Get Full Specifications
-              </h3>
-
-              <div className="w-12 h-1 bg-emerald-500 rounded-full mt-4 mb-5" />
-
-              <p className="text-sm sm:text-base text-slate-600 leading-6">
-                Enter your business email and phone number
-                to request the complete specifications for{" "}
-                <span className="font-semibold text-slate-800">
-                  {product.modelName}
-                </span>
-                .
-              </p>
-
-              <form
-                onSubmit={handleSubmit}
-                className="mt-6 space-y-5"
-              >
-
-                {/* Email */}
-
-                <div>
-
-                  <label
-                    htmlFor="spec-email"
-                    className="block text-sm font-semibold text-slate-700 mb-2"
-                  >
-                    Business Email
-                  </label>
-
-                  <input
-                    id="spec-email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="name@company.com"
-                    className={`w-full px-4 py-3.5 rounded-xl border outline-none text-sm transition ${
-                      errors.email
-                        ? "border-red-500 focus:ring-2 focus:ring-red-100"
-                        : "border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                    }`}
-                  />
-
-                  {errors.email && (
-                    <p className="mt-2 text-xs text-red-600">
-                      {errors.email}
-                    </p>
-                  )}
-
-                </div>
-
-                {/* Phone */}
-
-                <div>
-
-                  <label
-                    htmlFor="spec-phone"
-                    className="block text-sm font-semibold text-slate-700 mb-2"
-                  >
-                    Phone Number
-                  </label>
-
-                  <input
-                    id="spec-phone"
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="9876543210"
-                    className={`w-full px-4 py-3.5 rounded-xl border outline-none text-sm transition ${
-                      errors.phone
-                        ? "border-red-500 focus:ring-2 focus:ring-red-100"
-                        : "border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                    }`}
-                  />
-
-                  {errors.phone && (
-                    <p className="mt-2 text-xs text-red-600">
-                      {errors.phone}
-                    </p>
-                  )}
-
-                </div>
-
-                {/* Product Information */}
-
-                <div className="rounded-xl bg-emerald-50 border border-emerald-100 p-4">
-
-                  <div className="flex items-start gap-3">
-
-                    <CheckCircle2
-                      size={20}
-                      className="mt-0.5 text-emerald-600 flex-shrink-0"
-                    />
-
-                    <div className="min-w-0">
-
-                      <p className="text-xs text-slate-500">
-                        Specification requested for
-                      </p>
-
-                      <p className="font-semibold text-slate-900 mt-1 break-words">
-                        {product.modelName}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                {/* Submit */}
-
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 text-white text-sm sm:text-base font-semibold hover:bg-emerald-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {submitting
-                    ? "Submitting..."
-                    : "Request Specifications"}
-                </button>
-
-                <p className="text-center text-xs text-slate-400 leading-5">
-                  Your information will be used only for
-                  processing your specification request.
-                </p>
-
-              </form>
-
-            </div>
-
-          </div>
-
-        </div>
-      )}
-    </>
+      </div>
+    </div>
   );
-}
+};
 
 export default CompleteSpecifications;

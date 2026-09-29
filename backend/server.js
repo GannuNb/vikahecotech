@@ -11,6 +11,9 @@ import applicationRoutes from "./routes/applicationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import publicProductRoutes from "./routes/publicProductRoutes.js";
+import specificationRequestRoutes from "./routes/specificationRequestRoutes.js";
+import testPdfRoutes from "./routes/testPdfRoutes.js";
+import adminSpecificationRequestRoutes from "./routes/adminSpecificationRequestRoutes.js";
 
 const app = express();
 
@@ -65,9 +68,12 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/public/products", publicProductRoutes);
-
+app.use("/api/public/specification-requests", specificationRequestRoutes);
+app.use("/api/test/pdf", testPdfRoutes);
+app.use("/api/admin/specification-requests", adminSpecificationRequestRoutes);
 
 // Start server
 app.listen(PORT, () => {
   console.log(`Vikah Ecotech Backend running on port ${PORT}`);
+  
 });

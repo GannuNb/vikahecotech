@@ -167,6 +167,7 @@ import ProductApplications from "./Pages/Admin/ProductApplications";
 import ProductModels from "./Pages/Admin/ProductModels";
 import ProductForm from "./Pages/Admin/ProductForm";
 import ProductView from "./Pages/Admin/ProductView";
+import SpecificationRequests from "./admin/pages/SpecificationRequests";
 
 
 //productdetails
@@ -197,6 +198,7 @@ const AppContent = () => {
                   <Route  path="/admin/products/application/:applicationId/new"  element={    <AdminLayout>      <ProductForm />    </AdminLayout>  }/>
                   <Route  path="/admin/products/application/:applicationId/edit/:productId"  element={    <AdminLayout>      <ProductForm />    </AdminLayout>  }/>
                   <Route  path="/admin/products/application/:applicationId/view/:productId"  element={    <AdminLayout>      <ProductView />    </AdminLayout>  }/>
+                  <Route  path="/admin/specification-requests"  element={    <AdminLayout>      <SpecificationRequests />    </AdminLayout>  }/>
 
                 </Route>
 
