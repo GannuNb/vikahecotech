@@ -95,10 +95,10 @@ const CompleteSpecifications = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      // Prevent duplicate submissions
-  if (isSubmitting) {
-    return;
-  }
+    // Prevent duplicate submissions
+    if (isSubmitting) {
+      return;
+    }
 
     // -----------------------------------------
     // VALIDATE EMAIL
@@ -174,7 +174,7 @@ const CompleteSpecifications = ({
 
       if (response.data?.success) {
         alert(
-          "Request submitted successfully. Complete specifications will be sent to your email."
+          "Request received successfully. Your complete specifications will be sent to your email shortly."
         );
 
         // Clear form
@@ -196,7 +196,7 @@ const CompleteSpecifications = ({
       } else {
         alert(
           response.data?.message ||
-            "Something went wrong. Please try again."
+          "Something went wrong. Please try again."
         );
       }
     } catch (error) {
@@ -207,7 +207,7 @@ const CompleteSpecifications = ({
 
       alert(
         error.response?.data?.message ||
-          "Something went wrong. Please try again."
+        "Something went wrong. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -420,11 +420,10 @@ const CompleteSpecifications = ({
                       placeholder="name@example.com"
                       autoComplete="email"
                       disabled={isSubmitting}
-                      className={`w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition ${
-                        errors.email
+                      className={`w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition ${errors.email
                           ? "border-red-500 focus:border-red-500"
                           : "border-gray-300 focus:border-gray-700"
-                      }`}
+                        }`}
                     />
 
                     {errors.email && (
@@ -449,11 +448,10 @@ const CompleteSpecifications = ({
                     </label>
 
                     <div
-                      className={`w-full rounded-xl border px-4 py-3.5 transition ${
-                        errors.phone
+                      className={`w-full rounded-xl border px-4 py-3.5 transition ${errors.phone
                           ? "border-red-500"
                           : "border-gray-300 focus-within:border-gray-700"
-                      }`}
+                        }`}
                     >
 
                       <PhoneInput

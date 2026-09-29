@@ -37,10 +37,159 @@ const transporter = nodemailer.createTransport({
 });
 
 // -----------------------------------------
+// BACKGROUND PDF + EMAIL PROCESS
+// -----------------------------------------
+
+const processSpecificationRequest = async (
+  specificationRequestId,
+  product
+) => {
+  try {
+    console.log(
+      "Background specification processing started:",
+      specificationRequestId
+    );
+
+    // -----------------------------------------
+    // GENERATE PDF
+    // -----------------------------------------
+
+    console.time(
+      `PDF GENERATION ${specificationRequestId}`
+    );
+
+    const {
+      pdfBuffer,
+      fileName,
+    } = await generateProductSpecificationPdf(
+      product
+    );
+
+    console.timeEnd(
+      `PDF GENERATION ${specificationRequestId}`
+    );
+
+    // -----------------------------------------
+    // UPDATE PDF STATUS
+    // -----------------------------------------
+
+    await SpecificationRequest.findByIdAndUpdate(
+      specificationRequestId,
+      {
+        pdfGenerated: true,
+      }
+    );
+
+    console.log(
+      "PDF generated successfully:",
+      fileName
+    );
+
+    // -----------------------------------------
+    // RENDER EJS EMAIL
+    // -----------------------------------------
+
+    console.time(
+      `EJS RENDER ${specificationRequestId}`
+    );
+
+    const emailHtml = await ejs.renderFile(
+      templatePath,
+      {
+        modelName:
+          product.modelName,
+
+        applicationName:
+          product.application?.name ||
+          "Industrial Equipment",
+
+        categoryName:
+          product.application?.category?.name ||
+          "Industrial Equipment",
+      }
+    );
+
+    console.timeEnd(
+      `EJS RENDER ${specificationRequestId}`
+    );
+
+    // -----------------------------------------
+    // SEND EMAIL
+    // -----------------------------------------
+
+    console.time(
+      `EMAIL SEND ${specificationRequestId}`
+    );
+
+    await transporter.sendMail({
+      from: `"Vikah Ecotech Pvt Ltd" <${process.env.SMTP_USER}>`,
+
+      to: product.specificationRequestEmail,
+
+      subject:
+        `${product.modelName} - Complete Technical Specifications`,
+
+      html: emailHtml,
+
+      attachments: [
+        {
+          filename: fileName,
+
+          content: pdfBuffer,
+
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.timeEnd(
+      `EMAIL SEND ${specificationRequestId}`
+    );
+
+    // -----------------------------------------
+    // UPDATE COMPLETED STATUS
+    // -----------------------------------------
+
+    await SpecificationRequest.findByIdAndUpdate(
+      specificationRequestId,
+      {
+        emailSent: true,
+        status: "completed",
+      }
+    );
+
+    console.log(
+      "Specification PDF emailed successfully:",
+      product.specificationRequestEmail
+    );
+
+  } catch (error) {
+    console.error(
+      "Background specification processing error:",
+      error
+    );
+
+    // -----------------------------------------
+    // UPDATE FAILED STATUS
+    // -----------------------------------------
+
+    await SpecificationRequest.findByIdAndUpdate(
+      specificationRequestId,
+      {
+        status: "failed",
+      }
+    );
+  }
+};
+
+// -----------------------------------------
 // CREATE SPECIFICATION REQUEST
 // -----------------------------------------
 
-const createSpecificationRequest = async (req, res) => {
+const createSpecificationRequest = async (
+  req,
+  res
+) => {
   try {
     const {
       productId,
@@ -73,7 +222,11 @@ const createSpecificationRequest = async (req, res) => {
       });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(
+        productId
+      )
+    ) {
       return res.status(400).json({
         success: false,
         message: "Invalid product ID",
@@ -84,7 +237,9 @@ const createSpecificationRequest = async (req, res) => {
     // FIND PRODUCT
     // -----------------------------------------
 
-    const product = await Product.findById(productId).populate({
+    const product = await Product.findById(
+      productId
+    ).populate({
       path: "application",
       populate: {
         path: "category",
@@ -99,6 +254,16 @@ const createSpecificationRequest = async (req, res) => {
     }
 
     // -----------------------------------------
+    // CLEAN CUSTOMER DATA
+    // -----------------------------------------
+
+    const customerEmail = email
+      .trim()
+      .toLowerCase();
+
+    const customerPhone = phone.trim();
+
+    // -----------------------------------------
     // CREATE MONGODB REQUEST
     // -----------------------------------------
 
@@ -106,13 +271,14 @@ const createSpecificationRequest = async (req, res) => {
       await SpecificationRequest.create({
         product: product._id,
 
-        modelName: product.modelName,
+        modelName:
+          product.modelName,
 
-        email: email
-          .trim()
-          .toLowerCase(),
+        email:
+          customerEmail,
 
-        phone: phone.trim(),
+        phone:
+          customerPhone,
 
         status: "processing",
 
@@ -126,162 +292,64 @@ const createSpecificationRequest = async (req, res) => {
       specificationRequest._id
     );
 
-    try {
-      // -----------------------------------------
-      // GENERATE PDF IN MEMORY
-      // -----------------------------------------
+    // -----------------------------------------
+    // ADD EMAIL TO PRODUCT OBJECT
+    // FOR BACKGROUND PROCESSING
+    // -----------------------------------------
 
-      const {
-        pdfBuffer,
-        fileName,
-      } = await generateProductSpecificationPdf(
-        product
-      );
+    product.specificationRequestEmail =
+      customerEmail;
 
-      // -----------------------------------------
-      // PDF GENERATED
-      // -----------------------------------------
+    // -----------------------------------------
+    // START BACKGROUND PROCESS
+    // -----------------------------------------
 
-      specificationRequest.pdfGenerated = true;
+    processSpecificationRequest(
+      specificationRequest._id,
+      product
+    );
 
-      await specificationRequest.save();
+    // -----------------------------------------
+    // IMMEDIATE RESPONSE
+    // -----------------------------------------
 
-      console.log(
-        "PDF generated in memory:",
-        fileName
-      );
+    return res.status(201).json({
+      success: true,
 
-      // -----------------------------------------
-      // RENDER EJS EMAIL TEMPLATE
-      // -----------------------------------------
+      message:
+        "Your request has been received. Complete specifications will be sent to your email shortly.",
 
-      const emailHtml = await ejs.renderFile(
-        templatePath,
-        {
-          modelName:
-            product.modelName,
-
-          applicationName:
-            product.application?.name ||
-            "Industrial Equipment",
-
-          categoryName:
-            product.application?.category?.name ||
-            "Industrial Equipment",
-        }
-      );
-
-      console.log(
-        "EJS email template rendered successfully"
-      );
-
-      // -----------------------------------------
-      // SEND EMAIL
-      // -----------------------------------------
-
-      await transporter.sendMail({
-        from: `"Vikah Ecotech Pvt Ltd" <${process.env.SMTP_USER}>`,
-
-        to: specificationRequest.email,
-
-        subject:
-          `${product.modelName} - Complete Technical Specifications`,
-
-        html: emailHtml,
-
-        attachments: [
-          {
-            filename: fileName,
-
-            content: pdfBuffer,
-
-            contentType: "application/pdf",
-          },
-        ],
-      });
-
-      // -----------------------------------------
-      // EMAIL SENT
-      // -----------------------------------------
-
-      specificationRequest.emailSent = true;
-
-      specificationRequest.status = "completed";
-
-      await specificationRequest.save();
-
-      console.log(
-        "Specification PDF emailed successfully:",
-        specificationRequest.email
-      );
-
-      // -----------------------------------------
-      // RESPONSE
-      // -----------------------------------------
-
-      return res.status(201).json({
-        success: true,
-
-        message:
-          "Complete specifications sent successfully to your email",
-
-        request: {
-          id: specificationRequest._id,
-
-          product:
-            specificationRequest.product,
-
-          modelName:
-            specificationRequest.modelName,
-
-          email:
-            specificationRequest.email,
-
-          phone:
-            specificationRequest.phone,
-
-          status:
-            specificationRequest.status,
-
-          pdfGenerated:
-            specificationRequest.pdfGenerated,
-
-          emailSent:
-            specificationRequest.emailSent,
-
-          createdAt:
-            specificationRequest.createdAt,
-        },
-      });
-    } catch (processingError) {
-      // -----------------------------------------
-      // PDF / EMAIL ERROR
-      // -----------------------------------------
-
-      console.error(
-        "PDF generation or email error:",
-        processingError
-      );
-
-      specificationRequest.status = "failed";
-
-      await specificationRequest.save();
-
-      return res.status(500).json({
-        success: false,
-
-        message:
-          "Your request was saved, but we could not send the specifications email.",
-
-        requestId:
+      request: {
+        id:
           specificationRequest._id,
-      });
-    }
-  } catch (error) {
-    // -----------------------------------------
-    // GENERAL ERROR
-    // -----------------------------------------
 
+        product:
+          specificationRequest.product,
+
+        modelName:
+          specificationRequest.modelName,
+
+        email:
+          specificationRequest.email,
+
+        phone:
+          specificationRequest.phone,
+
+        status:
+          specificationRequest.status,
+
+        pdfGenerated:
+          specificationRequest.pdfGenerated,
+
+        emailSent:
+          specificationRequest.emailSent,
+
+        createdAt:
+          specificationRequest.createdAt,
+      },
+    });
+
+  } catch (error) {
     console.error(
       "Create specification request error:",
       error
