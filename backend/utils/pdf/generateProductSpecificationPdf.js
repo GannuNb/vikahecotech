@@ -20,11 +20,13 @@ const generateProductSpecificationPdf = async (product) => {
       const chunks = [];
 
       // Collect PDF data in memory
+
       doc.on("data", (chunk) => {
         chunks.push(chunk);
       });
 
       // PDF completed
+
       doc.on("end", () => {
         const pdfBuffer = Buffer.concat(chunks);
 
@@ -87,13 +89,13 @@ const generateProductSpecificationPdf = async (product) => {
       );
 
       // --------------------------------
-      // PDF CONTENT
+      // PAGE 1
+      // PRODUCT INFORMATION
       // --------------------------------
 
       let currentY =
         pageState.getContentStartY();
 
-      // Product Information
       currentY =
         await drawProductInfo(
           doc,
@@ -102,7 +104,11 @@ const generateProductSpecificationPdf = async (product) => {
           pageState
         );
 
-      // Description
+      // --------------------------------
+      // PAGE 1
+      // DESCRIPTION
+      // --------------------------------
+
       currentY =
         drawDescription(
           doc,
@@ -111,7 +117,16 @@ const generateProductSpecificationPdf = async (product) => {
           pageState
         );
 
-      // Specifications
+      // --------------------------------
+      // PAGE 2+
+      // TECHNICAL SPECIFICATIONS
+      // --------------------------------
+
+      pageState.startNewPage();
+
+      currentY =
+        pageState.getContentStartY();
+
       currentY =
         drawSpecifications(
           doc,
@@ -119,18 +134,24 @@ const generateProductSpecificationPdf = async (product) => {
           currentY,
           pageState
         );
-      // Contact
+
+      // --------------------------------
+      // CONTACT SECTION
+      // --------------------------------
+
       currentY =
         drawContact(
           doc,
           currentY,
           pageState
         );
+
       // --------------------------------
       // FINISH PDF
       // --------------------------------
 
       doc.end();
+
     } catch (error) {
       reject(error);
     }
