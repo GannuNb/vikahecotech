@@ -1,65 +1,60 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { formatDate } from "./pdfHelpers.js";
 
-const drawPdfFooter = (
-  doc,
-  pageNumber
-) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const drawPdfFooter = (doc, pageNumber) => {
   const pageWidth = doc.page.width;
   const pageHeight = doc.page.height;
 
   const left = 45;
+  const right = pageWidth - 45;
 
-  const lineY =
-    pageHeight - 58;
+  const lineY = pageHeight - 58;
+  const textY = pageHeight - 47;
 
-  const textY =
-    pageHeight - 48;
+  const leafPath = path.join(
+    __dirname,
+    "../../assets/leaf.png"
+  );
 
-  const primaryColor = "#0F4C5C";
-  const mutedColor = "#6B7280";
+  const mutedColor = "#111111";
 
-  /*
-   * FOOTER LINE
-   */
-
+  // Horizontal line
   doc
-    .moveTo(
-      left,
-      lineY
-    )
-    .lineTo(
-      pageWidth - left,
-      lineY
-    )
+    .moveTo(left, lineY)
+    .lineTo(right, lineY)
     .lineWidth(0.7)
     .strokeColor("#D9E2E6")
     .stroke();
 
-  /*
-   * COMPANY
-   */
-
+  // Green accent line
   doc
-    .font("Helvetica-Bold")
-    .fontSize(7)
-    .fillColor(primaryColor)
-    .text(
-      "Vikah Ecotech Pvt Ltd",
-      left,
-      textY,
-      {
-        width: 180,
-        align: "left",
-      }
-    );
+    .moveTo(left, lineY)
+    .lineTo(left + 160, lineY)
+    .lineWidth(2)
+    .strokeColor("#3F8F5A")
+    .stroke();
 
-  /*
-   * DATE
-   */
+  // Leaf logo
+  doc.image(
+    leafPath,
+    left + 45,
+    pageHeight - 53,
+    {
+      fit: [55, 42],
+      align: "center",
+      valign: "center",
+    }
+  );
 
+  // Date
   doc
     .font("Helvetica")
-    .fontSize(7)
+    .fontSize(8)
     .fillColor(mutedColor)
     .text(
       formatDate(),
@@ -71,11 +66,11 @@ const drawPdfFooter = (
       }
     );
 
-  /*
-   * PAGE
-   */
-
+  // Page number
   doc
+    .font("Helvetica")
+    .fontSize(8)
+    .fillColor(mutedColor)
     .text(
       `Page ${pageNumber}`,
       pageWidth - 145,

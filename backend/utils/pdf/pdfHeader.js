@@ -6,14 +6,15 @@ const drawPdfHeader = (doc) => {
   const left = 45;
   const right = pageWidth - 45;
 
-  const primaryColor = "#0F4C5C";
-  const secondaryColor = "#1F7A5A";
-  const darkColor = "#1F2933";
-  const mutedColor = "#6B7280";
-  const lightColor = "#E8F1F3";
+  const primaryColor = "#111111";
+  const secondaryColor = "#3F8F5A";
+  const mutedColor = "#444444";
+  const lightColor = "#D9E2E6";
 
   /*
-   * TOP BRAND BAR
+   * ------------------------------------------------
+   * TOP LINE
+   * ------------------------------------------------
    */
 
   doc
@@ -21,12 +22,14 @@ const drawPdfHeader = (doc) => {
       0,
       0,
       pageWidth,
-      6
+      2
     )
-    .fill(primaryColor);
+    .fill("#E5E7EB");
 
   /*
+   * ------------------------------------------------
    * LOGO
+   * ------------------------------------------------
    */
 
   const logoPath = getLogoPath();
@@ -36,87 +39,96 @@ const drawPdfHeader = (doc) => {
     left,
     20,
     {
-      fit: [125, 55],
+      fit: [190, 58],
       align: "left",
       valign: "center",
     }
   );
 
   /*
-   * COMPANY NAME
-   */
-
-  doc
-    .font("Helvetica-Bold")
-    .fontSize(15)
-    .fillColor(darkColor)
-    .text(
-      "Vikah Ecotech Pvt Ltd",
-      300,
-      22,
-      {
-        width: 250,
-        align: "right",
-      }
-    );
-
-  /*
-   * COMPANY DESCRIPTION
+   * ------------------------------------------------
+   * TAGLINE
+   * ------------------------------------------------
    */
 
   doc
     .font("Helvetica")
-    .fontSize(8)
+    .fontSize(10)
     .fillColor(mutedColor)
     .text(
-      "Industrial Recycling & Waste Management Solutions",
-      285,
-      43,
+      "Sustainable Recycling Solutions",
+      left + 5,
+      85,
       {
-        width: 265,
-        align: "right",
+        width: 250,
       }
     );
 
   /*
-   * DOCUMENT TYPE
+   * ------------------------------------------------
+   * RIGHT SIDE TITLE
+   * ------------------------------------------------
    */
 
   doc
     .font("Helvetica-Bold")
-    .fontSize(8)
-    .fillColor(secondaryColor)
+    .fontSize(12)
+    .fillColor(primaryColor)
     .text(
-      "PRODUCT TECHNICAL SPECIFICATION",
-      285,
-      60,
+      "Technical Specification",
+      350,
+      68,
       {
-        width: 265,
+        width: 200,
         align: "right",
       }
     );
 
   /*
-   * HEADER LINE
+   * ------------------------------------------------
+   * HORIZONTAL LINE
+   * ------------------------------------------------
    */
 
   doc
-    .moveTo(left, 88)
-    .lineTo(right, 88)
-    .lineWidth(1)
+    .moveTo(
+      left,
+      105
+    )
+    .lineTo(
+      right,
+      105
+    )
+    .lineWidth(0.8)
     .strokeColor(lightColor)
     .stroke();
 
   /*
-   * ACCENT LINE
+   * ------------------------------------------------
+   * GREEN ACCENT LINE
+   * ------------------------------------------------
    */
 
   doc
-    .moveTo(left, 88)
-    .lineTo(left + 80, 88)
-    .lineWidth(2)
+    .lineCap("round")
+    .moveTo(
+      left,
+      105
+    )
+    .lineTo(
+      left + 190,
+      105
+    )
+    .lineWidth(2.5)
     .strokeColor(secondaryColor)
     .stroke();
+
+  /*
+   * Reset line cap so it doesn't affect
+   * other PDF drawing operations.
+   */
+
+  doc.lineCap("butt");
 
   doc.fillColor("#111111");
 };

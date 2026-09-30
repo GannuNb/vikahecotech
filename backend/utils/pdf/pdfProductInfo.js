@@ -1,9 +1,6 @@
 import sharp from "sharp";
 
-import {
-  hasEnoughSpace,
-} from "./pdfHelpers.js";
-
+import { hasEnoughSpace } from "./pdfHelpers.js";
 import getObjectFromS3 from "../aws/s3GetObject.js";
 
 const drawProductInfo = async (
@@ -17,33 +14,24 @@ const drawProductInfo = async (
   const left = 45;
   const width = doc.page.width - 90;
 
+  // Colors
   const primaryColor = "#0F4C5C";
-  const secondaryColor = "#1F7A5A";
-  const darkColor = "#1F2933";
-  const mutedColor = "#6B7280";
-  const borderColor = "#D9E2E6";
+  const greenColor = "#3F8F5A";
+  const darkColor = "#111111";
+  const mutedColor = "#666666";
+  const lightGreen = "#A8DCC0";
+  const lightGray = "#D9E2E6";
+
+  const productAreaHeight = 320;
 
   /*
-   * ------------------------------------------------
-   * OVERVIEW HEIGHT
-   *
-   * Keep this fixed so the following
-   * Product Gallery layout is not disturbed.
-   * ------------------------------------------------
-   */
-
-  const overviewHeight = 180;
-
-  /*
-   * ------------------------------------------------
-   * PAGE CHECK
-   * ------------------------------------------------
+   * PAGE SPACE
    */
 
   if (
     !hasEnoughSpace(
       currentY,
-      overviewHeight + 20,
+      productAreaHeight + 20,
       doc
     )
   ) {
@@ -54,62 +42,37 @@ const drawProductInfo = async (
   }
 
   /*
-   * ------------------------------------------------
-   * MAIN BACKGROUND
-   * ------------------------------------------------
+   * IMAGE
    */
 
-  doc
-    .roundedRect(
-      left,
-      currentY,
-      width,
-      overviewHeight,
-      7
-    )
-    .fillAndStroke(
-      "#F1F5F6",
-      borderColor
-    );
-
-  /*
-   * ------------------------------------------------
-   * IMAGE AREA
-   * ------------------------------------------------
-   */
-
-  const imageAreaWidth =
-    width * 0.56;
-
+  const imageWidth = 200;
   const imageX = left;
-  const imageY = currentY;
-
-  doc
-    .rect(
-      imageX,
-      imageY,
-      imageAreaWidth,
-      overviewHeight
-    )
-    .fill("#E8EDEE");
+  const imageY = currentY -22;
 
   /*
-   * ------------------------------------------------
-   * PRODUCT IMAGE
-   * ------------------------------------------------
+   * RIGHT CONTENT POSITION
+   *
+   * Fixed position so reducing the image
+   * does not move the right content left.
+   */
+
+  const dividerX = left + 280;
+  const contentX = dividerX + 20;
+  const contentWidth =
+    width - (contentX - left);
+
+  /*
+   * GET PRODUCT IMAGE
    */
 
   if (
     Array.isArray(product.images) &&
-    product.images.length > 0
+    product.images.length
   ) {
     try {
-      const imageKey =
-        product.images[0];
-
       const imageBuffer =
         await getObjectFromS3(
-          imageKey
+          product.images[0]
         );
 
       const pngBuffer =
@@ -117,18 +80,14 @@ const drawProductInfo = async (
           .png()
           .toBuffer();
 
-      const imagePadding = 10;
-
       doc.image(
         pngBuffer,
-        imageX + imagePadding,
-        imageY + imagePadding,
+        imageX,
+        imageY,
         {
           fit: [
-            imageAreaWidth -
-              imagePadding * 2,
-            overviewHeight -
-              imagePadding * 2,
+            imageWidth,
+            productAreaHeight - 10,
           ],
           align: "center",
           valign: "center",
@@ -139,65 +98,58 @@ const drawProductInfo = async (
         "Product overview image error:",
         error.message
       );
+
+      doc
+        .font("Helvetica")
+        .fontSize(9)
+        .fillColor(mutedColor)
+        .text(
+          "Image unavailable",
+          imageX,
+          imageY + 180,
+          {
+            width: imageWidth,
+            align: "center",
+          }
+        );
     }
   }
 
   /*
-   * ------------------------------------------------
-   * RIGHT SIDE
-   * ------------------------------------------------
-   */
-
-  const rightX =
-    left + imageAreaWidth;
-
-  const rightWidth =
-    width - imageAreaWidth;
-
-  /*
-   * White right-side panel
+   * VERTICAL LINE
    */
 
   doc
-    .rect(
-      rightX,
-      currentY,
-      rightWidth,
-      overviewHeight
+    .moveTo(
+      dividerX,
+      currentY + 5
     )
-    .fill("#FFFFFF");
+    .lineTo(
+      dividerX,
+      currentY + 275
+    )
+    .lineWidth(4)
+    .strokeColor(primaryColor)
+    .stroke();
 
   /*
-   * Green top accent
+   * MODEL NAME
    */
 
-  doc
-    .rect(
-      rightX,
-      currentY,
-      rightWidth,
-      5
+  const modelName =
+    String(
+      product.modelName ||
+        "Product Model"
     )
-    .fill(secondaryColor);
-
-  const contentX =
-    rightX + 18;
-
-  const contentWidth =
-    rightWidth - 36;
-
-  /*
-   * ------------------------------------------------
-   * PRODUCT OVERVIEW LABEL
-   * ------------------------------------------------
-   */
+      .trim()
+      .toUpperCase();
 
   doc
     .font("Helvetica-Bold")
-    .fontSize(8)
-    .fillColor(secondaryColor)
+    .fontSize(24)
+    .fillColor(darkColor)
     .text(
-      "PRODUCT OVERVIEW",
+      modelName,
       contentX,
       currentY + 20,
       {
@@ -206,166 +158,230 @@ const drawProductInfo = async (
     );
 
   /*
-   * ------------------------------------------------
-   * MODEL NAME
-   * ------------------------------------------------
+   * APPLICATION NAME
    */
+
+  const applicationName =
+    product.application?.name ||
+    "Industrial Equipment";
 
   doc
     .font("Helvetica-Bold")
-    .fontSize(18)
-    .fillColor(primaryColor)
+    .fontSize(12)
+    .fillColor(mutedColor)
     .text(
-      product.modelName ||
-        "Product Model",
+      applicationName.toUpperCase(),
       contentX,
-      currentY + 38,
+      currentY + 56,
       {
         width: contentWidth,
       }
     );
 
   /*
-   * ------------------------------------------------
-   * APPLICATION
-   * ------------------------------------------------
+   * GREEN + GRAY LINE
    */
+
+  const lineY = currentY + 88;
+  const lineWidth = Math.min(
+    contentWidth,
+    205
+  );
 
   doc
-    .font("Helvetica")
-    .fontSize(9)
-    .fillColor(darkColor)
-    .text(
-      product.application?.name ||
-        "Industrial Equipment",
+    .lineCap("round")
+    .moveTo(
       contentX,
-      currentY + 63,
-      {
-        width: contentWidth,
-      }
-    );
-
-  /*
-   * ------------------------------------------------
-   * DIVIDER
-   * ------------------------------------------------
-   */
+      lineY
+    )
+    .lineTo(
+      contentX + lineWidth,
+      lineY
+    )
+    .lineWidth(1.5)
+    .strokeColor(lightGray)
+    .stroke();
 
   doc
     .moveTo(
       contentX,
-      currentY + 82
+      lineY
     )
     .lineTo(
-      contentX + contentWidth,
-      currentY + 82
+      contentX + 75,
+      lineY
     )
-    .lineWidth(0.7)
-    .strokeColor(borderColor)
+    .lineWidth(2.5)
+    .strokeColor(greenColor)
     .stroke();
 
+  doc.lineCap("butt");
+
   /*
-   * ------------------------------------------------
    * CATEGORY
-   * ------------------------------------------------
    */
 
+  const categoryName =
+    product.application?.category?.name ||
+    "Industrial Equipment";
+
+  const categoryY =
+    currentY + 130;
+
+  // Circle
+  doc
+    .circle(
+      contentX + 18,
+      categoryY,
+      17
+    )
+    .fill("#F1FAF5")
+    .strokeColor(lightGreen)
+    .lineWidth(1)
+    .stroke();
+
+  // Four-square icon
+  const iconSize = 7;
+  const iconGap = 2.5;
+  const iconX = contentX + 10;
+  const iconY = categoryY - 8;
+
+  [
+    [0, 0],
+    [iconSize + iconGap, 0],
+    [0, iconSize + iconGap],
+    [iconSize + iconGap, iconSize + iconGap],
+  ].forEach(([x, y]) => {
+    doc
+      .roundedRect(
+        iconX + x,
+        iconY + y,
+        iconSize,
+        iconSize,
+        1.5
+      )
+      .fill(lightGreen);
+  });
+
+  // Label
   doc
     .font("Helvetica")
-    .fontSize(7)
-    .fillColor(mutedColor)
+    .fontSize(11)
+    .fillColor(primaryColor)
     .text(
       "CATEGORY",
-      contentX,
-      currentY + 96,
-      {
-        width: contentWidth,
-      }
+      contentX + 48,
+      currentY + 119
     );
 
+  // Value
   doc
     .font("Helvetica-Bold")
-    .fontSize(8.5)
+    .fontSize(12)
     .fillColor(darkColor)
     .text(
-      product.application?.category?.name ||
-        "Industrial Equipment",
-      contentX,
-      currentY + 108,
-      {
-        width: contentWidth,
-      }
+      categoryName,
+      contentX + 48,
+      currentY + 140
     );
 
   /*
-   * ------------------------------------------------
    * APPLICATION
-   * ------------------------------------------------
    */
 
+  const applicationY =
+    currentY + 212;
+
+  // Circle
+  doc
+    .circle(
+      contentX + 18,
+      applicationY,
+      17
+    )
+    .fill("#F1FAF5")
+    .strokeColor(lightGreen)
+    .lineWidth(1)
+    .stroke();
+
+  // Simple gear
+  doc
+    .circle(
+      contentX + 18,
+      applicationY - 2,
+      6
+    )
+    .lineWidth(1.2)
+    .strokeColor(lightGreen)
+    .stroke();
+
+  doc
+    .circle(
+      contentX + 18,
+      applicationY - 2,
+      2
+    )
+    .lineWidth(1)
+    .strokeColor(lightGreen)
+    .stroke();
+
+  // Simple base
+  doc
+    .moveTo(
+      contentX + 9,
+      applicationY + 7
+    )
+    .lineTo(
+      contentX + 26,
+      applicationY + 7
+    )
+    .lineWidth(1.2)
+    .strokeColor(lightGreen)
+    .stroke();
+
+  doc
+    .moveTo(
+      contentX + 26,
+      applicationY + 7
+    )
+    .lineTo(
+      contentX + 30,
+      applicationY + 3
+    )
+    .lineWidth(1.2)
+    .strokeColor(lightGreen)
+    .stroke();
+
+  // Label
   doc
     .font("Helvetica")
-    .fontSize(7)
-    .fillColor(mutedColor)
+    .fontSize(11)
+    .fillColor(primaryColor)
     .text(
       "APPLICATION",
-      contentX,
-      currentY + 127,
-      {
-        width: contentWidth,
-      }
+      contentX + 48,
+      currentY + 201
     );
 
+  // Value
   doc
     .font("Helvetica-Bold")
-    .fontSize(8.5)
+    .fontSize(12)
     .fillColor(darkColor)
     .text(
-      product.application?.name ||
-        "Industrial Equipment",
-      contentX,
-      currentY + 139,
-      {
-        width: contentWidth,
-      }
+      applicationName,
+      contentX + 48,
+      currentY + 222
     );
-
-  /*
-   * ------------------------------------------------
-   * BOTTOM BRANDING
-   * ------------------------------------------------
-   */
-
-  doc
-    .font("Helvetica-Bold")
-    .fontSize(7)
-    .fillColor(secondaryColor)
-    .text(
-      "Industrial Recycling Solutions",
-      contentX,
-      currentY + 162,
-      {
-        width: contentWidth,
-      }
-    );
-
-  /*
-   * ------------------------------------------------
-   * RESET
-   * ------------------------------------------------
-   */
 
   doc.fillColor("#111111");
 
   /*
-   * ------------------------------------------------
-   * IMPORTANT:
-   * RETURN EXACTLY THE SPACE USED BY THIS SECTION
-   * ------------------------------------------------
+   * MOVE BELOW PRODUCT SECTION
    */
 
   currentY +=
-    overviewHeight + 28;
+    productAreaHeight + 25;
 
   return currentY;
 };

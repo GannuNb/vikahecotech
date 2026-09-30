@@ -1,77 +1,62 @@
-import {
-  hasEnoughSpace,
-} from "./pdfHelpers.js";
+import { hasEnoughSpace } from "./pdfHelpers.js";
 
-const drawDescription = (
-  doc,
-  product,
-  startY,
-  pageState
-) => {
+const drawDescription = (doc, product, startY, pageState) => {
   let currentY = startY;
 
   const left = 45;
   const width = doc.page.width - 90;
 
-  const primaryColor = "#0F4C5C";
-  const mutedColor = "#6B7280";
-  const borderColor = "#D9E2E6";
-  const textColor = "#27323A";
-  const accentColor = "#1F7A5A";
+  const primaryColor = "#2F7188";
+  const textColor = "#111111";
+  const lightGreen = "#EAF4EF";
 
   const description =
     product.description?.trim() ||
     "No product description available.";
 
-  const padding = 16;
-  const textWidth = width - padding * 2;
+  const boxPaddingTop = 18;
+  const boxPaddingBottom = 18;
+  const boxPaddingLeft = 20;
+  const boxPaddingRight = 18;
 
-  /*
-   * ------------------------------------------------
-   * IMPORTANT:
-   * SET FONT FIRST
-   * ------------------------------------------------
-   */
+  const textWidth =
+    width -
+    boxPaddingLeft -
+    boxPaddingRight;
+
+  const descriptionFontSize = 11;
 
   doc
     .font("Helvetica")
-    .fontSize(9);
+    .fontSize(descriptionFontSize);
 
-  /*
-   * ------------------------------------------------
-   * CALCULATE ACTUAL TEXT HEIGHT
-   * ------------------------------------------------
-   */
-
-  const textHeight =
-    doc.heightOfString(
-      description,
-      {
-        width: textWidth,
-        lineGap: 3,
-      }
-    );
-
-  /*
-   * Extra safety space so the text
-   * never touches the bottom of card.
-   */
+  const textHeight = doc.heightOfString(
+    description,
+    {
+      width: textWidth,
+      lineGap: 3,
+    }
+  );
 
   const boxHeight =
     textHeight +
-    padding * 2 +
-    8;
+    boxPaddingTop +
+    boxPaddingBottom;
+
+  const ribbonHeight = 30;
+  const ribbonWidth = 260;
+  const ribbonX = left + 5;
+  const ribbonY = currentY;
+  const slant = 28;
+
+  const headingFontSize = 14;
+  const headingGap = 25;
 
   const requiredHeight =
-    55 +
+    ribbonHeight +
+    headingGap +
     boxHeight +
-    28;
-
-  /*
-   * ------------------------------------------------
-   * PAGE BREAK
-   * ------------------------------------------------
-   */
+    20;
 
   if (
     !hasEnoughSpace(
@@ -81,124 +66,89 @@ const drawDescription = (
     )
   ) {
     pageState.startNewPage();
-
-    currentY =
-      pageState.getContentStartY();
+    currentY = pageState.getContentStartY();
   }
 
-  /*
-   * ------------------------------------------------
-   * SECTION TITLE
-   * ------------------------------------------------
-   */
-
   doc
-    .font("Helvetica-Bold")
-    .fontSize(15)
-    .fillColor(primaryColor)
-    .text(
-      "Product Description",
-      left,
-      currentY,
-      {
-        width,
-      }
-    );
-
-  currentY += 18;
-
-  /*
-   * ------------------------------------------------
-   * SUBTITLE
-   * ------------------------------------------------
-   */
+    .moveTo(
+      ribbonX + slant,
+      ribbonY
+    )
+    .lineTo(
+      ribbonX + ribbonWidth,
+      ribbonY
+    )
+    .lineTo(
+      ribbonX + ribbonWidth - slant,
+      ribbonY + ribbonHeight
+    )
+    .lineTo(
+      ribbonX,
+      ribbonY + ribbonHeight
+    )
+    .closePath()
+    .fill(primaryColor);
 
   doc
     .font("Helvetica")
-    .fontSize(8)
-    .fillColor(mutedColor)
+    .fontSize(headingFontSize)
+    .fillColor("#FFFFFF")
     .text(
-      "Overview and application details",
-      left,
-      currentY,
+      "Description",
+      ribbonX,
+      ribbonY + 8,
       {
-        width,
+        width: ribbonWidth,
+        align: "center",
+        lineBreak: false,
       }
     );
 
-  currentY += 22;
-
-  /*
-   * ------------------------------------------------
-   * DESCRIPTION CARD
-   * ------------------------------------------------
-   */
+  const boxY =
+    ribbonY +
+    ribbonHeight +
+    headingGap;
 
   doc
     .roundedRect(
       left,
-      currentY,
+      boxY,
       width,
       boxHeight,
-      7
+      8
     )
-    .fillAndStroke(
-      "#F7FAFA",
-      borderColor
-    );
-
-  /*
-   * ------------------------------------------------
-   * LEFT GREEN ACCENT
-   * ------------------------------------------------
-   */
+    .fill(lightGreen);
 
   doc
-    .roundedRect(
+    .rect(
       left,
-      currentY,
-      4,
-      boxHeight,
-      3
+      boxY,
+      6,
+      boxHeight
     )
-    .fill(accentColor);
-
-  /*
-   * ------------------------------------------------
-   * DESCRIPTION TEXT
-   * ------------------------------------------------
-   */
+    .fill(primaryColor);
 
   doc
     .font("Helvetica")
-    .fontSize(9)
+    .fontSize(descriptionFontSize)
     .fillColor(textColor)
     .text(
       description,
-      left + padding,
-      currentY + padding,
+      left + boxPaddingLeft,
+      boxY + boxPaddingTop,
       {
         width: textWidth,
         lineGap: 3,
+        align: "left",
       }
     );
 
-  /*
-   * ------------------------------------------------
-   * RESET COLOR
-   * ------------------------------------------------
-   */
-
   doc.fillColor("#111111");
 
-  /*
-   * ------------------------------------------------
-   * NEXT SECTION POSITION
-   * ------------------------------------------------
-   */
-
-  currentY +=
-    boxHeight + 28;
+  currentY =
+    boxY +
+    boxHeight +
+    30;
 
   return currentY;
 };

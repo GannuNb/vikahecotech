@@ -21,21 +21,25 @@ const testProductSpecificationPdf = async (req, res) => {
       });
     }
 
-    const { filePath, fileName } =
+    const { pdfBuffer, fileName } =
       await generateProductSpecificationPdf(product);
 
-    return res.download(
-      filePath,
-      fileName,
-      (error) => {
-        if (error) {
-          console.error(
-            "PDF download error:",
-            error
-          );
-        }
-      }
+    /*
+     * Send generated PDF buffer directly
+     */
+
+    res.setHeader(
+      "Content-Type",
+      "application/pdf"
     );
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${fileName}"`
+    );
+
+    return res.send(pdfBuffer);
+
   } catch (error) {
     console.error(
       "Test PDF generation error:",

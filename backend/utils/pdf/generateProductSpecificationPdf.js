@@ -4,9 +4,9 @@ import drawPdfHeader from "./pdfHeader.js";
 import drawPdfFooter from "./pdfFooter.js";
 
 import drawProductInfo from "./pdfProductInfo.js";
-import drawProductImages from "./pdfProductImages.js";
 import drawDescription from "./pdfDescription.js";
 import drawSpecifications from "./pdfSpecifications.js";
+import drawContact from "./pdfContact.js";
 
 const generateProductSpecificationPdf = async (product) => {
   return new Promise(async (resolve, reject) => {
@@ -55,7 +55,7 @@ const generateProductSpecificationPdf = async (product) => {
       const pageState = {
         pageNumber: 1,
 
-        contentStartY: 112,
+        contentStartY: 145,
 
         getContentStartY() {
           return this.contentStartY;
@@ -93,6 +93,7 @@ const generateProductSpecificationPdf = async (product) => {
       let currentY =
         pageState.getContentStartY();
 
+      // Product Information
       currentY =
         await drawProductInfo(
           doc,
@@ -101,14 +102,7 @@ const generateProductSpecificationPdf = async (product) => {
           pageState
         );
 
-      currentY =
-        await drawProductImages(
-          doc,
-          product,
-          currentY,
-          pageState
-        );
-
+      // Description
       currentY =
         drawDescription(
           doc,
@@ -117,6 +111,7 @@ const generateProductSpecificationPdf = async (product) => {
           pageState
         );
 
+      // Specifications
       currentY =
         drawSpecifications(
           doc,
@@ -124,7 +119,13 @@ const generateProductSpecificationPdf = async (product) => {
           currentY,
           pageState
         );
-
+      // Contact
+      currentY =
+        drawContact(
+          doc,
+          currentY,
+          pageState
+        );
       // --------------------------------
       // FINISH PDF
       // --------------------------------
