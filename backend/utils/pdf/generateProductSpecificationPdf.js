@@ -31,14 +31,13 @@ const generateProductSpecificationPdf = async (product) => {
         const pdfBuffer = Buffer.concat(chunks);
 
         const safeModelName =
-          (product.modelName || "product")
-            .trim()
-            .replace(/[^a-zA-Z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "")
-            .toLowerCase();
+  (product.modelName || "product")
+    .trim()
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toUpperCase();
 
-        const fileName =
-          `${safeModelName}-complete-specifications.pdf`;
+const fileName = `${safeModelName}.pdf`;
 
         resolve({
           pdfBuffer,

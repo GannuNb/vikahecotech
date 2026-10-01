@@ -97,7 +97,7 @@ const processSpecificationRequest = async (
       templatePath,
       {
         modelName:
-          product.modelName,
+          product.modelName?.toUpperCase(),
 
         applicationName:
           product.application?.name ||
@@ -122,21 +122,30 @@ const processSpecificationRequest = async (
     );
 
     await transporter.sendMail({
-      from: `"Vikah Ecotech Pvt Ltd" <${process.env.SMTP_USER}>`,
+      from: `"Vikah Ecotech" <${process.env.SMTP_USER}>`,
 
       to: product.specificationRequestEmail,
 
       subject:
-        `${product.modelName} - Complete Technical Specifications`,
+        `${product.modelName?.toUpperCase()} - Complete Technical Specifications`,
 
       html: emailHtml,
 
       attachments: [
+        // Email logo
+        {
+          filename: "logo_vk.png",
+          path: path.join(
+            __dirname,
+            "../assets/logo_vk.png"
+          ),
+          cid: "vikah-logo",
+        },
+
+        // Specification PDF
         {
           filename: fileName,
-
           content: pdfBuffer,
-
           contentType: "application/pdf",
         },
       ],

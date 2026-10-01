@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   Download,
   MoveRight,
-  Package,
   X,
 } from "lucide-react";
 
@@ -16,22 +15,46 @@ import "react-phone-number-input/style.css";
 
 import api from "../../../services/api";
 
+import CustomAlert from "../../../components/CustomAlert/CustomAlert.js";
+
 const CompleteSpecifications = ({
   currentProduct,
   onClose,
 }) => {
+  // =========================================
+  // FORM DATA
+  // =========================================
+
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
   });
+
+  // =========================================
+  // VALIDATION ERRORS
+  // =========================================
 
   const [errors, setErrors] = useState({
     email: "",
     phone: "",
   });
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+  // =========================================
+  // SUBMITTING STATE
+  // =========================================
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // =========================================
+  // CUSTOM ALERT STATE
+  // =========================================
+
+  const [alertData, setAlertData] = useState({
+    show: false,
+    title: "",
+    message: "",
+    closeModal: false,
+  });
 
   // =========================================
   // EMAIL VALIDATION
@@ -44,8 +67,7 @@ const CompleteSpecifications = ({
       return "Email address is required.";
     }
 
-    const emailPattern =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     if (!emailPattern.test(email)) {
       return "Please enter a valid email address.";
@@ -89,6 +111,27 @@ const CompleteSpecifications = ({
   };
 
   // =========================================
+  // CUSTOM ALERT CLOSE
+  // =========================================
+
+  const handleAlertClose = () => {
+    const shouldCloseModal = alertData.closeModal;
+
+    setAlertData({
+      show: false,
+      title: "",
+      message: "",
+      closeModal: false,
+    });
+
+    // Close the specification popup only
+    // after the success alert is closed.
+    if (shouldCloseModal && onClose) {
+      onClose();
+    }
+  };
+
+  // =========================================
   // FORM SUBMIT
   // =========================================
 
@@ -104,9 +147,7 @@ const CompleteSpecifications = ({
     // VALIDATE EMAIL
     // -----------------------------------------
 
-    const emailError = validateEmail(
-      formData.email
-    );
+    const emailError = validateEmail(formData.email);
 
     // -----------------------------------------
     // VALIDATE PHONE
@@ -116,11 +157,8 @@ const CompleteSpecifications = ({
 
     if (!formData.phone) {
       phoneError = "Phone number is required.";
-    } else if (
-      !isValidPhoneNumber(formData.phone)
-    ) {
-      phoneError =
-        "Please enter a valid phone number.";
+    } else if (!isValidPhoneNumber(formData.phone)) {
+      phoneError = "Please enter a valid phone number.";
     }
 
     // -----------------------------------------
@@ -145,9 +183,13 @@ const CompleteSpecifications = ({
     // -----------------------------------------
 
     if (!currentProduct?._id) {
-      alert(
-        "Product information is not available. Please try again."
-      );
+      setAlertData({
+        show: true,
+        title: "Product Unavailable",
+        message:
+          "Product information is not available. Please try again.",
+        closeModal: false,
+      });
 
       return;
     }
@@ -173,31 +215,40 @@ const CompleteSpecifications = ({
       // =======================================
 
       if (response.data?.success) {
-        alert(
-          "Request received successfully. Your complete specifications will be sent to your email shortly."
-        );
+        setAlertData({
+          show: true,
+          title: "Request Received",
+          message:
+            "Your complete specifications will be sent to your email shortly.",
+          closeModal: true,
+        });
 
         // Clear form
+
         setFormData({
           email: "",
           phone: "",
         });
 
         // Clear validation errors
+
         setErrors({
           email: "",
           phone: "",
         });
-
-        // Close popup
-        if (onClose) {
-          onClose();
-        }
       } else {
-        alert(
-          response.data?.message ||
-          "Something went wrong. Please try again."
-        );
+        // =====================================
+        // API ERROR RESPONSE
+        // =====================================
+
+        setAlertData({
+          show: true,
+          title: "Request Failed",
+          message:
+            response.data?.message ||
+            "Something went wrong. Please try again.",
+          closeModal: false,
+        });
       }
     } catch (error) {
       console.error(
@@ -205,330 +256,341 @@ const CompleteSpecifications = ({
         error
       );
 
-      alert(
-        error.response?.data?.message ||
-        "Something went wrong. Please try again."
-      );
+      // =======================================
+      // CATCH ERROR
+      // =======================================
+
+      setAlertData({
+        show: true,
+        title: "Request Failed",
+        message:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+        closeModal: false,
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // =========================================
+  // JSX
+  // =========================================
+
   return (
-    <div
-      className="fixed inset-0 z-[9999] overflow-y-auto bg-black/60 px-4 py-6 sm:px-6 sm:py-10"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="complete-specifications-title"
-    >
-      <div className="relative mx-auto flex min-h-full items-center justify-center">
+    <>
+      {/* =====================================
+          CUSTOM ALERT
+      ===================================== */}
 
-        <div className="relative w-full max-w-5xl">
+      {alertData.show && (
+        <CustomAlert
+          title={alertData.title}
+          message={alertData.message}
+          onClose={handleAlertClose}
+        />
+      )}
 
-          {/* =====================================
-              CLOSE BUTTON
-          ===================================== */}
+      {/* =====================================
+          MAIN MODAL
+      ===================================== */}
 
-          {onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-4 top-4 z-20 rounded-full border border-gray-200 bg-white p-2.5 text-gray-500 shadow-md transition hover:bg-gray-100 hover:text-gray-900 sm:right-5 sm:top-5"
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
-          )}
+      <div
+        className="fixed inset-0 z-[9999] overflow-y-auto bg-black/60 px-4 py-6 sm:px-6 sm:py-10"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="complete-specifications-title"
+      >
+        <div className="relative mx-auto flex min-h-full items-center justify-center">
+          <div className="relative w-full max-w-5xl">
 
-          {/* =====================================
-              MAIN CARD
-          ===================================== */}
+            {/* =====================================
+                CLOSE BUTTON
+            ===================================== */}
 
-          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl">
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="absolute right-4 top-4 z-20 rounded-full border border-gray-200 bg-white p-2.5 text-gray-500 shadow-md transition hover:bg-gray-100 hover:text-gray-900 sm:right-5 sm:top-5"
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            )}
 
-            <div className="grid lg:grid-cols-2">
+            {/* =====================================
+                MAIN CARD
+            ===================================== */}
 
-              {/* =================================
-                  LEFT SIDE
-              ================================= */}
+            <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl">
+              <div className="grid lg:grid-cols-2">
 
-              <div className="bg-gray-900 p-8 text-white sm:p-10 lg:p-12">
+                {/* =================================
+                    LEFT SIDE
+                ================================= */}
 
-                <div className="flex h-full flex-col justify-between">
+                <div className="bg-gray-900 p-8 text-white sm:p-10 lg:p-12">
+                  <div className="flex h-full flex-col justify-between">
 
-                  <div>
+                    <div>
+                      {/* ICON */}
 
-                    <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-3">
+                      <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-3">
+                        <Download size={26} />
+                      </div>
 
-                      <Download size={26} />
+                      {/* TITLE */}
 
+                      <h2
+                        id="complete-specifications-title"
+                        className="text-2xl font-bold sm:text-3xl"
+                      >
+                        Get the Full Technical Details
+                      </h2>
+
+                      {/* DESCRIPTION */}
+
+                      <p className="mt-5 leading-7 text-gray-300">
+                        Receive a detailed PDF containing
+                        the complete technical
+                        specifications of this model.
+                      </p>
+
+                      {/* FEATURES */}
+
+                      <div className="mt-8 space-y-4">
+
+                        {/* FEATURE 1 */}
+
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2
+                            size={20}
+                            className="mt-0.5 shrink-0 text-white"
+                          />
+
+                          <div>
+                            <p className="font-medium">
+                              Complete Technical
+                              Specifications
+                            </p>
+
+                            <p className="mt-1 text-sm text-gray-400">
+                              Detailed machine
+                              specifications and
+                              technical information.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* FEATURE 2 */}
+
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2
+                            size={20}
+                            className="mt-0.5 shrink-0 text-white"
+                          />
+
+                          <div>
+                            <p className="font-medium">
+                              Dimensions &amp; Performance
+                            </p>
+
+                            <p className="mt-1 text-sm text-gray-400">
+                              Machine dimensions,
+                              capacity, performance and
+                              operating details.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* FEATURE 3 */}
+
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2
+                            size={20}
+                            className="mt-0.5 shrink-0 text-white"
+                          />
+
+                          <div>
+                            <p className="font-medium">
+                              PDF Document
+                            </p>
+
+                            <p className="mt-1 text-sm text-gray-400">
+                              Receive the complete
+                              specification document
+                              directly by email.
+                            </p>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
 
-                    <h2
-                      id="complete-specifications-title"
-                      className="text-2xl font-bold sm:text-3xl"
-                    >
-                      Get the Full Technical Details
-                    </h2>
+                    {/* PRODUCT */}
 
-                    <p className="mt-5 leading-7 text-gray-300">
-                      Receive a detailed PDF containing
-                      the complete technical
-                      specifications of this model.
-                    </p>
+                    <div className="mt-10 border-t border-white/10 pt-6">
+                      <p className="text-xs uppercase tracking-wider text-gray-400">
+                        Product
+                      </p>
 
-                    {/* FEATURES */}
-
-                    <div className="mt-8 space-y-4">
-
-                      <div className="flex items-start gap-3">
-
-                        <CheckCircle2
-                          size={20}
-                          className="mt-0.5 shrink-0 text-white"
-                        />
-
-                        <div>
-
-                          <p className="font-medium">
-                            Complete Technical
-                            Specifications
-                          </p>
-
-                          <p className="mt-1 text-sm text-gray-400">
-                            Detailed machine
-                            specifications and
-                            technical information.
-                          </p>
-
-                        </div>
-
-                      </div>
-
-                      <div className="flex items-start gap-3">
-
-                        <CheckCircle2
-                          size={20}
-                          className="mt-0.5 shrink-0 text-white"
-                        />
-
-                        <div>
-
-                          <p className="font-medium">
-                            Dimensions & Performance
-                          </p>
-
-                          <p className="mt-1 text-sm text-gray-400">
-                            Machine dimensions,
-                            capacity, performance and
-                            operating details.
-                          </p>
-
-                        </div>
-
-                      </div>
-
-                      <div className="flex items-start gap-3">
-
-                        <CheckCircle2
-                          size={20}
-                          className="mt-0.5 shrink-0 text-white"
-                        />
-
-                        <div>
-
-                          <p className="font-medium">
-                            PDF Document
-                          </p>
-
-                          <p className="mt-1 text-sm text-gray-400">
-                            Receive the complete
-                            specification document
-                            directly by email.
-                          </p>
-
-                        </div>
-
-                      </div>
-
+                      <p className="mt-2 text-lg font-semibold">
+                        {currentProduct?.modelName}
+                      </p>
                     </div>
 
                   </div>
-
-                  {/* PRODUCT */}
-
-                  <div className="mt-10 border-t border-white/10 pt-6">
-
-                    <p className="text-xs uppercase tracking-wider text-gray-400">
-                      Product
-                    </p>
-
-                    <p className="mt-2 text-lg font-semibold">
-                      {currentProduct?.modelName}
-                    </p>
-
-                  </div>
-
                 </div>
 
-              </div>
+                {/* =================================
+                    RIGHT SIDE
+                ================================= */}
 
-              {/* =================================
-                  RIGHT SIDE
-              ================================= */}
+                <div className="p-8 sm:p-10 lg:p-12">
 
-              <div className="p-8 sm:p-10 lg:p-12">
+                  {/* HEADER */}
 
-                <div className="mb-8">
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold text-gray-900">
+                      Enter Your Details
+                    </h3>
 
-                  <h3 className="text-xl font-bold text-gray-900">
-                    Enter Your Details
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-gray-500">
-                    Enter your email address and phone
-                    number to receive the complete
-                    specifications.
-                  </p>
-
-                </div>
-
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                >
-
-                  {/* ============================
-                      EMAIL
-                  ============================ */}
-
-                  <div>
-
-                    <label
-                      htmlFor="email"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
-                    >
-                      Email Address
-                    </label>
-
-                    <input
-                      id="email"
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="name@example.com"
-                      autoComplete="email"
-                      disabled={isSubmitting}
-                      className={`w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition ${errors.email
-                          ? "border-red-500 focus:border-red-500"
-                          : "border-gray-300 focus:border-gray-700"
-                        }`}
-                    />
-
-                    {errors.email && (
-                      <p className="mt-2 text-xs text-red-500">
-                        {errors.email}
-                      </p>
-                    )}
-
-                  </div>
-
-                  {/* ============================
-                      PHONE
-                  ============================ */}
-
-                  <div>
-
-                    <label
-                      htmlFor="phone"
-                      className="mb-2 block text-sm font-semibold text-gray-700"
-                    >
-                      Phone Number
-                    </label>
-
-                    <div
-                      className={`w-full rounded-xl border px-4 py-3.5 transition ${errors.phone
-                          ? "border-red-500"
-                          : "border-gray-300 focus-within:border-gray-700"
-                        }`}
-                    >
-
-                      <PhoneInput
-                        id="phone"
-                        international
-                        defaultCountry="IN"
-                        countryCallingCodeEditable={
-                          false
-                        }
-                        value={formData.phone}
-                        onChange={handlePhoneChange}
-                        placeholder="Enter phone number"
-                        autoComplete="tel"
-                        disabled={isSubmitting}
-                        className="w-full [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:outline-none"
-                      />
-
-                    </div>
-
-                    <p className="mt-2 text-xs text-gray-500">
-                      Select your country and enter your
-                      phone number.
+                    <p className="mt-2 text-sm leading-6 text-gray-500">
+                      Enter your email address and phone
+                      number to receive the complete
+                      specifications.
                     </p>
-
-                    {errors.phone && (
-                      <p className="mt-2 text-xs text-red-500">
-                        {errors.phone}
-                      </p>
-                    )}
-
                   </div>
 
-                  {/* ============================
-                      SUBMIT
-                  ============================ */}
+                  {/* FORM */}
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
                   >
 
-                    {isSubmitting
-                      ? "Submitting..."
-                      : "Get Complete Specifications"}
+                    {/* ============================
+                        EMAIL
+                    ============================ */}
 
-                    {!isSubmitting && (
-                      <MoveRight
-                        size={18}
-                        className="transition-transform group-hover:translate-x-1"
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="mb-2 block text-sm font-semibold text-gray-700"
+                      >
+                        Email Address
+                      </label>
+
+                      <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="name@example.com"
+                        autoComplete="email"
+                        disabled={isSubmitting}
+                        className={`w-full rounded-xl border px-4 py-3.5 text-sm outline-none transition ${
+                          errors.email
+                            ? "border-red-500 focus:border-red-500"
+                            : "border-gray-300 focus:border-gray-700"
+                        }`}
                       />
-                    )}
 
-                  </button>
+                      {errors.email && (
+                        <p className="mt-2 text-xs text-red-500">
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
 
-                  {/* ============================
-                      PRIVACY
-                  ============================ */}
+                    {/* ============================
+                        PHONE
+                    ============================ */}
 
-                  <p className="text-center text-xs leading-5 text-gray-400">
-                    Your contact information will only
-                    be used to provide the requested
-                    product specifications.
-                  </p>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="mb-2 block text-sm font-semibold text-gray-700"
+                      >
+                        Phone Number
+                      </label>
 
-                </form>
+                      <div
+                        className={`w-full rounded-xl border px-4 py-3.5 transition ${
+                          errors.phone
+                            ? "border-red-500"
+                            : "border-gray-300 focus-within:border-gray-700"
+                        }`}
+                      >
+                        <PhoneInput
+                          id="phone"
+                          international
+                          defaultCountry="IN"
+                          countryCallingCodeEditable={false}
+                          value={formData.phone}
+                          onChange={handlePhoneChange}
+                          placeholder="Enter phone number"
+                          autoComplete="tel"
+                          disabled={isSubmitting}
+                          className="w-full [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:outline-none"
+                        />
+                      </div>
+
+                      <p className="mt-2 text-xs text-gray-500">
+                        Select your country and enter your
+                        phone number.
+                      </p>
+
+                      {errors.phone && (
+                        <p className="mt-2 text-xs text-red-500">
+                          {errors.phone}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* ============================
+                        SUBMIT
+                    ============================ */}
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isSubmitting
+                        ? "Submitting..."
+                        : "Get Complete Specifications"}
+
+                      {!isSubmitting && (
+                        <MoveRight
+                          size={18}
+                          className="transition-transform group-hover:translate-x-1"
+                        />
+                      )}
+                    </button>
+
+                    {/* ============================
+                        PRIVACY
+                    ============================ */}
+
+                    <p className="text-center text-xs leading-5 text-gray-400">
+                      Your contact information will only
+                      be used to provide the requested
+                      product specifications.
+                    </p>
+
+                  </form>
+                </div>
 
               </div>
-
             </div>
 
           </div>
-
         </div>
-
       </div>
-    </div>
+    </>
   );
 };
 

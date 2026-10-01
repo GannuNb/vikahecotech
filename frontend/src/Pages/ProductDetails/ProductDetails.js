@@ -5,6 +5,7 @@ import {
   Leaf,
   MoveRight,
   Package,
+  Share2,
   Sparkles,
 } from "lucide-react";
 
@@ -23,7 +24,20 @@ import TechnicalSpecifications from "./components/TechnicalSpecifications";
 import CompleteSpecifications from "./components/CompleteSpecifications";
 
 function ProductDetails() {
-  const { slug } = useParams();
+  const params = useParams();
+
+  /*
+    Supports both:
+
+    /product/:slug
+    /product/:productId
+  */
+
+  const slug =
+    params.slug ||
+    params.productId ||
+    params.id ||
+    "";
 
   const dispatch = useDispatch();
 
@@ -33,29 +47,32 @@ function ProductDetails() {
     error: productError,
   } = useSelector((state) => state.publicProduct);
 
-  const [selectedImage, setSelectedImage] =
-    useState("");
-
-  const [currentImageIndex, setCurrentImageIndex] =
-    useState(0);
-
-  // =========================================================
-  // COMPLETE SPECIFICATIONS POPUP
-  // =========================================================
+  const [selectedImage, setSelectedImage] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [
     showCompleteSpecifications,
     setShowCompleteSpecifications,
   ] = useState(false);
 
+
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
+}, [slug]);
   // =========================================================
   // FETCH PRODUCT
   // =========================================================
 
   useEffect(() => {
-    if (slug) {
-      dispatch(fetchPublicProductBySlug(slug));
+    if (!slug) {
+      return;
     }
+
+    dispatch(fetchPublicProductBySlug(slug));
 
     return () => {
       dispatch(clearCurrentPublicProduct());
@@ -87,7 +104,7 @@ function ProductDetails() {
   const handlePreviousImage = () => {
     if (
       !currentProduct?.images ||
-      currentProduct.images.length === 0
+      currentProduct.images.length <= 1
     ) {
       return;
     }
@@ -98,16 +115,13 @@ function ProductDetails() {
         : currentImageIndex - 1;
 
     setCurrentImageIndex(newIndex);
-
-    setSelectedImage(
-      currentProduct.images[newIndex]
-    );
+    setSelectedImage(currentProduct.images[newIndex]);
   };
 
   const handleNextImage = () => {
     if (
       !currentProduct?.images ||
-      currentProduct.images.length === 0
+      currentProduct.images.length <= 1
     ) {
       return;
     }
@@ -119,10 +133,7 @@ function ProductDetails() {
         : currentImageIndex + 1;
 
     setCurrentImageIndex(newIndex);
-
-    setSelectedImage(
-      currentProduct.images[newIndex]
-    );
+    setSelectedImage(currentProduct.images[newIndex]);
   };
 
   const handleImageSelect = (image, index) => {
@@ -131,20 +142,49 @@ function ProductDetails() {
   };
 
   // =========================================================
+  // SHARE
+  // =========================================================
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title:
+            currentProduct?.modelName ||
+            "Vikah Ecotech Product",
+          text:
+            currentProduct?.description ||
+            currentProduct?.modelName ||
+            "",
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(
+          window.location.href
+        );
+
+        alert("Product link copied.");
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        console.error("Share failed:", error);
+      }
+    }
+  };
+
+  // =========================================================
   // LOADING
   // =========================================================
 
   if (productLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="text-center">
+          <div className="w-10 h-10 mx-auto mb-4 rounded-full border-4 border-emerald-100 border-t-emerald-600 animate-spin" />
 
-          <div className="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-emerald-200 border-t-emerald-600 animate-spin" />
-
-          <p className="text-slate-600 text-base sm:text-lg">
+          <p className="text-sm sm:text-base text-slate-600">
             Loading product details...
           </p>
-
         </div>
       </div>
     );
@@ -156,36 +196,31 @@ function ProductDetails() {
 
   if (productError) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
-
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 text-center">
-
-          <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-red-50 flex items-center justify-center">
-
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-center shadow-sm">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-red-50 flex items-center justify-center">
             <Package
-              className="w-8 h-8 text-red-500"
+              size={28}
+              className="text-red-500"
             />
-
           </div>
 
-          <h1 className="text-2xl font-bold text-slate-900 mb-3">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
             Product Not Found
           </h1>
 
-          <p className="text-slate-600 mb-6">
+          <p className="text-sm text-slate-500 mb-5">
             {productError}
           </p>
 
           <Link
             to="/our-products"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition"
           >
             View Products
-            <MoveRight size={18} />
+            <MoveRight size={17} />
           </Link>
-
         </div>
-
       </div>
     );
   }
@@ -196,16 +231,10 @@ function ProductDetails() {
 
   if (!currentProduct) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
-
-        <div className="text-center">
-
-          <p className="text-slate-600">
-            Product information is not available.
-          </p>
-
-        </div>
-
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <p className="text-sm text-slate-500">
+          Product information is not available.
+        </p>
       </div>
     );
   }
@@ -217,54 +246,64 @@ function ProductDetails() {
   const applicationName =
     typeof currentProduct.application === "object"
       ? currentProduct.application?.name
-      : currentProduct.application;
+      : currentProduct.application || "";
 
   const categoryName =
     typeof currentProduct.application === "object"
       ? currentProduct.application?.category?.name
       : "";
 
+  /*
+    Keep model name capitalized.
+    Example:
+    blt-150 -> BLT-150
+  */
+
+  const modelName = (
+    currentProduct.modelName || ""
+  ).toUpperCase();
+
   // =========================================================
-  // DYNAMIC SEO DATA
+  // SEO
   // =========================================================
 
   const seoTitle =
     currentProduct.seo?.title?.trim() ||
-    currentProduct.modelName;
+    `${modelName} | ${applicationName || "Product"} | Vikah Ecotech`;
 
   const seoDescription =
     currentProduct.seo?.description?.trim() ||
     currentProduct.description ||
-    `Learn more about ${currentProduct.modelName} by Vikah Ecotech.`;
+    `Learn more about ${modelName} by Vikah Ecotech.`;
 
   const seoKeywords =
     currentProduct.seo?.keywords?.trim() || "";
 
   const canonicalUrl =
-    `https://vikahecotech.com/${currentProduct.slug}`;
+    `https://vikahecotech.com/${currentProduct.slug || slug}`;
 
   // =========================================================
   // PUBLIC SPECIFICATIONS
   // =========================================================
 
-  const publicSpecifications = Array.isArray(
-    currentProduct.sections
-  )
-    ? currentProduct.sections
-        .map((section) => ({
-          ...section,
+  const publicSpecifications =
+    Array.isArray(currentProduct.sections)
+      ? currentProduct.sections
+          .map((section) => ({
+            ...section,
 
-          fields: Array.isArray(section.fields)
-            ? section.fields.filter(
-                (field) => field.isPublic === true
-              )
-            : [],
-        }))
-
-        .filter(
-          (section) => section.fields.length > 0
-        )
-    : [];
+            fields: Array.isArray(section.fields)
+              ? section.fields.filter(
+                  (field) =>
+                    field.isPublic === true
+                )
+              : [],
+          }))
+          .filter(
+            (section) =>
+              section.fields.length > 0
+          )
+      : [];
 
   const totalPublicSpecifications =
     publicSpecifications.reduce(
@@ -298,16 +337,12 @@ function ProductDetails() {
   });
 
   // =========================================================
-  // OPEN COMPLETE SPECIFICATIONS POPUP
+  // COMPLETE SPECIFICATIONS
   // =========================================================
 
   const openCompleteSpecifications = () => {
     setShowCompleteSpecifications(true);
   };
-
-  // =========================================================
-  // CLOSE COMPLETE SPECIFICATIONS POPUP
-  // =========================================================
 
   const closeCompleteSpecifications = () => {
     setShowCompleteSpecifications(false);
@@ -321,7 +356,7 @@ function ProductDetails() {
     <main className="min-h-screen bg-white">
 
       {/* =====================================================
-          DYNAMIC SEO
+          SEO
       ===================================================== */}
 
       <title>{seoTitle}</title>
@@ -342,8 +377,6 @@ function ProductDetails() {
         rel="canonical"
         href={canonicalUrl}
       />
-
-      {/* Open Graph */}
 
       <meta
         property="og:title"
@@ -377,8 +410,6 @@ function ProductDetails() {
         content="Vikah Ecotech Pvt Ltd"
       />
 
-      {/* Twitter */}
-
       <meta
         name="twitter:card"
         content="summary_large_image"
@@ -402,91 +433,88 @@ function ProductDetails() {
       )}
 
       {/* =====================================================
-          HERO SECTION
+          TOP PRODUCT SECTION
       ===================================================== */}
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white">
+      <section className="bg-white">
 
-        {/* Decorative Background */}
-
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-
-          <div className="absolute -top-32 -right-32 w-72 h-72 sm:w-96 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl" />
-
-          <div className="absolute bottom-0 -left-32 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-
-          <div className="absolute top-1/2 right-1/4 w-40 h-40 bg-emerald-400/5 rounded-full blur-3xl" />
-
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
 
           {/* =================================================
-              BREADCRUMB
+              BREADCRUMB + SHARE
           ================================================= */}
 
-          <div className="pt-5 sm:pt-7 lg:pt-8 pb-4 sm:pb-6">
+          <div className="flex items-center justify-between gap-4 pt-5 sm:pt-7 lg:pt-8 pb-5">
 
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 overflow-x-auto whitespace-nowrap scrollbar-hide">
 
               <Link
                 to="/"
-                className="hover:text-white transition flex-shrink-0"
+                className="hover:text-emerald-700 transition flex-shrink-0"
               >
                 Home
               </Link>
 
-              <span>/</span>
-
-              <Link
-                to="/our-products"
-                className="hover:text-white transition flex-shrink-0"
-              >
-                Products
-              </Link>
+              <span className="text-slate-300">
+                ›
+              </span>
 
               {categoryName && (
                 <>
-                  <span>/</span>
-
                   <span className="flex-shrink-0">
                     {categoryName}
+                  </span>
+
+                  <span className="text-slate-300">
+                    ›
                   </span>
                 </>
               )}
 
               {applicationName && (
                 <>
-                  <span>/</span>
-
                   <span className="flex-shrink-0">
                     {applicationName}
+                  </span>
+
+                  <span className="text-slate-300">
+                    ›
                   </span>
                 </>
               )}
 
-              <span>/</span>
-
-              <span className="text-white font-medium flex-shrink-0">
-                {currentProduct.modelName}
+              <span className="font-semibold text-emerald-700 flex-shrink-0">
+                {modelName}
               </span>
 
             </div>
 
+            <button
+              type="button"
+              onClick={handleShare}
+              className="flex-shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm font-semibold shadow-sm hover:shadow-md hover:border-slate-300 transition"
+            >
+              <Share2 size={17} />
+              <span>Share</span>
+            </button>
+
           </div>
 
           {/* =================================================
-              HERO CONTENT
+              MAIN GRID
           ================================================= */}
 
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 xl:gap-16 items-center pb-12 sm:pb-16 lg:pb-20">
+          <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] xl:grid-cols-[minmax(0,1.08fr)_minmax(480px,0.92fr)] gap-7 lg:gap-9 xl:gap-12 pb-10 sm:pb-12 lg:pb-14">
 
             {/* =================================================
-                IMAGE GALLERY
+                LEFT - IMAGE
             ================================================= */}
 
             <ProductImageGallery
-              product={currentProduct}
+              product={{
+                ...currentProduct,
+                modelName,
+              }}
               selectedImage={selectedImage}
               currentImageIndex={currentImageIndex}
               hasImages={hasImages}
@@ -500,123 +528,152 @@ function ProductDetails() {
             />
 
             {/* =================================================
-                PRODUCT INFORMATION
+                RIGHT - PRODUCT INFORMATION
             ================================================= */}
 
-            <div className="min-w-0">
+            <div className="min-w-0 flex flex-col justify-center">
 
-              {/* Application Badge */}
+              {/* APPLICATION BADGE */}
 
               {applicationName && (
-                <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/15 border border-emerald-400/20 text-emerald-300 text-xs sm:text-sm font-medium mb-4 sm:mb-5">
-
+                <div className="inline-flex self-start items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs sm:text-sm font-semibold mb-5">
                   <Leaf size={15} />
 
-                  <span className="truncate max-w-[240px]">
+                  <span>
                     {applicationName}
                   </span>
-
                 </div>
               )}
 
-              {/* Model Name */}
+              {/* MODEL */}
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] break-words mb-4">
-                {currentProduct.modelName}
+              <h1 className="text-4xl sm:text-5xl lg:text-[52px] xl:text-[58px] font-bold tracking-tight leading-none text-slate-950 mb-5">
+                {modelName}
               </h1>
 
-              {/* Application */}
+              {/* APPLICATION */}
 
               {applicationName && (
-                <h2 className="text-lg sm:text-xl lg:text-2xl text-slate-200 font-medium leading-snug mb-5 sm:mb-6">
-                  {applicationName}
-                </h2>
+                <div className="flex items-center gap-4 mb-6">
+
+                  <span className="w-12 sm:w-14 h-[3px] rounded-full bg-emerald-600" />
+
+                  <h2 className="text-base sm:text-lg lg:text-xl font-medium text-slate-900">
+                    {applicationName}
+                  </h2>
+
+                </div>
               )}
 
-              {/* Green Line */}
+              {/* INFORMATION CARDS */}
 
-              <div className="w-14 sm:w-16 h-1 bg-emerald-400 rounded-full mb-5 sm:mb-7" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
 
-              {/* Description */}
+                {/* PRODUCT */}
 
-              {currentProduct.description && (
-                <p className="text-slate-300 text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 max-w-2xl">
-                  {currentProduct.description}
-                </p>
-              )}
+                <div className="rounded-2xl bg-emerald-50/70 border border-emerald-100 p-4 sm:p-5 min-h-[105px]">
 
-              {/* Product Data Indicators */}
+                  <div className="flex items-start gap-3">
 
-              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 mt-6 sm:mt-8">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-emerald-100 flex items-center justify-center">
+                      <Package
+                        size={19}
+                        className="text-emerald-700"
+                      />
+                    </div>
 
-                <div className="rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 p-3.5 sm:p-4">
+                    <div className="min-w-0">
 
-                  <Package
-                    size={20}
-                    className="text-emerald-400 mb-2 sm:mb-3"
-                  />
+                      <p className="text-[11px] sm:text-xs text-slate-500 mb-1">
+                        Product
+                      </p>
 
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Product
-                  </p>
+                      <p className="font-semibold text-sm sm:text-base text-slate-950 break-words">
+                        {modelName}
+                      </p>
 
-                  <p className="font-semibold text-sm sm:text-base mt-1 break-words">
-                    {currentProduct.modelName}
-                  </p>
+                    </div>
+
+                  </div>
 
                 </div>
 
-                {applicationName && (
-                  <div className="rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 p-3.5 sm:p-4">
+                {/* APPLICATION */}
 
-                    <Sparkles
-                      size={20}
-                      className="text-emerald-400 mb-2 sm:mb-3"
-                    />
+                <div className="rounded-2xl bg-emerald-50/70 border border-emerald-100 p-4 sm:p-5 min-h-[105px]">
 
-                    <p className="text-[11px] sm:text-xs text-slate-400">
-                      Application
-                    </p>
+                  <div className="flex items-start gap-3">
 
-                    <p className="font-semibold text-sm sm:text-base mt-1 break-words line-clamp-2">
-                      {applicationName}
-                    </p>
+                    <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-emerald-100 flex items-center justify-center">
+                      <Sparkles
+                        size={19}
+                        className="text-emerald-700"
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+
+                      <p className="text-[11px] sm:text-xs text-slate-500 mb-1">
+                        Application
+                      </p>
+
+                      <p className="font-semibold text-sm sm:text-base text-slate-950 break-words">
+                        {applicationName || "-"}
+                      </p>
+
+                    </div>
 
                   </div>
-                )}
 
-                <div className="rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 p-3.5 sm:p-4">
+                </div>
 
-                  <CheckCircle2
-                    size={20}
-                    className="text-emerald-400 mb-2 sm:mb-3"
-                  />
+                {/* PUBLIC SPECIFICATIONS */}
 
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Public Specifications
-                  </p>
+                <div className="rounded-2xl bg-emerald-50/70 border border-emerald-100 p-4 sm:p-5 min-h-[105px]">
 
-                  <p className="font-semibold text-sm sm:text-base mt-1">
-                    {totalPublicSpecifications}
-                  </p>
+                  <div className="flex items-start gap-3">
+
+                    <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-emerald-100 flex items-center justify-center">
+                      <CheckCircle2
+                        size={19}
+                        className="text-emerald-700"
+                      />
+                    </div>
+
+                    <div>
+
+                      <p className="text-[11px] sm:text-xs text-slate-500 mb-1">
+                        Public Specifications
+                      </p>
+
+                      <p className="font-semibold text-sm sm:text-base text-slate-950">
+                        {totalPublicSpecifications}
+                      </p>
+
+                    </div>
+
+                  </div>
 
                 </div>
 
               </div>
 
-              {/* =================================================
-                  TOP CTA
-              ================================================= */}
+              {/* COMPLETE SPECIFICATION BUTTON */}
 
               <button
                 type="button"
                 onClick={
                   openCompleteSpecifications
                 }
-                className="mt-7 sm:mt-9 w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-5 sm:px-7 py-3.5 sm:py-4 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-400 transition shadow-lg shadow-emerald-900/20"
+                className="w-full inline-flex items-center justify-center gap-3 px-5 py-3.5 sm:py-4 rounded-xl bg-emerald-700 text-white text-sm sm:text-base font-semibold hover:bg-emerald-800 transition shadow-sm"
               >
+                <span className="text-lg">
+                  ▧
+                </span>
+
                 Need Complete Specifications?
-                <MoveRight size={18} />
+
+                <MoveRight size={19} />
               </button>
 
             </div>
@@ -632,7 +689,10 @@ function ProductDetails() {
       ===================================================== */}
 
       <ProductOverview
-        product={currentProduct}
+        product={{
+          ...currentProduct,
+          modelName,
+        }}
         hasImages={hasImages}
       />
 
@@ -641,43 +701,40 @@ function ProductDetails() {
       ===================================================== */}
 
       <TechnicalSpecifications
-        product={currentProduct}
+        product={{
+          ...currentProduct,
+          modelName,
+        }}
         publicSpecifications={
           publicSpecifications
         }
-        specificationRows={specificationRows}
+        specificationRows={
+          specificationRows
+        }
       />
 
       {/* =====================================================
-          BOTTOM COMPLETE SPECIFICATIONS CTA
+          COMPLETE SPECIFICATIONS SECTION
       ===================================================== */}
 
       <section
         id="complete-specifications"
-        className="relative overflow-hidden bg-slate-50 py-16 sm:py-20"
+        className="relative overflow-hidden bg-slate-50 py-12 sm:py-16 lg:py-20"
       >
 
-        {/* Decorative Background */}
+        <div className="absolute -right-32 -top-32 w-72 h-72 bg-emerald-100 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-
-          <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl" />
-
-          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-200/20 rounded-full blur-3xl" />
-
-        </div>
+        <div className="absolute -left-32 -bottom-32 w-72 h-72 bg-cyan-100/60 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white overflow-hidden shadow-xl">
 
-            <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-12 items-center p-7 sm:p-10 lg:p-14">
-
-              {/* Content */}
+            <div className="grid lg:grid-cols-[1fr_auto] gap-7 lg:gap-10 items-center p-7 sm:p-9 lg:p-12">
 
               <div>
 
-                <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/15 border border-emerald-400/20 text-emerald-300 text-xs sm:text-sm font-medium mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/20 text-emerald-300 text-xs sm:text-sm font-medium mb-4">
 
                   <CheckCircle2 size={15} />
 
@@ -685,39 +742,28 @@ function ProductDetails() {
 
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-4">
-
+                <h2 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">
                   Need Complete Specifications?
-
                 </h2>
 
-                <p className="text-slate-300 text-sm sm:text-base lg:text-lg leading-7 max-w-2xl">
-
+                <p className="text-slate-300 text-sm sm:text-base leading-7 max-w-2xl">
                   Get the complete technical specifications,
-                  including detailed product information,
-                  specifications and other technical details
-                  for this model.
-
+                  detailed product information and other
+                  technical details for {modelName}.
                 </p>
 
               </div>
 
-              {/* Button */}
-
-              <div className="lg:flex-shrink-0">
-
-                <button
-                  type="button"
-                  onClick={
-                    openCompleteSpecifications
-                  }
-                  className="w-full lg:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-400 transition shadow-lg shadow-emerald-900/20"
-                >
-                  Get Complete Specifications
-                  <MoveRight size={18} />
-                </button>
-
-              </div>
+              <button
+                type="button"
+                onClick={
+                  openCompleteSpecifications
+                }
+                className="w-full lg:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-emerald-500 text-white text-sm sm:text-base font-semibold hover:bg-emerald-400 transition"
+              >
+                Get Complete Specifications
+                <MoveRight size={18} />
+              </button>
 
             </div>
 
@@ -739,10 +785,6 @@ function ProductDetails() {
           }
         />
       )}
-
-      {/* =====================================================
-          BOTTOM SPACE
-      ===================================================== */}
 
       <div className="h-3 sm:h-4 bg-white" />
 
