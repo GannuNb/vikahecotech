@@ -225,8 +225,8 @@ const Navbar = () => {
                       <Link to="/tyreshredder" className="ve-mega__link" onClick={closeAll}>Tyre Shredder</Link>
                       <Link to="/plasticshredder" className="ve-mega__link" onClick={closeAll}>Plastic Shredder</Link>
                       <Link to="/papershredder" className="ve-mega__link" onClick={closeAll}>Paper & Cardboard Shredder</Link>
-                      <Link to="/ewaste" className="ve-mega__link" onClick={closeAll}>E-Waste Shredder</Link>
-                      <Link to="/shm4000" className="ve-mega__link" onClick={closeAll}>Metal Shredder (SHM4000)</Link>
+                      <Link to="/ewasteshredder" className="ve-mega__link" onClick={closeAll}>E-Waste Shredder</Link>
+                      <Link to="/metalshredder" className="ve-mega__link" onClick={closeAll}>Metal Shredder </Link>
                     </div>
                   </div>
 

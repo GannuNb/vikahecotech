@@ -114,7 +114,7 @@ export const productRegistry = {
             blurb: "Electronic waste recycling",
             description: "Specialized shredding for hard drives, circuit boards, and appliances.",
             items: [
-                { id: 23, model: "SHE400", img: ewaste, link: "/ewaste" },
+                { id: 23, model: "SHE400", img: ewaste, link: "/ewasteshredder" },
             ]
         }
     },

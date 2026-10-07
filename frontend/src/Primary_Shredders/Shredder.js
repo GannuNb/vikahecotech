@@ -141,7 +141,7 @@ function Shredder() {
     },
     {
       name: "E-Waste Shredder",
-      route: "/ewaste",
+      route: "/ewasteshredder",
       images: [ewaste1, ewaste2],
     },
   ];
@@ -263,7 +263,7 @@ function Shredder() {
           "@type": "ListItem",
           "position": 5,
           "name": "E-Waste Shredder",
-          "url": "https://vikahecotech.com/ewaste"
+          "url": "https://vikahecotech.com/ewasteshredder"
         }
       ]
     }

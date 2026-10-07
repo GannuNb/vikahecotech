@@ -1,83 +1,176 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Carousel from "react-bootstrap/Carousel";
+import { useDispatch, useSelector } from "react-redux";
+
 import "../../Other Equipments/Tyrecutting.css";
 import "../../Pages/Models.css";
-import Carousel from "react-bootstrap/Carousel";
+
 import shredderhdimg from "../../images/Shedder _ Final PNG.png";
 import shredderhd from "../../images/shredder_hd.jpg";
 import shredderhd1 from "../../images/shredder_hd1.jpg";
-import { Helmet } from "react-helmet";
+
 import SEOHelmet from "../../components/SEO/SEOHelmet";
 import styles from "../../Styles/Topheadings.module.css";
 
+import {
+  fetchPublicProductsByApplicationName,
+} from "../../redux/slices/publicProductSlice";
+
 function Tyreshredder() {
+  const dispatch = useDispatch();
+
+  const publicProductState = useSelector(
+    (state) =>
+      state.publicProduct ||
+      state.publicProducts ||
+      state.publicProductSlice ||
+      {}
+  );
+
+  const products = publicProductState.products || [];
+  const loading = publicProductState.loading || false;
+  const error = publicProductState.error || null;
+
+  useEffect(() => {
+    dispatch(
+      fetchPublicProductsByApplicationName("Primary Tyre Shredders")
+    );
+  }, [dispatch]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const shredders = [
-    {
-      name: "SHT6000",
-      type: "Shredder",
-      power: "120 - 160 HP",
-      system: "Robust Hydraulic System",
-      feature: "Our SHT6000 is equipped with user-friendly controls.",
-    },
-    {
-      name: "SHT8000",
-      type: "Shredder",
-      power: "160 - 220 HP",
-      feature: "Our SHT8000 is equipped with user-friendly controls.",
-    },
-    {
-      name: "SHT12000",
-      type: "Shredder",
-      power: "220 - 280 HP",
-      system: "Robust Hydraulic System",
-      feature: "Our SHT12000 is equipped with user-friendly controls.",
-    },
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setSelected(products[0]);
+    }
+  }, [products]);
+
+  const fallbackCarouselImages = [
+    shredderhdimg,
+    shredderhd,
+    shredderhd1,
   ];
 
-  // Shared carousel images
-  const carouselImages = [shredderhdimg, shredderhd, shredderhd1];
+  const carouselImages =
+    selected?.images?.length > 0
+      ? selected.images
+          .map((image) => {
+            if (typeof image === "string") {
+              return image;
+            }
 
-  const [selected, setSelected] = useState(shredders[0]);
-  const [slide, setSlide] = useState(0);
+            if (image?.url) {
+              return image.url;
+            }
 
-  const nextSlide = () => {
-    setSlide((prev) => (prev + 1) % carouselImages.length);
-  };
+            if (image?.imageUrl) {
+              return image.imageUrl;
+            }
 
-  const prevSlide = () => {
-    setSlide((prev) => (prev === 0 ? carouselImages.length - 1 : prev - 1));
-  };
+            if (image?.src) {
+              return image.src;
+            }
 
-  const products = [
-    {
-      name: "SHT6000",
+            return null;
+          })
+          .filter(Boolean)
+      : fallbackCarouselImages;
+
+  const publicSpecifications =
+    selected?.sections?.flatMap((section) =>
+      (section.fields || [])
+        .filter((field) => field.isPublic)
+        .map((field) => ({
+          label: field.name,
+          value: field.value,
+        }))
+    ) || [];
+
+  const modelName =
+    selected?.modelName ||
+    selected?.name ||
+    selected?.title ||
+    "Primary Tyre Shredder";
+
+  const seoProducts = products.map((product) => {
+    const productName =
+      product.modelName ||
+      product.name ||
+      product.title ||
+      "Primary Tyre Shredder";
+
+    const productSlug =
+      product.slug ||
+      productName.toLowerCase().replace(/\s+/g, "-");
+
+    let productImage = "";
+
+    if (product.images?.length > 0) {
+      const firstImage = product.images[0];
+
+      if (typeof firstImage === "string") {
+        productImage = firstImage;
+      } else {
+        productImage =
+          firstImage?.url ||
+          firstImage?.imageUrl ||
+          firstImage?.src ||
+          "";
+      }
+    }
+
+    return {
+      name: productName,
       description:
-        "Primary tyre shredder SHT6000 with 120-160 HP power and robust hydraulic system.",
-      image: "https://vikahecotech.com/images/sht6000.png",
-      url: "https://vikahecotech.com/sht6000",
-      price: "6500000",
-    },
-    {
-      name: "SHT8000",
-      description:
-        "Primary tyre shredder SHT8000 with 160-220 HP power for industrial tyre recycling.",
-      image: "https://vikahecotech.com/images/sht8000.jpg",
-      url: "https://vikahecotech.com/sht8000",
-      price: "7500000",
-    },
-    {
-      name: "SHT12000",
-      description:
-        "Primary tyre shredder SHT12000 with 220-280 HP for high-performance tyre shredding.",
-      image: "https://vikahecotech.com/images/sht12000.jpeg",
-      url: "https://vikahecotech.com/sht12000",
-      price: "9000000",
-    },
-  ];
+        product.description ||
+        `Primary tyre shredder ${productName} designed for efficient tyre recycling and industrial shredding applications.`,
+      image: productImage,
+      url: `https://vikahecotech.com/${productSlug}`,
+      price: product.price || "",
+    };
+  });
+
+  if (loading && products.length === 0) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "60vh" }}
+      >
+        <div className="text-center">
+          <div
+            className="spinner-border text-success"
+            role="status"
+          ></div>
+
+          <p className="mt-3 fw-semibold">
+            Loading Primary Tyre Shredders...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && products.length === 0) {
+    return (
+      <div
+        className="container text-center py-5"
+        style={{ minHeight: "60vh" }}
+      >
+        <h3 className="fw-bold text-danger mb-3">
+          Unable to load Primary Tyre Shredders
+        </h3>
+
+        <p className="text-muted">
+          {error}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -87,9 +180,12 @@ function Tyreshredder() {
         keywords="tyre shredder machine, tyre shredding machine, tyre recycling shredder"
         canonical="https://vikahecotech.com/tyreshredder"
         pageName="Primary Tyre Shredder Machines"
-        products={products}
+        products={seoProducts}
         breadcrumb={[
-          { name: "Home", url: "https://vikahecotech.com" },
+          {
+            name: "Home",
+            url: "https://vikahecotech.com",
+          },
           {
             name: "Primary Shredders",
             url: "https://vikahecotech.com/primary-shredder",
@@ -101,13 +197,8 @@ function Tyreshredder() {
         ]}
       />
 
-      {/* Header */}
-      {/* HERO CAROUSEL */}
-
       <div className={styles.heroWrapper}>
         <Carousel controls indicators interval={4000}>
-          {/* Slide 1 */}
-
           <Carousel.Item>
             <img
               className={styles.heroImage}
@@ -118,12 +209,15 @@ function Tyreshredder() {
 
             <div className={styles.heroOverlay}>
               <div className={styles.heroContent}>
-                <h1 className={styles.heroTitle}>Primary Tyre Shredders</h1>
+                <h1 className={styles.heroTitle}>
+                  Primary Tyre Shredders
+                </h1>
 
                 <p className={styles.heroSubtitle}>
-                  Heavy-duty tyre shredders engineered for primary shredding of
-                  whole tyres in recycling plants, delivering consistent and
-                  efficient material processing.
+                  Heavy-duty tyre shredders engineered for primary
+                  shredding of whole tyres in recycling plants,
+                  delivering consistent and efficient material
+                  processing.
                 </p>
 
                 <button
@@ -131,7 +225,9 @@ function Tyreshredder() {
                   onClick={() =>
                     document
                       .getElementById("modelsSection")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      })
                   }
                 >
                   View Models
@@ -139,8 +235,6 @@ function Tyreshredder() {
               </div>
             </div>
           </Carousel.Item>
-
-          {/* Slide 2 */}
 
           <Carousel.Item>
             <img
@@ -152,12 +246,14 @@ function Tyreshredder() {
 
             <div className={styles.heroOverlay}>
               <div className={styles.heroContent}>
-                <h1 className={styles.heroTitle}>Industrial Tyre Shredding</h1>
+                <h1 className={styles.heroTitle}>
+                  Industrial Tyre Shredding
+                </h1>
 
                 <p className={styles.heroSubtitle}>
-                  Powerful shredding systems designed for tyre recycling plants
-                  to process large volumes of scrap tyres with high efficiency
-                  and durability.
+                  Powerful shredding systems designed for tyre
+                  recycling plants to process large volumes of
+                  scrap tyres with high efficiency and durability.
                 </p>
 
                 <button
@@ -165,7 +261,9 @@ function Tyreshredder() {
                   onClick={() =>
                     document
                       .getElementById("modelsSection")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      })
                   }
                 >
                   View Models
@@ -173,8 +271,6 @@ function Tyreshredder() {
               </div>
             </div>
           </Carousel.Item>
-
-          {/* Slide 3 */}
 
           <Carousel.Item>
             <img
@@ -186,12 +282,14 @@ function Tyreshredder() {
 
             <div className={styles.heroOverlay}>
               <div className={styles.heroContent}>
-                <h1 className={styles.heroTitle}>High Performance Shredders</h1>
+                <h1 className={styles.heroTitle}>
+                  High Performance Shredders
+                </h1>
 
                 <p className={styles.heroSubtitle}>
-                  Advanced tyre shredders equipped with powerful hydraulic
-                  systems and high horsepower drives for reliable continuous
-                  operation.
+                  Advanced tyre shredders equipped with powerful
+                  hydraulic systems and high horsepower drives for
+                  reliable continuous operation.
                 </p>
 
                 <button
@@ -199,7 +297,9 @@ function Tyreshredder() {
                   onClick={() =>
                     document
                       .getElementById("modelsSection")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      })
                   }
                 >
                   View Models
@@ -211,10 +311,11 @@ function Tyreshredder() {
       </div>
 
       <div className="container-fluid px-4 px-md-5 my-5">
-        {/* ================= INTRO SECTION ================= */}
+
         <div className="container-fluid py-5">
           <div className="row justify-content-center">
             <div className="col-12 col-lg-10 text-center">
+
               <h2
                 className="fw-bold mb-4"
                 style={{
@@ -234,11 +335,13 @@ function Tyreshredder() {
                   color: "#2d3748",
                 }}
               >
-                Vikah Ecotech designs and manufactures high-performance primary
-                tyre shredders (SHT6000, SHT8000, SHT12000) for efficient
-                shredding of whole tyres in recycling plants. These industrial
-                machines are engineered for continuous operation, delivering
-                uniform shredded material for downstream recycling processes.
+                Vikah Ecotech designs and manufactures
+                high-performance primary tyre shredders for
+                efficient shredding of whole tyres in recycling
+                plants. These industrial machines are engineered
+                for continuous operation, delivering uniform
+                shredded material for downstream recycling
+                processes.
               </p>
 
               <p
@@ -249,163 +352,233 @@ function Tyreshredder() {
                   color: "#4a5568",
                 }}
               >
-                Built with heavy-duty frames, high horsepower drives, and robust
-                hydraulic systems, our shredders provide reliable performance,
-                low maintenance, and high operational efficiency.
+                Built with heavy-duty frames, high horsepower
+                drives, and robust hydraulic systems, our
+                shredders provide reliable performance, low
+                maintenance, and high operational efficiency.
               </p>
+
             </div>
           </div>
         </div>
 
-        {/* ================= FULL WIDTH MODEL SECTION ================= */}
         <div
           id="modelsSection"
           className="py-5 px-3 px-md-5 mb-5"
           style={{
-            background: "linear-gradient(135deg, #e6fffa, #f0fdfa)",
+            background:
+              "linear-gradient(135deg, #e6fffa, #f0fdfa)",
             borderTop: "5px solid #22c55e",
             borderBottom: "5px solid #22c55e",
           }}
         >
           <div className="container-fluid">
+
             <h3
               className="text-center fw-bold mb-4"
-              style={{ color: "#166534", fontSize: "1.8rem" }}
+              style={{
+                color: "#166534",
+                fontSize: "1.8rem",
+              }}
             >
               Available Primary Tyre Shredder Models
             </h3>
 
-            {/* ================= MODEL BUTTONS (centered) ================= */}
-            <div className="d-flex justify-content-center flex-wrap mb-5">
-              {shredders.map((machine, index) => (
-                <button
-                  key={index}
-                  className="mx-2 my-2 px-4 py-2"
-                  style={{
-                    background:
-                      selected.name === machine.name
-                        ? "linear-gradient(135deg, #22c55e, #16a34a)"
-                        : "#ccfbf1",
-                    color:
-                      selected.name === machine.name ? "#ffffff" : "#065f46",
-                    border: "none",
-                    borderRadius: "50px",
-                    fontWeight: "600",
-                    minWidth: "120px",
-                    boxShadow:
-                      selected.name === machine.name
-                        ? "0 4px 12px rgba(34,197,94,0.4)"
-                        : "0 2px 6px rgba(0,0,0,0.08)",
-                    transition: "all 0.3s ease",
-                  }}
-                  onClick={() => setSelected(machine)}
-                >
-                  {machine.name}
-                </button>
-              ))}
-            </div>
+            {products.length > 0 ? (
+              <div className="d-flex justify-content-center flex-wrap mb-5">
+                {products.map((machine, index) => {
+                  const machineName =
+                    machine.modelName ||
+                    machine.name ||
+                    machine.title ||
+                    `Model ${index + 1}`;
 
-            {/* ================= CAROUSEL + SPEC CARD ================= */}
-            <div className="row align-items-center">
-              {/* ================= CAROUSEL CARD ================= */}
-              <div className="col-lg-6 mb-4">
-                <div
-                  className="rounded-4 shadow-lg overflow-hidden p-3"
-                  style={{
-                    height: "460px",
-                    background: "linear-gradient(145deg, #f0fdfa, #ecfeff)",
-                    border: "1px solid #a7f3d0",
-                  }}
-                >
-                  <Carousel interval={4000} pause="hover">
-                    {carouselImages.map((img, i) => (
-                      <Carousel.Item key={i}>
-                        <div
-                          style={{
-                            height: "430px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <img
-                            src={img}
-                            alt={`${selected.name} primary tyre shredder ${i + 1}`}
-                            style={{
-                              maxHeight: "85%",
-                              maxWidth: "85%",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </div>
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
-                </div>
+                  const isSelected =
+                    selected?.modelName === machine?.modelName ||
+                    selected?.name === machine?.name ||
+                    selected?.slug === machine?.slug;
+
+                  return (
+                    <button
+                      key={
+                        machine._id ||
+                        machine.id ||
+                        machine.slug ||
+                        index
+                      }
+                      className="mx-2 my-2 px-4 py-2"
+                      style={{
+                        background: isSelected
+                          ? "linear-gradient(135deg, #22c55e, #16a34a)"
+                          : "#ccfbf1",
+
+                        color: isSelected
+                          ? "#ffffff"
+                          : "#065f46",
+
+                        border: "none",
+                        borderRadius: "50px",
+                        fontWeight: "600",
+                        minWidth: "120px",
+
+                        boxShadow: isSelected
+                          ? "0 4px 12px rgba(34,197,94,0.4)"
+                          : "0 2px 6px rgba(0,0,0,0.08)",
+
+                        transition: "all 0.3s ease",
+                      }}
+                      onClick={() => setSelected(machine)}
+                    >
+                      {machineName}
+                    </button>
+                  );
+                })}
               </div>
+            ) : (
+              <div className="text-center mb-5">
+                <p className="text-muted">
+                  No Primary Tyre Shredder models are currently
+                  available.
+                </p>
+              </div>
+            )}
 
-              {/* ================= SPEC CARD ================= */}
-              <div className="col-lg-6">
-                <div
-                  className="shadow-lg rounded-4 p-4"
-                  style={{
-                    background: "linear-gradient(145deg, #ecfdf5, #e0f2fe)",
-                    borderLeft: "6px solid #22c55e",
-                  }}
-                >
-                  <h4
-                    className="fw-bold mb-4 text-center"
-                    style={{ color: "#065f46", fontSize: "1.6rem" }}
-                  >
-                    {selected.name} Primary Tyre Shredder
-                  </h4>
+            {selected && (
+              <div className="row align-items-center">
 
-                  <ul className="list-group list-group-flush mb-4">
-                    <li className="list-group-item bg-transparent">
-                      <strong>Type:</strong> {selected.type}
-                    </li>
-                    <li className="list-group-item bg-transparent">
-                      <strong>Power Range:</strong> {selected.power}
-                    </li>
-                    {selected.system && (
-                      <li className="list-group-item bg-transparent">
-                        <strong>System:</strong> {selected.system}
-                      </li>
-                    )}
-                    <li className="list-group-item bg-transparent">
-                      <strong>Feature:</strong> {selected.feature}
-                    </li>
-                  </ul>
-
-                  <Link
-                    to={`/${selected.name.toLowerCase()}`}
-                    className="btn w-100"
+                <div className="col-lg-6 mb-4">
+                  <div
+                    className="rounded-4 shadow-lg overflow-hidden p-3"
                     style={{
-                      background: "linear-gradient(135deg, #22c55e, #16a34a)",
-                      color: "#ffffff",
-                      fontWeight: "600",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(34,197,94,0.4)",
+                      height: "460px",
+                      background:
+                        "linear-gradient(145deg, #f0fdfa, #ecfeff)",
+                      border: "1px solid #a7f3d0",
                     }}
                   >
-                    Read more about {selected.name} Shredder
-                  </Link>
+                    <Carousel interval={4000} pause="hover">
+                      {carouselImages.map((img, i) => (
+                        <Carousel.Item key={i}>
+                          <div
+                            style={{
+                              height: "430px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              src={img}
+                              alt={`${modelName} primary tyre shredder ${
+                                i + 1
+                              }`}
+                              style={{
+                                maxHeight: "85%",
+                                maxWidth: "85%",
+                                objectFit: "contain",
+                              }}
+                            />
+                          </div>
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                  </div>
                 </div>
+
+                <div className="col-lg-6">
+                  <div
+                    className="shadow-lg rounded-4 p-4"
+                    style={{
+                      background:
+                        "linear-gradient(145deg, #ecfdf5, #e0f2fe)",
+                      borderLeft: "6px solid #22c55e",
+                    }}
+                  >
+                    <h4
+                      className="fw-bold mb-4 text-center"
+                      style={{
+                        color: "#065f46",
+                        fontSize: "1.6rem",
+                      }}
+                    >
+                      {modelName} Primary Tyre Shredder
+                    </h4>
+
+                    {publicSpecifications.length > 0 && (
+                      <div className="mb-4">
+                        <h5
+                          className="fw-bold mb-3"
+                          style={{
+                            color: "#065f46",
+                          }}
+                        >
+                          Specifications
+                        </h5>
+
+                        <ul className="list-group list-group-flush">
+                          {publicSpecifications.map(
+                            (spec, index) => (
+                              <li
+                                key={index}
+                                className="list-group-item bg-transparent d-flex justify-content-between gap-3"
+                              >
+                                <strong>
+                                  {spec.label}
+                                </strong>
+
+                                <span className="text-end">
+                                  {spec.value}
+                                </span>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    )}
+
+                    <Link
+                      to={
+                        selected.slug
+                          ? `/${selected.slug}`
+                          : `/${modelName
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")}`
+                      }
+                      className="btn w-100"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #22c55e, #16a34a)",
+                        color: "#ffffff",
+                        fontWeight: "600",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        boxShadow:
+                          "0 4px 12px rgba(34,197,94,0.4)",
+                      }}
+                    >
+                      Read more about {modelName} Shredder
+                    </Link>
+                  </div>
+                </div>
+
               </div>
-            </div>
+            )}
+
           </div>
         </div>
 
-        {/* ================= APPLICATIONS ================= */}
         <div className="container mb-5">
-          <h3 className="fw-bold text-center mb-4" style={{ color: "#2f855a" }}>
+          <h3
+            className="fw-bold text-center mb-4"
+            style={{ color: "#2f855a" }}
+          >
             Applications of Primary Tyre Shredders
           </h3>
+
           <p className="text-center mb-4">
-            Used in tyre recycling plants, scrap yards, and commercial recycling
-            facilities for shredding whole tyres into manageable and uniform
-            pieces.
+            Used in tyre recycling plants, scrap yards, and
+            commercial recycling facilities for shredding whole
+            tyres into manageable and uniform pieces.
           </p>
 
           <div className="row text-center">
@@ -416,10 +589,15 @@ function Tyreshredder() {
               "Commercial Recycling Units",
               "Downstream Recycling Material Preparation",
             ].map((item, index) => (
-              <div className="col-md-4 mb-3" key={index}>
+              <div
+                className="col-md-4 mb-3"
+                key={index}
+              >
                 <div
                   className="p-4 rounded-4 shadow-sm h-100 bg-white"
-                  style={{ border: "1px solid #c6f6d5" }}
+                  style={{
+                    border: "1px solid #c6f6d5",
+                  }}
                 >
                   {item}
                 </div>
@@ -428,60 +606,87 @@ function Tyreshredder() {
           </div>
         </div>
 
-        {/* ================= WHY CHOOSE US ================= */}
         <div className="container mb-5">
-          <h3 className="fw-bold text-center mb-4" style={{ color: "#2f855a" }}>
+          <h3
+            className="fw-bold text-center mb-4"
+            style={{ color: "#2f855a" }}
+          >
             Why Choose Vikah Ecotech Shredders?
           </h3>
 
           <p>
-            Vikah Ecotech primary tyre shredders are trusted for robust design,
-            continuous industrial operation, high throughput, and long-lasting
-            hydraulic systems.
+            Vikah Ecotech primary tyre shredders are trusted for
+            robust design, continuous industrial operation, high
+            throughput, and long-lasting hydraulic systems.
           </p>
 
           <ul>
-            <li>Heavy-duty two-shaft hydraulic system for high compaction</li>
-            <li>Energy-efficient operation with low maintenance</li>
-            <li>Available in SHT6000, SHT8000, SHT12000 models</li>
-            <li>Uniform shredding for downstream recycling processes</li>
-            <li>Nationwide installation and after-sales support</li>
+            <li>
+              Heavy-duty two-shaft hydraulic system for high
+              compaction
+            </li>
+
+            <li>
+              Energy-efficient operation with low maintenance
+            </li>
+
+            <li>
+              Advanced primary tyre shredding models for
+              industrial applications
+            </li>
+
+            <li>
+              Uniform shredding for downstream recycling
+              processes
+            </li>
+
+            <li>
+              Nationwide installation and after-sales support
+            </li>
           </ul>
         </div>
 
-        {/* ================= TECHNICAL FEATURES ================= */}
         <div className="container mb-5">
-          <h3 className="fw-bold text-center mb-4" style={{ color: "#2f855a" }}>
+          <h3
+            className="fw-bold text-center mb-4"
+            style={{ color: "#2f855a" }}
+          >
             Technical Features
           </h3>
 
           <p>
-            Industrial-grade frames, high horsepower drives, heavy-duty blades,
-            and safety interlocks ensure continuous operation, uniform shred
-            size, and efficient tyre processing. Suitable for car, truck, and
-            bus tyres.
+            Industrial-grade frames, high horsepower drives,
+            heavy-duty blades, and safety interlocks ensure
+            continuous operation, uniform shred size, and
+            efficient tyre processing. Suitable for car, truck,
+            and bus tyres.
           </p>
         </div>
 
-        {/* ================= FAQ ================= */}
         <div className="container mb-5">
-          <h3 className="fw-bold text-center mb-4" style={{ color: "#2f855a" }}>
+          <h3
+            className="fw-bold text-center mb-4"
+            style={{ color: "#2f855a" }}
+          >
             Frequently Asked Questions
           </h3>
 
-          <div className="accordion" id="shredderFaq">
+          <div
+            className="accordion"
+            id="shredderFaq"
+          >
             {[
               {
                 q: "What is the power range for each shredder model?",
-                a: "SHT6000: 120-160 HP, SHT8000: 160-220 HP, SHT12000: 220-280 HP.",
+                a: "The power range depends on the selected Primary Tyre Shredder model. Please check the specifications displayed for each model.",
               },
               {
-                q: "Which shredder is suitable for small-scale tyre recycling plants?",
-                a: "SHT6000 is ideal for medium-volume shredding operations.",
+                q: "Which shredder is suitable for tyre recycling plants?",
+                a: "Primary Tyre Shredders are designed for processing whole waste tyres in tyre recycling plants and other industrial recycling facilities.",
               },
               {
                 q: "Do these shredders have hydraulic systems?",
-                a: "Yes, SHT6000 and SHT12000 are equipped with robust hydraulic systems; SHT8000 has a standard design.",
+                a: "The hydraulic and drive-system details depend on the selected model and are displayed in the model specifications.",
               },
               {
                 q: "Do you provide installation and after-sales support?",
@@ -498,22 +703,28 @@ function Tyreshredder() {
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={`#faq${index}`}
-                    style={{ backgroundColor: "#f0fff4" }}
+                    style={{
+                      backgroundColor: "#f0fff4",
+                    }}
                   >
                     {faq.q}
                   </button>
                 </h2>
+
                 <div
                   id={`faq${index}`}
                   className="accordion-collapse collapse"
                   data-bs-parent="#shredderFaq"
                 >
-                  <div className="accordion-body">{faq.a}</div>
+                  <div className="accordion-body">
+                    {faq.a}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );
