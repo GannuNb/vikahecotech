@@ -14,6 +14,12 @@ import publicProductRoutes from "./routes/publicProductRoutes.js";
 import specificationRequestRoutes from "./routes/specificationRequestRoutes.js";
 import testPdfRoutes from "./routes/testPdfRoutes.js";
 import adminSpecificationRequestRoutes from "./routes/adminSpecificationRequestRoutes.js";
+import quotationRoutes from "./routes/quotationRoutes.js";
+import quotationRequestRoutes from "./routes/quotationRequestRoutes.js";
+
+import testQuotationPdfRoutes from "./routes/testQuotationPdfRoutes.js";
+
+
 
 const app = express();
 
@@ -71,6 +77,11 @@ app.use("/api/public/products", publicProductRoutes);
 app.use("/api/public/specification-requests", specificationRequestRoutes);
 app.use("/api/test/pdf", testPdfRoutes);
 app.use("/api/admin/specification-requests", adminSpecificationRequestRoutes);
+app.use("/api/quotations", quotationRoutes);
+app.use("/api/quotation-requests", quotationRequestRoutes);
+app.use(  "/api/test-quotation-pdf",  testQuotationPdfRoutes);
+
+
 
 // Start server
 app.listen(PORT, () => {
