@@ -4,26 +4,26 @@ import "./UpcomingTradeFairs.css";
 
 function UpcomingTradeFairs() {
   const tradeFairs = [
-    {
-      title: "Recycling Expo Middle East",
-      image: rsme,
+    // {
+    //   title: "Recycling Expo Middle East",
+    //   image: rsme,
 
-      participation:
-        "Vikah Ecotech is participating in the event, showcasing innovative recycling machinery and sustainable solutions for the waste management industry.",
+    //   participation:
+    //     "Vikah Ecotech is participating in the event, showcasing innovative recycling machinery and sustainable solutions for the waste management industry.",
 
-      description: `Organized by Eljays44, a globally recognized event company,
-      Recycling Expo Middle East 2026 serves as a premier B2B platform connecting
-      industry leaders, innovators, and decision-makers in the recycling and waste
-      management sector. The event highlights cutting-edge technologies,
-      sustainable practices, and investment opportunities shaping the future of recycling.`,
+    //   description: `Organized by Eljays44, a globally recognized event company,
+    //   Recycling Expo Middle East 2026 serves as a premier B2B platform connecting
+    //   industry leaders, innovators, and decision-makers in the recycling and waste
+    //   management sector. The event highlights cutting-edge technologies,
+    //   sustainable practices, and investment opportunities shaping the future of recycling.`,
 
-      date: "22-09-2026 to 23-09-2026",
-      location: "Dubai",
-      hall: null,
-      booth: "A60",
-      link: "https://www.recyclingexpome.com/",
-      buttonText: "Explore Recycling Expo",
-    },
+    //   date: "22-09-2026 to 23-09-2026",
+    //   location: "Dubai",
+    //   hall: null,
+    //   booth: "A60",
+    //   link: "https://www.recyclingexpome.com/",
+    //   buttonText: "Explore Recycling Expo",
+    // },
     
   ];
 

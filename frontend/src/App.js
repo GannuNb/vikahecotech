@@ -34,25 +34,6 @@ import Plasticbaler from './Balers/Plastic balers/Plasticbaler';
 import Pcb from './Balers/Pcb balers/pcb';
 import Metalbaler from './Balers/Metal balers/Metalbaler';
 
-import BLT150 from './Balers/Tyre scrap balers/Models/Blt150';
-import BLT200 from './Balers/Tyre scrap balers/Models/Blt200';
-import BLT250 from './Balers/Tyre scrap balers/Models/Blt250';
-
-import BLP30 from './Balers/Plastic balers/Models/BLP30.js';
-import Blp40 from './Balers/Plastic balers/Models/Blp40.js';
-import Blp50 from './Balers/Plastic balers/Models/Blp50.js';
-import Blp75 from './Balers/Plastic balers/Models/Blp75.js';
-import Blp100 from './Balers/Plastic balers/Models/Blp100.js';
-
-import Blc30 from './Balers/Pcb balers/Models/Blc30.js';
-import Blc40 from './Balers/Pcb balers/Models/Blc40.js';
-import Blc50 from './Balers/Pcb balers/Models/Blc50.js';
-
-import Blm150 from './Balers/Metal balers/Models/Blm150.js';
-import Blm200 from './Balers/Metal balers/Models/Blm200.js';
-import Blm250 from './Balers/Metal balers/Models/Blm250.js';
-
-
 
 //primary shredders
 import Shredder from './Primary_Shredders/Shredder';
@@ -63,32 +44,12 @@ import Papershredder from './Primary_Shredders/Pcb shredders/papershredder';
 // import Ewaste from './Primary_Shredders/E-waste shredders/Ewaste.js';
 import Ewasteshredders from "./Primary_Shredders/E-waste shredders/Ewasteshredders";
 
-import Sht6000 from './Primary_Shredders/Tyre shredders/Models/Sht6000.js';
-import Sht8000 from './Primary_Shredders/Tyre shredders/Models/Sht8000.js';
-import Sht12000 from './Primary_Shredders/Tyre shredders/Models/Sht12000.js';
-
-import Shm4000 from './Primary_Shredders/Metal shredders/Shm4000.js';
-
-import Shp100 from './Primary_Shredders/Plastic shredders/Models/Shp100.js';
-import Shp200 from './Primary_Shredders/Plastic shredders/Models/Shp200.js';
-import Shp150 from './Primary_Shredders/Plastic shredders/Models/Shp150.js';
-
-import Shc6000 from './Primary_Shredders/Pcb shredders/Models/Shc6000.js';
-import Shc12000 from './Primary_Shredders/Pcb shredders/Models/Shc12000.js';
-import Shc8000 from './Primary_Shredders/Pcb shredders/Models/Shc8000.js';
-
-
 //secondary shredders
 import SecondaryShredder from './Secondary_Shredders/SecondaryShredder.js';
 import SecondaryMetalshredder from './Secondary_Shredders/Metal s_shredder/SecondaryMetalshredder.js';
 import SecondaryPlasticShredder from './Secondary_Shredders/Plastic s_shredder/SecondaryPlasticShredder.js';
 import SecondaryPcb from './Secondary_Shredders/Pcb s_shredder/SecondaryPcb.js';
 import RasperSecondaryshredders from './Secondary_Shredders/Rasper/Rasper_secondaryshredders.js';
-
-import Rst2000 from "./Secondary_Shredders/Rasper/models/Rst2000";
-import Rst3000 from "./Secondary_Shredders/Rasper/models/Rst3000";
-import Rst4000 from './Secondary_Shredders/Rasper/models/Rst4000.js';
-import Rst6000 from './Secondary_Shredders/Rasper/models/Rst6000.js';
 
 
 //other eqipments
@@ -170,6 +131,14 @@ import ProductForm from "./Pages/Admin/ProductForm";
 import ProductView from "./Pages/Admin/ProductView";
 import SpecificationRequests from "./admin/pages/SpecificationRequests";
 
+import RequestQuotation from "./Pages/RequestQuotation";
+import QuotationManagement from "./Pages/Admin/QuotationManagement";
+import QuotationCategories from "./Pages/Admin/Quotations/QuotationCategories";
+import QuotationModelForm from "./Pages/Admin/Quotations/QuotationModelForm";
+import QuotationModels from "./Pages/Admin/Quotations/QuotationModels";
+import QuotationModelView from "./Pages/Admin/Quotations/QuotationModelView";
+
+
 
 //productdetails
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
@@ -201,6 +170,12 @@ const AppContent = () => {
                   <Route  path="/admin/products/application/:applicationId/edit/:productId"  element={    <AdminLayout>      <ProductForm />    </AdminLayout>  }/>
                   <Route  path="/admin/products/application/:applicationId/view/:productId"  element={    <AdminLayout>      <ProductView />    </AdminLayout>  }/>
                   <Route  path="/admin/specification-requests"  element={    <AdminLayout>      <SpecificationRequests />    </AdminLayout>  }/>
+                  <Route  path="/admin/quotation-applications"  element={    <AdminLayout>      <QuotationManagement />    </AdminLayout>  }/>
+                  <Route  path="/admin/quotation-applications/:applicationId/categories"  element={ <AdminLayout> <QuotationCategories />    </AdminLayout> }/>
+                  <Route  path="/admin/quotation-models/new"  element={    <AdminLayout>      <QuotationModelForm />    </AdminLayout>  }/>
+                  <Route  path="/admin/quotation-models/:id/edit"  element={    <AdminLayout>      <QuotationModelForm />    </AdminLayout>  }/>
+                  <Route  path="/admin/quotation-categories/:categoryId/capacities"  element={    <AdminLayout>      <QuotationModels />    </AdminLayout>  }/>
+                  <Route  path="/admin/quotation-models/:id/view"  element={    <AdminLayout>      <QuotationModelView />    </AdminLayout>  }/>
 
                 </Route>
 
@@ -215,6 +190,7 @@ const AppContent = () => {
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/ourproducts" element={<Ourproducts />} />
         <Route exact path="/other-equipment" element={<OtherEqpTemp />} />
+        <Route  path="/request-quotation"  element={<RequestQuotation />}/>
 
 
 
@@ -240,24 +216,6 @@ const AppContent = () => {
        
         <Route  path="/:slug"  element={<ProductDetails />}/>
 
-        {/* <Route exact path="/blt150" element={<BLT150 />} /> */}
-        {/* <Route exact path="/blt200" element={<BLT200 />} /> */}
-        {/* <Route exact path="/blt250" element={<BLT250 />} /> */}
-
-        {/* <Route exact path="/blp30" element={<BLP30 />} />
-        <Route exact path="/blp40" element={<Blp40 />} /> */}
-        {/* <Route exact path="/blp50" element={<Blp50 />} /> */}
-        {/* <Route exact path="/blp75" element={<Blp75 />} />
-        <Route exact path="/blp100" element={<Blp100 />} /> */}
-
-        {/* <Route exact path="/blc30" element={<Blc30 />} />
-        <Route exact path="/blc40" element={<Blc40 />} />
-        <Route exact path="/blc50" element={<Blc50 />} /> */}
-
-        {/* <Route exact path="/blm150" element={<Blm150 />} />
-        <Route exact path="/blm200" element={<Blm200 />} />
-        <Route exact path="/blm250" element={<Blm250 />} /> */}
-
 
         {/* Primary_Shredders */}
         <Route exact path="/primary-shredder" element={<Shredder />} />
@@ -268,20 +226,6 @@ const AppContent = () => {
         {/* <Route exact path="/ewaste" element={<Ewaste />} /> */}
         <Route exact path="/ewasteshredder" element={<Ewasteshredders />} />
 
-        {/* <Route exact path="/sht6000" element={<Sht6000 />} />
-        <Route exact path="/sht8000" element={<Sht8000 />} />
-        <Route exact path="/sht12000" element={<Sht12000 />} /> */}
-
-        {/* <Route exact path="/shm4000" element={<Shm4000 />} /> */}
-
-        {/* <Route exact path="/shp100" element={<Shp100 />} />
-        <Route exact path="/shp200" element={<Shp200 />} />
-        <Route exact path="/shp150" element={<Shp150 />} /> */}
-
-        {/* <Route exact path="/shc6000" element={<Shc6000 />} />
-        <Route exact path="/shc8000" element={<Shc8000 />} />
-        <Route exact path="/shc12000" element={<Shc12000 />} /> */}
-
 
         {/* secondaryshredders */}
         <Route exact path="/secondary-shredder" element={<SecondaryShredder />} />
@@ -289,12 +233,6 @@ const AppContent = () => {
         <Route path="/secondarymetalshredder" element={<SecondaryMetalshredder />} />
         <Route path="/secondaryplasticshredder" element={<SecondaryPlasticShredder />} />
         <Route path="/secondarypcb" element={<SecondaryPcb />} />
-
-        {/* <Route path="/rst2000" element={<Rst2000 />} />
-        <Route path="/rst3000" element={<Rst3000 />} />
-        <Route exact path="/rst4000" element={<Rst4000 />} />
-        <Route exact path="/rst6000" element={<Rst6000 />} /> */}
-
 
 
         {/* other eqipments */}

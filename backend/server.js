@@ -14,6 +14,13 @@ import publicProductRoutes from "./routes/publicProductRoutes.js";
 import specificationRequestRoutes from "./routes/specificationRequestRoutes.js";
 import testPdfRoutes from "./routes/testPdfRoutes.js";
 import adminSpecificationRequestRoutes from "./routes/adminSpecificationRequestRoutes.js";
+import quotationApplicationRoutes from "./routes/quotationApplicationRoutes.js";
+import quotationCategoryRoutes from "./routes/quotationCategoryRoutes.js";
+import quotationModelRoutes from "./routes/quotationModelRoutes.js";
+import quotationRequestRoutes from "./routes/quotationRequestRoutes.js";
+import quotationPdfTestRoutes from "./routes/quotationPdfTestRoutes.js";
+import publicQuotationRoutes from "./routes/publicQuotationRoutes.js";
+
 
 const app = express();
 
@@ -71,6 +78,13 @@ app.use("/api/public/products", publicProductRoutes);
 app.use("/api/public/specification-requests", specificationRequestRoutes);
 app.use("/api/test/pdf", testPdfRoutes);
 app.use("/api/admin/specification-requests", adminSpecificationRequestRoutes);
+app.use("/api/admin/quotation-applications", quotationApplicationRoutes);
+app.use("/api/admin/quotation-categories", quotationCategoryRoutes);
+app.use("/api/admin/quotation-models", quotationModelRoutes);
+app.use("/api/quotation-requests", quotationRequestRoutes);
+app.use("/api/test-quotation-pdf", quotationPdfTestRoutes);
+app.use("/api/public/quotation", publicQuotationRoutes);
+
 
 // Start server
 app.listen(PORT, () => {

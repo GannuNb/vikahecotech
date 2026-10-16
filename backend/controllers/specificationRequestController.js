@@ -29,7 +29,9 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
   secure: process.env.SMTP_SECURE === "true",
-
+  pool: true,
+  maxConnections: 3,
+  maxMessages: 100,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
@@ -64,6 +66,11 @@ const processSpecificationRequest = async (
     } = await generateProductSpecificationPdf(
       product
     );
+    console.log(
+      "PDF size:",
+      (pdfBuffer.length / 1024).toFixed(2),
+      "KB"
+    );
 
     console.timeEnd(
       `PDF GENERATION ${specificationRequestId}`
@@ -84,6 +91,7 @@ const processSpecificationRequest = async (
       "PDF generated successfully:",
       fileName
     );
+
 
     // -----------------------------------------
     // RENDER EJS EMAIL

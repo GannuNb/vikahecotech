@@ -85,7 +85,7 @@ function Home() {
     );
   };
 
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const [activeTab, setActiveTab] = useState("completed"); // Default to "completed" tab
 
   const scrollRef = useRef(null);
 

@@ -9,6 +9,7 @@ import {
   FolderTree,
   Layers3,
   FileText,
+  ClipboardList,
 } from "lucide-react";
 
 const AdminSidebar = ({
@@ -41,6 +42,11 @@ const AdminSidebar = ({
       path: "/admin/specification-requests",
       icon: FileText,
     },
+    {
+  name: "Quotation Management",
+  path: "/admin/quotation-applications",
+  icon: ClipboardList,
+},
   ];
 
   const adminUser = JSON.parse(

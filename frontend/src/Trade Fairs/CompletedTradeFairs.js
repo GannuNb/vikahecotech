@@ -6,11 +6,32 @@ import ese from "../images/eco sustain 2026/ese.png";
 import envirotechimg from "../images/envirotech/envirotechimg.png";
 import ecosustainimg from "../images/ecosustain.png";
 import bharatrecycling from "../images/bharatrecycling.png";
+import rsme from "../images/Recyclingexpo_middleeast_2025/logo_rsme.jpg";
 import "./CompletedTradeFairs.css";
 
 function CompletedTradeFairs() {
 
   const completedFairs = [
+    {
+      title: "Recycling Expo Middle East",
+      image: rsme,
+
+      participation:
+        "Vikah Ecotech participated in Recycling Expo Middle East,showcasing innovative recycling machinery and sustainable solutions for the waste management industry.",
+
+      description: `Organized by Eljays44, a globally recognized event company,
+          Recycling Expo Middle East 2026 serves as a premier B2B platform connecting
+          industry leaders, innovators, and decision-makers in the recycling and waste
+          management sector. The event highlights cutting-edge technologies,
+          sustainable practices, and investment opportunities shaping the future of recycling.`,
+
+      date: "22-09-2026 to 23-09-2026",
+      location: "Dubai",
+      hall: null,
+      booth: "A60",
+      link: "/recyclingexpo2026",
+      buttonText: "Images and Videos",
+    },
     {
       title: "IFAT",
       image: ifatimg,

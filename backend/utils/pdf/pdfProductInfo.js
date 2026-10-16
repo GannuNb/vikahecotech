@@ -47,7 +47,7 @@ const drawProductInfo = async (
 
   const imageWidth = 200;
   const imageX = left;
-  const imageY = currentY -22;
+  const imageY = currentY - 22;
 
   /*
    * RIGHT CONTENT POSITION
@@ -75,24 +75,26 @@ const drawProductInfo = async (
           product.images[0]
         );
 
-      const pngBuffer =
-        await sharp(imageBuffer)
-          .png()
-          .toBuffer();
+      const optimizedImage = await sharp(imageBuffer)
+        .flatten({ background: "#FFFFFF" })
+        .resize({
+          width: 600,
+          height: 1120,
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .jpeg({
+          quality: 80,
+          mozjpeg: true,
+        })
+        .toBuffer();
 
-      doc.image(
-        pngBuffer,
-        imageX,
-        imageY,
-        {
-          fit: [
-            imageWidth,
-            productAreaHeight - 10,
-          ],
-          align: "center",
-          valign: "center",
-        }
-      );
+      doc.image(optimizedImage, imageX, imageY, {
+        fit: [imageWidth, productAreaHeight - 10],
+        align: "center",
+        valign: "center",
+      });
+
     } catch (error) {
       console.error(
         "Product overview image error:",
@@ -139,7 +141,7 @@ const drawProductInfo = async (
   const modelName =
     String(
       product.modelName ||
-        "Product Model"
+      "Product Model"
     )
       .trim()
       .toUpperCase();

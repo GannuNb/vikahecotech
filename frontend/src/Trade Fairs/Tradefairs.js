@@ -39,7 +39,7 @@ const TradeFairs = () => {
 
           <div className="col-md-6">
             <div className="tradefairs-card h-100 d-flex flex-column position-relative">
-              <div className="upcoming-badge">Upcoming Trade Fair</div>
+
               <img
                 src={rsme}
                 alt="Recycling Expo Middle East"
@@ -49,8 +49,9 @@ const TradeFairs = () => {
                 <div className="trade-content p-3">
                   <h5>Recycling Expo Middle East</h5>
                   <p className="participation-text">
-                    Vikah Ecotech is participating in the event, showcasing innovative
-                    recycling machinery and sustainable solutions for the waste management industry.
+                    Vikah Ecotech participated in Recycling Expo Middle East,
+                    showcasing innovative recycling machinery and sustainable
+                    solutions for the waste management industry.
                   </p>
                   <p>
                     Organized by Eljays44, a seasoned global event company,
@@ -70,14 +71,12 @@ const TradeFairs = () => {
                   <p>
                     <strong>Booth No:</strong> A60
                   </p>
-                  <a
-                    href="https://www.recyclingexpome.com/"
-                    className="btn btn-success"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to="/recyclingexpo2026"
+                    className="tradefairs-btn mt-3 align-self-start"
                   >
-                    Explore Recycling Expo
-                  </a>
+                    Images and Videos
+                  </Link>
                 </div>
               </div>
             </div>
