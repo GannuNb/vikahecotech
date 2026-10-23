@@ -43,10 +43,15 @@ const AdminSidebar = ({
       icon: FileText,
     },
     {
-  name: "Quotation Management",
-  path: "/admin/quotation-applications",
-  icon: ClipboardList,
-},
+      name: "Quotation Management",
+      path: "/admin/quotation-applications",
+      icon: ClipboardList,
+    },
+    {
+      name: "Quotation Requests",
+      path: "/admin/quotation-requests",
+      icon: FileText,
+    }
   ];
 
   const adminUser = JSON.parse(
@@ -91,10 +96,9 @@ const AdminSidebar = ({
           lg:h-[calc(100vh-86px)]
           lg:shadow-none
 
-          ${
-            sidebarOpen
-              ? "translate-x-0"
-              : "-translate-x-full lg:translate-x-0"
+          ${sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
           }
         `}
       >
@@ -206,10 +210,9 @@ const AdminSidebar = ({
                     text-sm font-medium
                     transition-all duration-200
 
-                    ${
-                      isActive
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    ${isActive
+                      ? "bg-white text-slate-900 shadow-sm"
+                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
                     }
                     `
                   }

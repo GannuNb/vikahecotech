@@ -17,11 +17,24 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
   columns.forEach((column) => {
     column.width *= scale;
   });
+  const padding = 5;
   const formatPrice = (value) =>
     Number(value).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  const getRowHeight = (values, header = false) => {
+    doc.font(header ? "Helvetica-Bold" : "Helvetica").fontSize(7.5);
+    const textHeight = Math.max(
+      ...values.map((value, index) =>
+        doc.heightOfString(String(value ?? "-"), {
+          width: columns[index].width - padding * 2,
+          lineGap: 1,
+        })
+      )
+    );
+    return Math.max(header ? 30 : 25, textHeight + padding * 2);
+  };
   const ensureSpace = (requiredHeight) => {
     if (currentY + requiredHeight > doc.page.height - 55) {
       if (pageState?.startNewPage) {
@@ -37,17 +50,7 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
   };
   const drawRow = (values, options = {}) => {
     const { header = false, fill = false, bold = false } = options;
-    const padding = 5;
-    doc.font(header || bold ? "Helvetica-Bold" : "Helvetica").fontSize(7.5);
-    const textHeight = Math.max(
-      ...values.map((value, index) =>
-        doc.heightOfString(String(value ?? "-"), {
-          width: columns[index].width - padding * 2,
-          lineGap: 1,
-        })
-      )
-    );
-    const rowHeight = Math.max(header ? 30 : 25, textHeight + padding * 2);
+    const rowHeight = getRowHeight(values, header || bold);
     ensureSpace(rowHeight);
     if (fill) {
       doc.save();
@@ -81,38 +84,55 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
     const title = capacityName
       ? `${category.name || "Machinery"} - ${capacityName}`
       : category.name || "Machinery";
-    ensureSpace(65);
+    const pricingRows = Array.isArray(model.pricingTable) ? model.pricingTable : [];
+    const firstRow = pricingRows.length > 0
+      ? (() => {
+          const row = pricingRows[0];
+          const qty = Number(row.qty) || 0;
+          const unitPrice = Number(row.unitPrice) || 0;
+          const rowTotal = row.totalPrice != null && Number.isFinite(Number(row.totalPrice))
+            ? Number(row.totalPrice)
+            : qty * unitPrice;
+          const power = row.power && typeof row.power === "object"
+            ? [row.power.value, row.power.unit].filter(Boolean).join(" ")
+            : row.power;
+          return [
+            1,
+            row.equipmentDescription || "-",
+            row.modelNo || "-",
+            power || "-",
+            row.hp ?? "-",
+            row.qty ?? "-",
+            row.unitPrice != null ? formatPrice(unitPrice) : "-",
+            formatPrice(rowTotal),
+          ];
+        })()
+      : ["-", "No pricing details available", "-", "-", "-", "-", "-", "-"];
+    const sectionHeight = 16 + 8 + 12 + 8 + getRowHeight(columns.map((column) => column.label), true) + getRowHeight(firstRow);
+    ensureSpace(sectionHeight);
     doc.font("Helvetica-Bold").fontSize(12).fillColor("#3F5F9B");
     doc.text(title, left, currentY, { width: contentWidth });
     currentY = doc.y + 8;
     doc.font("Helvetica-Bold").fontSize(10).fillColor("#111111");
     doc.text("Pricing Table", left, currentY);
     currentY = doc.y + 8;
-    drawRow(columns.map((column) => column.label), {
-      header: true,
-      fill: true,
-    });
-    const pricingRows = Array.isArray(model.pricingTable)
-      ? model.pricingTable
-      : [];
+    drawRow(columns.map((column) => column.label), { header: true, fill: true });
     let totalQty = 0;
     let totalHp = 0;
     let totalPrice = 0;
     if (pricingRows.length === 0) {
-      drawRow(["-", "No pricing details available", "-", "-", "-", "-", "-", "-"]);
+      drawRow(firstRow);
     } else {
       pricingRows.forEach((row, index) => {
         const qty = Number(row.qty) || 0;
         const hp = Number(row.hp) || 0;
         const unitPrice = Number(row.unitPrice) || 0;
-        const rowTotal =
-          row.totalPrice != null && Number.isFinite(Number(row.totalPrice))
-            ? Number(row.totalPrice)
-            : qty * unitPrice;
-        const power =
-          row.power && typeof row.power === "object"
-            ? [row.power.value, row.power.unit].filter(Boolean).join(" ")
-            : row.power;
+        const rowTotal = row.totalPrice != null && Number.isFinite(Number(row.totalPrice))
+          ? Number(row.totalPrice)
+          : qty * unitPrice;
+        const power = row.power && typeof row.power === "object"
+          ? [row.power.value, row.power.unit].filter(Boolean).join(" ")
+          : row.power;
         totalQty += qty;
         totalHp += hp * qty;
         totalPrice += rowTotal;

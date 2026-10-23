@@ -76,11 +76,14 @@ const generateQuotationPdf = async (quotationRequest) => {
           currentY
         );
 
+
         currentY = drawDescription(
           doc,
           quotationRequest.selectedMachinery,
-          currentY
+          currentY,
+          pageState
         );
+
 
         currentY = drawPricingTable(
           doc,

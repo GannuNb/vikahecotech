@@ -229,3 +229,30 @@ export const createQuotationRequest = async (req, res) => {
     });
   }
 };
+
+
+
+export const getQuotationRequests = async (req, res) => {
+  try {
+    const requests = await QuotationRequest.find()
+      .select(
+        "quotationNumber customer application selectedMachinery requestStatus emailStatus emailSentAt pdfGeneratedAt createdAt"
+      )
+      .populate("application", "name slug")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json({
+      success: true,
+      count: requests.length,
+      data: requests,
+    });
+  } catch (error) {
+    console.error("Get quotation requests error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch quotation requests.",
+    });
+  }
+};

@@ -131,50 +131,78 @@ const drawCommercialTerms = (doc, currentY = 125, pageState) => {
     },
   ];
 
-  const ensureSpace = (height) => {
-    const pageBottom = doc.page.height - bottomMargin;
-    if (currentY + height > pageBottom) {
-      if (pageState) {
-        pageState.startNewPage();
-        currentY = pageState.getContentStartY();
-      } else {
-        doc.addPage();
-        currentY = 125;
-      }
+  const getContentStartY = () =>
+    pageState?.getContentStartY ? pageState.getContentStartY() : 125;
+
+  const startNewPage = () => {
+    if (pageState?.startNewPage) {
+      pageState.startNewPage();
+      currentY = getContentStartY();
+    } else {
+      doc.addPage();
+      currentY = 125;
     }
   };
 
-  sections.forEach((section) => {
-    doc.font("Helvetica-Bold").fontSize(10);
-    const headingHeight = doc.heightOfString(section.heading, {
-      width: contentWidth,
-    });
-    ensureSpace(headingHeight + 14);
+  const pageBottom = () => doc.page.height - bottomMargin;
 
-    doc.fillColor("#20A957").text(section.heading, left, currentY, {
+  const ensureSpace = (height) => {
+    if (currentY + height > pageBottom()) {
+      startNewPage();
+    }
+  };
+
+  const getTextHeight = (text, font, fontSize, options = {}) => {
+    doc.font(font).fontSize(fontSize);
+    return doc.heightOfString(text, {
+      width: contentWidth,
+      ...options,
+    });
+  };
+
+  sections.forEach((section) => {
+    const headingHeight = getTextHeight(
+      section.heading,
+      "Helvetica-Bold",
+      10
+    );
+
+    const firstParagraph = section.paragraphs[0] || "";
+    const firstParagraphHeight = firstParagraph
+      ? getTextHeight(firstParagraph, "Helvetica", 9.5, {
+          lineGap: 3,
+        })
+      : 0;
+
+    const minimumSectionHeight = headingHeight + 8 + Math.min(firstParagraphHeight, 40) + 10;
+
+    ensureSpace(minimumSectionHeight);
+
+    doc.font("Helvetica-Bold").fontSize(10).fillColor("#20A957");
+    doc.text(section.heading, left, currentY, {
       width: contentWidth,
       underline: true,
     });
-    currentY += headingHeight + 8;
+    currentY = doc.y + 8;
 
     section.paragraphs.forEach((paragraph) => {
       const isPaymentSchedule =
         paragraph.startsWith("a)") || paragraph.startsWith("b)");
-      doc.font(isPaymentSchedule ? "Helvetica-Bold" : "Helvetica")
-        .fontSize(9.5);
 
-      const textHeight = doc.heightOfString(paragraph, {
-        width: contentWidth,
+      const font = isPaymentSchedule ? "Helvetica-Bold" : "Helvetica";
+      const fontSize = 9.5;
+      const textHeight = getTextHeight(paragraph, font, fontSize, {
         lineGap: 3,
       });
 
-      ensureSpace(textHeight + 10);
+      ensureSpace(Math.min(textHeight, pageBottom() - getContentStartY()));
 
-      doc.fillColor("#000000").text(paragraph, left, currentY, {
+      doc.font(font).fontSize(fontSize).fillColor("#000000");
+      doc.text(paragraph, left, currentY, {
         width: contentWidth,
         lineGap: 3,
       });
-      currentY += textHeight + 9;
+      currentY = doc.y + 9;
     });
 
     currentY += 3;
