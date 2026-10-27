@@ -1,5 +1,11 @@
 
-const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState = null) => {
+const drawConsolidatedTable = (
+  doc,
+  selectedMachinery,
+  currentY = 125,
+  pageState = null,
+  controlPanel = null
+) => {
   const left = 50;
   const contentWidth = doc.page.width - 100;
   const columns = [
@@ -15,10 +21,20 @@ const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState
     column.width *= scale;
   });
   const formatPrice = (value) =>
-    Number(value).toLocaleString("en-IN", {
+    Number(value || 0).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  const getSectionLetter = (index) => {
+    let number = index + 1;
+    let label = "";
+    while (number > 0) {
+      number -= 1;
+      label = String.fromCharCode(65 + (number % 26)) + label;
+      number = Math.floor(number / 26);
+    }
+    return label;
+  };
   const ensureSpace = (requiredHeight) => {
     if (currentY + requiredHeight > doc.page.height - 55) {
       if (pageState?.startNewPage) {
@@ -67,27 +83,21 @@ const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState
     });
     currentY += rowHeight;
   };
-  if (!Array.isArray(selectedMachinery) || selectedMachinery.length === 0) {
-    return currentY;
-  }
+  const machinery = Array.isArray(selectedMachinery) ? selectedMachinery : [];
+  if (machinery.length === 0 && !controlPanel) return currentY;
   doc.font("Helvetica-Bold").fontSize(13).fillColor("#3F5F9B");
   doc.text("CONSOLIDATED PRICING SUMMARY", left, currentY, {
     width: contentWidth,
   });
   currentY = doc.y + 12;
-  drawRow(columns.map((column) => column.label), {
-    header: true,
-    fill: true,
-  });
+  drawRow(columns.map((column) => column.label), { header: true, fill: true });
   let grandTotalHp = 0;
   let grandTotalQty = 0;
   let grandTotalPrice = 0;
-  selectedMachinery.forEach((item, index) => {
+  machinery.forEach((item, index) => {
     const model = item.quotationModel || {};
     const category = item.category || {};
-    const pricingRows = Array.isArray(model.pricingTable)
-      ? model.pricingTable
-      : [];
+    const pricingRows = Array.isArray(model.pricingTable) ? model.pricingTable : [];
     let sectionHp = 0;
     let sectionQty = 0;
     let sectionPrice = 0;
@@ -95,10 +105,9 @@ const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState
       const qty = Number(row.qty) || 0;
       const hp = Number(row.hp) || 0;
       const unitPrice = Number(row.unitPrice) || 0;
-      const rowTotal =
-        row.totalPrice != null && Number.isFinite(Number(row.totalPrice))
-          ? Number(row.totalPrice)
-          : qty * unitPrice;
+      const rowTotal = row.totalPrice != null && Number.isFinite(Number(row.totalPrice))
+        ? Number(row.totalPrice)
+        : qty * unitPrice;
       sectionHp += hp * qty;
       sectionQty += qty;
       sectionPrice += rowTotal;
@@ -112,13 +121,26 @@ const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState
       ? `${sectionName} - ${capacityName}`
       : sectionName;
     drawRow([
-      String.fromCharCode(65 + index),
+      getSectionLetter(index),
       description,
       `${sectionHp} HP`,
       sectionQty,
       formatPrice(sectionPrice),
     ]);
   });
+  if (controlPanel) {
+    const panelQty = 1;
+    const panelPrice = Number(controlPanel.totalPrice ?? controlPanel.unitPrice) || 0;
+    grandTotalQty += panelQty;
+    grandTotalPrice += panelPrice;
+    drawRow([
+      getSectionLetter(machinery.length),
+      "Control Panel - PLC 8000",
+      "-",
+      panelQty,
+      formatPrice(panelPrice),
+    ]);
+  }
   drawRow([
     "",
     "GRAND TOTAL",
@@ -157,4 +179,5 @@ const drawConsolidatedTable = (doc, selectedMachinery, currentY = 125, pageState
   doc.fillColor("#111111");
   return currentY;
 };
+
 export default drawConsolidatedTable;

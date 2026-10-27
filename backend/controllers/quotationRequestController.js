@@ -177,7 +177,7 @@ export const createQuotationRequest = async (req, res) => {
       }
     );
 
-    const quotationNumber = `VEC/QTN/${year}/${String(
+    const quotationNumber = `VEPL/QTN/${year}/${String(
       counter.sequence
     ).padStart(4, "0")}`;
 

@@ -1,5 +1,11 @@
 
-const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = null) => {
+const drawPricingTable = (
+  doc,
+  selectedMachinery,
+  currentY = 125,
+  pageState = null,
+  controlPanel = null
+) => {
   const left = 50;
   const contentWidth = doc.page.width - 100;
   const columns = [
@@ -19,7 +25,7 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
   });
   const padding = 5;
   const formatPrice = (value) =>
-    Number(value).toLocaleString("en-IN", {
+    Number(value || 0).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -74,10 +80,9 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
     });
     currentY += rowHeight;
   };
-  if (!Array.isArray(selectedMachinery) || selectedMachinery.length === 0) {
-    return currentY;
-  }
-  selectedMachinery.forEach((item) => {
+  const machinery = Array.isArray(selectedMachinery) ? selectedMachinery : [];
+  if (machinery.length === 0 && !controlPanel) return currentY;
+  machinery.forEach((item) => {
     const model = item.quotationModel || {};
     const category = item.category || {};
     const capacityName = item.capacityName || model.capacityName || "";
@@ -108,7 +113,10 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
           ];
         })()
       : ["-", "No pricing details available", "-", "-", "-", "-", "-", "-"];
-    const sectionHeight = 16 + 8 + 12 + 8 + getRowHeight(columns.map((column) => column.label), true) + getRowHeight(firstRow);
+    const sectionHeight =
+      16 + 8 + 12 + 8 +
+      getRowHeight(columns.map((column) => column.label), true) +
+      getRowHeight(firstRow);
     ensureSpace(sectionHeight);
     doc.font("Helvetica-Bold").fontSize(12).fillColor("#3F5F9B");
     doc.text(title, left, currentY, { width: contentWidth });
@@ -150,7 +158,7 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
     }
     drawRow([
       "",
-      "MACHINERY SUBTOTAL",
+      title.toUpperCase(),
       "",
       "",
       `${totalHp} HP`,
@@ -160,7 +168,48 @@ const drawPricingTable = (doc, selectedMachinery, currentY = 125, pageState = nu
     ], { bold: true, fill: true });
     currentY += 20;
   });
+  if (controlPanel) {
+    const panelQty = 1;
+    const panelPrice = Number(controlPanel.totalPrice ?? controlPanel.unitPrice) || 0;
+    const panelRow = [
+      1,
+      "Control Panel",
+      "PLC 8000",
+      "-",
+      "-",
+      panelQty,
+      formatPrice(panelPrice),
+      formatPrice(panelPrice),
+    ];
+    const subtotalRow = [
+      "",
+      "CONTROL PANEL SUBTOTAL",
+      "",
+      "",
+      "",
+      panelQty,
+      "",
+      formatPrice(panelPrice),
+    ];
+    const sectionHeight =
+      16 + 8 + 12 + 8 +
+      getRowHeight(columns.map((column) => column.label), true) +
+      getRowHeight(panelRow) +
+      getRowHeight(subtotalRow, true) + 20;
+    ensureSpace(sectionHeight);
+    doc.font("Helvetica-Bold").fontSize(12).fillColor("#3F5F9B");
+    doc.text("Control Panel", left, currentY, { width: contentWidth });
+    currentY = doc.y + 8;
+    doc.font("Helvetica-Bold").fontSize(10).fillColor("#111111");
+    doc.text("Pricing Table", left, currentY);
+    currentY = doc.y + 8;
+    drawRow(columns.map((column) => column.label), { header: true, fill: true });
+    drawRow(panelRow);
+    drawRow(subtotalRow, { bold: true, fill: true });
+    currentY += 20;
+  }
   doc.fillColor("#111111");
   return currentY;
 };
+
 export default drawPricingTable;

@@ -8,10 +8,9 @@ import drawConsolidatedTable from "./pdfConsolidatedTable.js";
 import drawTechnicalSpecifications from "./pdfTechnicalSpecifications.js";
 import drawMachineryImages from "./pdfMachineryImages.js";
 import drawReferenceImages from "./pdfReferenceImages.js";
-
 import drawBuyerScope from "./pdfBuyerScope.js";
 import drawCommercialTerms from "./pdfCommercialTerms.js";
-
+import getControlPanelPrice from "../../config/controlPanels/index.js";
 
 const generateQuotationPdf = async (quotationRequest) => {
   return new Promise((resolve, reject) => {
@@ -76,7 +75,6 @@ const generateQuotationPdf = async (quotationRequest) => {
           currentY
         );
 
-
         currentY = drawDescription(
           doc,
           quotationRequest.selectedMachinery,
@@ -84,19 +82,28 @@ const generateQuotationPdf = async (quotationRequest) => {
           pageState
         );
 
+        const applicationSlug =
+          quotationRequest.application?.slug || "";
+
+        const controlPanel = getControlPanelPrice(
+          applicationSlug,
+          quotationRequest.selectedMachinery
+        );
 
         currentY = drawPricingTable(
           doc,
           quotationRequest.selectedMachinery,
           currentY,
-          pageState
+          pageState,
+          controlPanel
         );
 
         currentY = drawConsolidatedTable(
           doc,
           quotationRequest.selectedMachinery,
           currentY,
-          pageState
+          pageState,
+          controlPanel
         );
 
         currentY = drawTechnicalSpecifications(

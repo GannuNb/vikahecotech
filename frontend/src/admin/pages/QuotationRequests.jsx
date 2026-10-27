@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { RefreshCw, Search, X, Users } from "lucide-react";
 import api from "../../services/api";
+import { parsePhoneNumber } from "libphonenumber-js";
 
 const QuotationRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -18,7 +19,7 @@ const QuotationRequests = () => {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Failed to load quotation requests."
+        "Failed to load quotation requests."
       );
     } finally {
       setLoading(false);
@@ -65,6 +66,22 @@ const QuotationRequests = () => {
     }
     return "bg-amber-100 text-amber-700";
   };
+
+  const formatPhoneNumber = (phone) => {
+  if (!phone) return "-";
+
+  try {
+    const parsedPhone = parsePhoneNumber(phone);
+
+    if (parsedPhone) {
+      return parsedPhone.formatInternational();
+    }
+
+    return phone;
+  } catch {
+    return phone;
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
@@ -180,10 +197,14 @@ const QuotationRequests = () => {
                           {request.customer?.email || "-"}
                         </a>
                         <a
-                          href={`tel:${request.customer?.phone || ""}`}
+                          href={
+                            request.customer?.phone
+                              ? `tel:${request.customer.phone}`
+                              : undefined
+                          }
                           className="mt-1 block text-slate-600 hover:underline"
                         >
-                          {request.customer?.phone || "-"}
+                          {formatPhoneNumber(request.customer?.phone)}
                         </a>
                       </td>
                       <td className="max-w-xs whitespace-normal px-5 py-4">

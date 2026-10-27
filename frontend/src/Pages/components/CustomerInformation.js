@@ -1,11 +1,15 @@
 
 import React from "react";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import SectionHeading from "./SectionHeading";
 
 const inputClass =
   "mt-2 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20";
 
 export default function CustomerInformation({ customer, onChange }) {
+  const phoneValid =
+  customer.phone && isValidPhoneNumber(customer.phone);
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 lg:p-8">
       <SectionHeading
@@ -51,20 +55,27 @@ export default function CustomerInformation({ customer, onChange }) {
           <label htmlFor="customer-phone" className="text-sm font-semibold text-slate-700">
             Phone Number <span className="text-red-500">*</span>
           </label>
-          <input
+          <PhoneInput
             id="customer-phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            value={customer.phone}
-            onChange={onChange}
-            required
-            minLength={7}
-            maxLength={20}
-            pattern="[0-9+() -]{7,20}"
-            title="Enter a valid phone number."
+            international
+            defaultCountry="IN"
+            countryCallingCodeEditable={false}
+            value={customer.phone || ""}
+            onChange={(value) =>
+              onChange({
+                target: {
+                  name: "phone",
+                  value: value || "",
+                },
+              })
+            }
             placeholder="Enter your phone number"
-            className={inputClass}
+            autoComplete="tel"
+            className="mt-2 flex h-12 w-full min-w-0 items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20"
+            numberInputProps={{
+              className: "h-full w-full min-w-0 border-0 bg-transparent p-0 text-sm text-slate-900 outline-none ring-0 focus:outline-none focus:ring-0",
+              required: true,
+            }}
           />
         </div>
         <div className="min-w-0">

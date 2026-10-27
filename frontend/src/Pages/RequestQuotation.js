@@ -3,6 +3,7 @@ import api from "../services/api";
 import SectionHeading from "./components/SectionHeading";
 import CustomerInformation from "./components/CustomerInformation";
 import ApplicationSelection from "./components/ApplicationSelection";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const INITIAL_CUSTOMER = {
   name: "",
@@ -66,11 +67,10 @@ function MachineryCard({ group, selectedItems, onToggle }) {
                 type="button"
                 onClick={() => onToggle(model)}
                 aria-pressed={selected}
-                className={`min-w-0 rounded-xl border p-4 text-left transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
-                  selected
+                className={`min-w-0 rounded-xl border p-4 text-left transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${selected
                     ? "border-emerald-500 bg-emerald-50/70"
                     : "border-slate-200 bg-slate-50/70 hover:border-slate-300 hover:bg-white"
-                }`}
+                  }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -87,11 +87,10 @@ function MachineryCard({ group, selectedItems, onToggle }) {
                     </span>
                   </div>
                   <span
-                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${
-                      selected
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${selected
                         ? "border-emerald-600 bg-emerald-600 text-white"
                         : "border-slate-300 bg-white text-transparent"
-                    }`}
+                      }`}
                   >
                     ✓
                   </span>
@@ -101,21 +100,19 @@ function MachineryCard({ group, selectedItems, onToggle }) {
                     Connecting equipment
                   </span>
                   <span
-                    className={`mt-1 block text-sm font-semibold ${
-                      connectingEquipment === "with"
+                    className={`mt-1 block text-sm font-semibold ${connectingEquipment === "with"
                         ? "text-emerald-700"
                         : "text-slate-700"
-                    }`}
+                      }`}
                   >
                     {getConnectingEquipmentLabel(connectingEquipment)}
                   </span>
                 </div>
                 <span
-                  className={`mt-4 block rounded-lg px-3 py-2 text-center text-xs font-bold ${
-                    selected
+                  className={`mt-4 block rounded-lg px-3 py-2 text-center text-xs font-bold ${selected
                       ? "bg-emerald-600 text-white"
                       : "bg-white text-slate-600 ring-1 ring-slate-200"
-                  }`}
+                    }`}
                 >
                   {selected ? "Selected configuration" : "Select configuration"}
                 </span>
@@ -233,7 +230,7 @@ export default function RequestQuotation() {
           if (!modelResponse.data?.success) {
             throw new Error(
               modelResponse.data?.message ||
-                `Failed to load ${category.name} machinery.`
+              `Failed to load ${category.name} machinery.`
             );
           }
 
@@ -295,6 +292,13 @@ export default function RequestQuotation() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus({ error: "", success: "" });
+    if (!customer.phone || !isValidPhoneNumber(customer.phone)) {
+      setStatus({
+        error: "Please enter a valid international phone number.",
+        success: "",
+      });
+      return;
+    }
 
     if (!application) {
       setStatus({
