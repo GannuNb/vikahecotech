@@ -1,14 +1,37 @@
 
 import React from "react";
 import SectionHeading from "./SectionHeading";
+import tyreImage from "../../images/Applications/tyre.webp";
+import plasticImage from "../../images/Applications/plastic.jpg";
+import ewasteImage from "../../images/Applications/ewaste.jpeg";
+import metalImage from "../../images/Applications/metal.jpg";
+import mswImage from "../../images/Applications/msw.jpg";
 
 const APPLICATION_DETAILS = {
-  tyre: { icon: "♻️", description: "Tyre recycling plant" },
-  plastic: { icon: "🧴", description: "Plastic recycling plant" },
-  ewaste: { icon: "🔌", description: "Electronic waste processing" },
-  "e-waste": { icon: "🔌", description: "Electronic waste processing" },
-  msw: { icon: "🏭", description: "Municipal solid waste" },
-  metal: { icon: "⚙️", description: "Metal recycling plant" },
+  tyre: {
+    image: tyreImage,
+    description: "Tyre recycling plant",
+  },
+  plastic: {
+    image: plasticImage,
+    description: "Plastic recycling plant",
+  },
+  ewaste: {
+    image: ewasteImage,
+    description: "Electronic waste processing",
+  },
+  "e-waste": {
+    image: ewasteImage,
+    description: "Electronic waste processing",
+  },
+  msw: {
+    image: mswImage,
+    description: "Municipal solid waste",
+  },
+  metal: {
+    image: metalImage,
+    description: "Metal recycling plant",
+  },
 };
 
 const getApplicationDetails = (application) => {
@@ -19,7 +42,7 @@ const getApplicationDetails = (application) => {
 
   return (
     APPLICATION_DETAILS[key] || {
-      icon: "⚙️",
+      image: null,
       description: `${application?.name || "Industrial"} application`,
     }
   );
@@ -38,6 +61,7 @@ export default function ApplicationSelection({
         title="Choose Your Application"
         description="Select the material or recycling application for which you need a quotation."
       />
+
       {loading ? (
         <p className="text-sm text-slate-500">Loading applications...</p>
       ) : applications.length === 0 ? (
@@ -45,7 +69,7 @@ export default function ApplicationSelection({
           No active quotation applications are available.
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {applications.map((item) => {
             const details = getApplicationDetails(item);
             const selected = application === item._id;
@@ -56,25 +80,38 @@ export default function ApplicationSelection({
                 type="button"
                 onClick={() => onSelect(item)}
                 aria-pressed={selected}
-                className={`relative flex min-w-0 items-start gap-3 rounded-xl border p-4 text-left transition sm:block ${
+                className={`relative flex min-w-0 flex-col rounded-xl border p-3 text-left transition-all duration-200 sm:p-4 ${
                   selected
-                    ? "border-emerald-600 bg-emerald-50 ring-2 ring-emerald-600/10"
-                    : "border-slate-200 bg-white hover:border-emerald-300 hover:bg-slate-50"
+                    ? "border-emerald-600 bg-emerald-50 shadow-sm ring-2 ring-emerald-600/10"
+                    : "border-slate-200 bg-white hover:border-emerald-300 hover:shadow-md"
                 }`}
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-2xl sm:mb-3">
-                  {details.icon}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-bold text-slate-900">
+                <div className="relative w-full overflow-hidden rounded-lg bg-slate-100">
+                  {details.image ? (
+                    <img
+                      src={details.image}
+                      alt={`${item.name} application`}
+                      loading="lazy"
+                      className="h-24 w-full object-cover transition-transform duration-300 hover:scale-105 sm:h-28"
+                    />
+                  ) : (
+                    <div className="flex h-24 items-center justify-center px-2 text-center text-sm text-slate-500 sm:h-28">
+                      Application image unavailable
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 w-full">
+                  <h3 className="text-sm font-bold leading-5 text-slate-900 sm:text-base">
                     {item.name}
-                  </span>
-                  <span className="mt-1 block text-xs leading-5 text-slate-500">
+                  </h3>
+                  <p className="mt-2 text-xs leading-5 text-slate-500 sm:text-sm">
                     {details.description}
-                  </span>
-                </span>
+                  </p>
+                </div>
+
                 {selected && (
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white sm:absolute sm:right-3 sm:top-3">
+                  <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white shadow-sm">
                     ✓
                   </span>
                 )}

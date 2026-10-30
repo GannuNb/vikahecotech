@@ -156,9 +156,9 @@ const processQuotationEmail = async (quotationRequestId) => {
     console.time(`QUOTATION EMAIL ${quotationRequestId}`);
 
     const emailResult = await transporter.sendMail({
-      from: `"Vikah Ecotech" <${process.env.SMTP_USER}>`,
+      from: `"VIKAH ECOTECH" <${process.env.SMTP_USER}>`,
       to: quotationRequest.customer.email,
-      subject: `Quotation ${quotationRequest.quotationNumber} - Vikah Ecotech`,
+      subject: `Quotation ${quotationRequest.quotationNumber} - VIKAH ECOTECH`,
       html: emailHtml,
       attachments: [
         {
