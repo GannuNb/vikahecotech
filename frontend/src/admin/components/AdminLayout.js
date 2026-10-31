@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+import React, { useState } from "react";
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 
@@ -10,13 +10,13 @@ const AdminLayout = ({ children }) => {
     <div className="min-h-screen bg-gray-100">
       <AdminNavbar onMenuClick={() => setSidebarOpen(true)} />
 
-      <div className="flex">
+      <div className="relative min-h-[calc(100vh-86px)]">
         <AdminSidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
 
-        <main className="flex-1 min-w-0 p-4 sm:p-6">
+        <main className="min-w-0 p-4 sm:p-6 lg:ml-64">
           {children}
         </main>
       </div>
