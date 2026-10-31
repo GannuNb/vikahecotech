@@ -109,7 +109,12 @@ const roughconsolidatedtable = (
             pricingRows.forEach((row)=>{
                 const qty = Number(row.qty) || 0;
                 const hp = Number (row.hp) || 0;
-                const unitPrice = Number(row.unitPrice)
+                const unitPrice = Number(row.unitPrice) || 0;
+                const rowTotal = row.totalPrice != null && Number.isFinite(Number(row.totalPrice)) ?
+                Number (row.totalPrice) : qty * unitPrice;
+                
+
+
                 
             })
 

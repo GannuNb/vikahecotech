@@ -139,6 +139,7 @@ import QuotationModels from "./Pages/Admin/Quotations/QuotationModels";
 import QuotationModelView from "./Pages/Admin/Quotations/QuotationModelView";
 import QuotationRequests from "./admin/pages/QuotationRequests";
 
+import Enquiries from "./Pages/Admin/Enquiries";
 
 
 //productdetails
@@ -178,6 +179,7 @@ const AppContent = () => {
                   <Route  path="/admin/quotation-categories/:categoryId/capacities"  element={    <AdminLayout>      <QuotationModels />    </AdminLayout>  }/>
                   <Route  path="/admin/quotation-models/:id/view"  element={    <AdminLayout>      <QuotationModelView />    </AdminLayout>  }/>
                   <Route  path="/admin/quotation-requests"  element={    <AdminLayout>      <QuotationRequests />    </AdminLayout>  }/>
+                  <Route  path="/admin/enquiries"  element={    <AdminLayout>      <Enquiries />    </AdminLayout>  }/>
 
                 </Route>
 

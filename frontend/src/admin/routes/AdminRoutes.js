@@ -6,6 +6,7 @@ import AdminLayout from "../components/AdminLayout";
 import Dashboard from "../pages/Dashboard";
 import SpecificationRequests from "../pages/SpecificationRequests";
 import QuotationRequests from "../pages/QuotationRequests";
+import Enquiries from "../../Pages/Admin/Enquiries";
 
 const AdminRoutes = () => {
   return (
@@ -40,6 +41,15 @@ const AdminRoutes = () => {
         element={
           <AdminLayout>
             <QuotationRequests />
+          </AdminLayout>
+        }
+      />
+
+      <Route
+        path="/admin/enquiries"
+        element={
+          <AdminLayout>
+            <Enquiries />
           </AdminLayout>
         }
       />
