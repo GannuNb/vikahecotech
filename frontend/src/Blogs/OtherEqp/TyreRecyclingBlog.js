@@ -79,7 +79,9 @@ const processSteps = [
 ];
 
 const TyreRecyclingBlog = () => {
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const sections = [
     { id: "intro", title: "Introduction" },

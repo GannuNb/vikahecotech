@@ -88,7 +88,9 @@ const processSteps = [
 ];
 
 const OtherEquipmentBlog3 = () => {
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const sections = [
     {

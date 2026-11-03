@@ -97,7 +97,9 @@ const processSteps = [
 ];
 
 const ShredderBlog4 = () => {
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const sections = [
     {

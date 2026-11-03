@@ -77,7 +77,9 @@ const processSteps = [
 ];
 
 const OtherEquipmentBlog4 = () => {
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const sections = [
     {

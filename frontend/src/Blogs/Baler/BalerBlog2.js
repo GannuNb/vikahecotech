@@ -85,7 +85,9 @@ const processSteps = [
 ];
 
 const BalerBlog2SEOImages = () => {
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const sections = [
     { id: "intro", title: "Introduction" },
