@@ -84,6 +84,7 @@ import ShredderBlog1 from './Blogs/Primary-Shredders/ShredderBlog1.js';
 import ShredderBlog2 from './Blogs/Primary-Shredders/ShredderBlog2.js';
 import ShredderBlog3 from './Blogs/Primary-Shredders/ShredderBlog3.js';
 import ShredderBlog4 from './Blogs/Primary-Shredders/ShredderBlog4.js';
+import TyreRecyclingMachineBlog from "./Blogs/Primary-Shredders/TyreRecyclingMachineBlog";
 import SecondaryShredderBlog1 from './Blogs/Secondary-Shredders/SecondaryShredderBlog1.js';
 import SecondaryShredderBlog2 from './Blogs/Secondary-Shredders/SecondaryShredderBlog2.js';
 import SecondaryShredderBlog3 from './Blogs/Secondary-Shredders/SecondaryShredderBlog3.js';
@@ -277,6 +278,7 @@ const AppContent = () => {
         <Route exact path="/recycling-process-with-shredder-machines" element={<ShredderBlog2 />} />
         <Route exact path="/primary-shredders-for-tyres" element={<ShredderBlog3 />} />
         <Route exact path="/industrial-primary-shredders" element={<ShredderBlog4 />} />
+        <Route path="/tyre-recycling-machine"  element={<TyreRecyclingMachineBlog />}/>
         <Route exact path="/metal-shredders" element={<MetalShredderBlog />} />
         <Route exact path="/industrial-secondary-shredder" element={<SecondaryShredderBlog1 />} />
         <Route exact path="/secondaryshredder-blog2" element={<SecondaryShredderBlog2 />} />
