@@ -21,6 +21,7 @@ import quotationRequestRoutes from "./routes/quotationRequestRoutes.js";
 import quotationPdfTestRoutes from "./routes/quotationPdfTestRoutes.js";
 import publicQuotationRoutes from "./routes/publicQuotationRoutes.js";
 import adminQuotationRequestRoutes from "./routes/adminQuotationRequestRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 
 const app = express();
@@ -86,6 +87,7 @@ app.use("/api/quotation-requests", quotationRequestRoutes);
 app.use("/api/test-quotation-pdf", quotationPdfTestRoutes);
 app.use("/api/public/quotation", publicQuotationRoutes);
 app.use("/api/admin/quotation-requests", adminQuotationRequestRoutes);
+app.use("/api/admin/dashboard", dashboardRoutes);
 
 
 // Start server
