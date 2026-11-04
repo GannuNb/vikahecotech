@@ -1,5 +1,6 @@
 
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styles from "./Blog.module.css";
 
@@ -249,6 +250,51 @@ const BlogLandingPage = () => {
 
     return (
         <div className="container my-5">
+            <Helmet>
+                <title>
+                    Industrial Recycling Blogs & Guides | Vikah Ecotech
+                </title>
+
+                <meta
+                    name="description"
+                    content="Explore industrial recycling blogs and expert guides on tyre recycling machines, industrial shredders, hydraulic balers, waste management and recycling equipment by Vikah Ecotech."
+                />
+
+                <meta
+                    name="keywords"
+                    content="industrial recycling blogs, recycling machinery blogs, tyre recycling guides, industrial shredder blogs, hydraulic baler information, waste management solutions"
+                />
+
+                <link
+                    rel="canonical"
+                    href="https://vikahecotech.com/bloglandingpage"
+                />
+
+                <meta
+                    property="og:title"
+                    content="Industrial Recycling Blogs & Guides | Vikah Ecotech"
+                />
+
+                <meta
+                    property="og:description"
+                    content="Explore expert guides about industrial recycling machinery, tyre recycling, shredders, balers and waste management solutions."
+                />
+
+                <meta
+                    property="og:type"
+                    content="website"
+                />
+
+                <meta
+                    property="og:url"
+                    content="https://vikahecotech.com/bloglandingpage"
+                />
+
+                <meta
+                    name="robots"
+                    content="index, follow"
+                />
+            </Helmet>
 
             <h1 className="text-center mb-5">
                 Our Industrial Recycling Blogs
